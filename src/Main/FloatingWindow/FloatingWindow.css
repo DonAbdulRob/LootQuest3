@@ -1,0 +1,17 @@
+#floating-window,
+.floating-window {
+    position: absolute;
+    min-width: 100px;
+    max-width: 500px;
+    min-height: 100px;
+    max-height: 500px;
+    z-index: 9;
+    border: 1px solid #d3d3d3;
+    background-color: white;
+    color: orange;
+}
+
+#floating-window-title {
+    background-color: skyblue;
+    height: 20px;
+}
