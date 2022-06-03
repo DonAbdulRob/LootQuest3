@@ -1,12 +1,12 @@
 import * as React from "react";
 import IntroScreen from "./Pages/IntroScreen";
 import { WorldMap } from "./Pages/WorldMap";
-import { PagePropsCore } from "./Pages/PageBase";
+import { PagePropsCore } from "./Pages/Lib/PageBase";
 
 function getDesiredPage(currentPage: number, setPage: Function) {
     var data: PagePropsCore = {
         page: currentPage,
-        setPage: setPage
+        setPage: setPage,
     };
 
     switch (currentPage) {
@@ -18,7 +18,8 @@ function getDesiredPage(currentPage: number, setPage: Function) {
 }
 
 export default function Main() {
-    const [page, setPage] = React.useState(1);
+    const [page, setPage] = React.useState(1); // 0 = intro, 1 = main game page
+    const introRef = React.useRef<typeof IntroScreen>(null);
 
     return (
         <div>
