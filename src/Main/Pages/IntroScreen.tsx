@@ -1,6 +1,6 @@
 import * as React from "react";
 import MainButton from "../Buttons/MainButton";
-import { PageProps } from "./PageBase";
+import { PageProps } from "./Lib/PageBaseProps";
 
 // To start, we are on current page 0.
 export default function IntroScreen(props: PageProps) {
