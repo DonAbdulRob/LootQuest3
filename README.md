@@ -1,6 +1,26 @@
-# Using
+# LootQuest3 Description
 
-Use npm run s
+Hello! This is the next iteration of the game LootQuest, a turn-based RPG where your goal is to explore the world and defeat the boss for all the money and glory in the universe.
+
+Features (manay TODO):
+- Infinite World Map, enemies and items
+- Turn-Based Combat
+- Spells and Abilities
+- Highly versatile windows for managing your equipped items, inventory, the world map itself and game console.
+- And more!
+
+# Run project with:
+
+npm run s
+
+# View Project Online
+
+You can easily view this project online using your favorite web browser. Though, I have conveniently set up a Stackblitz instance for viewing, testing and fiddling. Feel free to check it out here:
+
+Editor Link: https://stackblitz.com/edit/react-ts-ncpvqc?file=src/index.tsx
+Application URL: https://react-ts-ncpvqc.stackblitz.io
+
+# Default React Stuff Below:
 
 # Getting Started with Create React App
 
