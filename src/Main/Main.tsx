@@ -4,7 +4,7 @@ import { PageProps } from "./Pages/Shared/PageBaseProps";
 import { PlayScreen } from "./Pages/PlayScreen";
 
 function getDesiredPage(currentPage: number, setPage: Function) {
-    var data: PageProps = {
+    let data: PageProps = {
         page: currentPage,
         setPage: setPage,
     };

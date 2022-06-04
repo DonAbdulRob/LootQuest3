@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { FloatingWindowProps } from "./FloatingWindowProps";
 import './FloatingWindow.css';
 
-var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
 function assignDragBehavior(ele: any, levelsToParent: number) {
     // Implement draggable logic.
@@ -31,18 +31,18 @@ function assignDragBehavior(ele: any, levelsToParent: number) {
             pos4 = e.clientY;
 
             // set the element's new position:
-            // var elmnt: any = mouseDownEvent.target;
-            var p: any = mouseDownEvent.target;
-            var elmnt: any = p;
+            // let elmnt: any = mouseDownEvent.target;
+            let p: any = mouseDownEvent.target;
+            let elmnt: any = p;
             
-            for (var i = 0; i < levelsToParent; i++) {
+            for (let i = 0; i < levelsToParent; i++) {
                 elmnt = elmnt.parentNode;
             }
 
-            var finalTop = (elmnt.offsetTop - pos2);
-            var finalLeft = (elmnt.offsetLeft - pos1);
-            var maxBottom = document.body.clientHeight - 200;
-            var maxRight = document.body.clientWidth - 500;
+            let finalTop = (elmnt.offsetTop - pos2);
+            let finalLeft = (elmnt.offsetLeft - pos1);
+            let maxBottom = document.body.clientHeight - 200;
+            let maxRight = document.body.clientWidth - 500;
 
             if (maxBottom < 500) {
                 maxBottom = 500;

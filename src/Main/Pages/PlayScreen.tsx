@@ -11,34 +11,37 @@ function openIntroScreen(props: PageProps) {
 }
 
 export function PlayScreen(props: PageProps) {
-    var [uniqueKey, setUniqueKey] = React.useState(0);
-
+    let [uniqueKey, setUniqueKey] = React.useState(0);
+    let [player, setPlayer] = React.useState(new Fighter(true));
+    let [enemy, setEnemy] = React.useState(new Fighter(false));
+    
     function resetWindows() {
         setUniqueKey((uniqueKey + 1) % 2);
     }
 
-    var player = new Fighter(true);
-    var monster = new Fighter(false);
-    var arr = Array(10).fill(2);
+    let arr = Array(10).fill(2);
 
-    var wPlayer = {
-        title: "Character",
-        contentElement: <Character fighter={player} />
+    let wPlayer = {
+        title: "Player",
+        contentElement: <Character {...{fighter: player, setFighter: setPlayer}} />
     };
 
-    var wEnemy = {
-        title: "Character",
-        contentElement: <Character fighter={monster}/>
+    let wEnemy = {
+        title: "Enemy",
+        contentElement: <Character {...{fighter: enemy, setFighter: setEnemy}} />
     };
 
-    var wCombat = {
+    let wCombat = {
         title: "Combat",
-        contentElement: <Combat { ... { fighter1: player, fighter2: monster}}/>
+        contentElement: <Combat { ... { player: player, enemy: enemy, setPlayer: setPlayer, setEnemy: setEnemy}}/>
     };
 
+    let counter = 0;
+    
     return <div>
         <div>
             <h1>Loot Quest World Map!</h1>
+            {player.name}
         </div>
         
         <div>
@@ -48,9 +51,9 @@ export function PlayScreen(props: PageProps) {
         
         <div id="floating-window-container" key={uniqueKey}>
             <FloatingWindow {...wPlayer} />
-            {arr.map(v => <br />)}
+            {arr.map(v => <br key={counter++}/>)}
             <FloatingWindow {...wEnemy} />
-            {arr.map(v => <br />)}
+            {arr.map(v => <br key={counter++}/>)}
             <FloatingWindow {...wCombat} />
         </div>
     </div>;

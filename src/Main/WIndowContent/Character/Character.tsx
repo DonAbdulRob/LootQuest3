@@ -2,7 +2,7 @@ import React from "react";
 import CharacterProps from "./CharacterProps";
 
 export default function Character(props: CharacterProps): JSX.Element {
-    var f = props.fighter;
+    let f = props.fighter;
 
     return (
         <div>
