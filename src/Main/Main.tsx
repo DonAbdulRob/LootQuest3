@@ -1,25 +1,25 @@
 import * as React from "react";
 import IntroScreen from "./Pages/IntroScreen";
-import { WorldMap } from "./Pages/WorldMap";
-import { PagePropsCore } from "./Pages/Lib/PageBaseProps";
+import { PageProps } from "./Pages/Shared/PageBaseProps";
+import { PlayScreen } from "./Pages/PlayScreen";
 
 function getDesiredPage(currentPage: number, setPage: Function) {
-    var data: PagePropsCore = {
+    var data: PageProps = {
         page: currentPage,
         setPage: setPage,
     };
 
     switch (currentPage) {
         case 0:
-            return <IntroScreen data={data}/>;
+            return <IntroScreen {...data}/>;
         case 1:
-            return <WorldMap data={data}/>;
+            return <PlayScreen {...data}/>;
     }
 }
 
 export default function Main() {
-    const [page, setPage] = React.useState(1); // 0 = intro, 1 = main game page
-    const introRef = React.useRef<typeof IntroScreen>(null);
+     // 0 = intro, 1 = main game page
+    const [page, setPage] = React.useState(1);
 
     return (
         <div>

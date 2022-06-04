@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-import { FloatingWindowProps } from "../Pages/Lib/FloatingWindowProps";
+import { FloatingWindowProps } from "./FloatingWindowProps";
 import './FloatingWindow.css';
 
 var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -85,7 +85,7 @@ function maximizeClick(e: any, windowContentRef: any) {
     windowContentRef.current.hidden = false;
 }
 
-export default function FloatingWindow(props: FloatingWindowProps) {
+export default function FloatingWindow(props: FloatingWindowProps): JSX.Element {
     const titleBarRef = React.useRef<HTMLDivElement>(null);
     const titleRef = React.useRef<HTMLDivElement>(null);
     const windowContentRef = React.useRef<HTMLDivElement>(null);
@@ -104,19 +104,12 @@ export default function FloatingWindow(props: FloatingWindowProps) {
             </div>
             
             <div className="text-style flex-item-right">
-                <div className="titleText" ref={titleRef}>{props.data.title}</div>
+                <div className="titleText" ref={titleRef}>{props.title}</div>
             </div>
         </div>
 
         <div ref={windowContentRef}>
-            <h1>This is a Floating Window</h1>
-            <p>The floating window's content</p>
+            {props.contentElement}
         </div>
     </div>
 }
-
-/**
- * 
-
-        
- */

@@ -1,11 +1,11 @@
 import * as React from "react";
-import MainButton from "../Buttons/MainButton";
-import { PageProps } from "./Lib/PageBaseProps";
+import MainButton from "../components/Buttons/MainButton";
+import { PageProps } from "./Shared/PageBaseProps";
 
 // To start, we are on current page 0.
 export default function IntroScreen(props: PageProps) {
     function openMainPage() {
-        props.data.setPage(1);
+        props.setPage(1);
     }
     
     return <div id="IntroScreen" className="container">
