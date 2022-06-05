@@ -1,9 +1,13 @@
+import Inventory, { Equipment } from "./Inventory";
+
 export default class Fighter {
-    name;
-    currentHealth;
-    maxHealth;
-    minDamage;
-    maxDamage;
+    name: string;
+    currentHealth: number;
+    maxHealth: number;
+    minDamage: number;
+    maxDamage: number;
+    inventory: Inventory = new Inventory();
+    equipment: Equipment = new Equipment();
     
     constructor(isPlayer: boolean) {
         if (isPlayer) {

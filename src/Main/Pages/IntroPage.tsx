@@ -1,14 +1,17 @@
-import * as React from "react";
-import MainButton from "../components/Buttons/MainButton";
-import { PageProps } from "./Shared/PageBaseProps";
+/**
+ * The intro page is what the player sees immediately upon starting the game (perhaps add animation to start one day?)
+ */
 
-// To start, we are on current page 0.
-export default function IntroScreen(props: PageProps) {
+import * as React from "react";
+import MainButton from "../Components/Buttons/MainButton";
+import { PageProps } from "./SharedProps/PageBaseProps";
+
+export default function IntroPage(props: PageProps) {
     function openMainPage() {
         props.setPage(1);
     }
     
-    return <div id="IntroScreen" className="container">
+    return <div id="IntroPage" className="container">
         <div className="mb-1">
             <br />
         </div>

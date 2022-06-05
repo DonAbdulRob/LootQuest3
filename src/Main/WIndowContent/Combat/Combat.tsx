@@ -1,10 +1,7 @@
 import React from "react";
 import Fighter from "../../Models/Fighter/Fighter";
+import { getRandomValueBetween } from "../../Models/Helper";
 import CombatProps from "./CombatProps";
-
-function getRandomValueBetween(min: number, max: number) {
-    return Math.round(Math.random() * ((max - min)) + min);
-}
 
 function handleAttack(props: CombatProps) {
     var player: Fighter = { ...props.player };

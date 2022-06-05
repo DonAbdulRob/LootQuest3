@@ -9,7 +9,9 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "types": ["react/next", "react-dom/next"]
+    "types": ["react/next", "react-dom/next"],
+    "outDir": "dist",
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist/**/*"]
 }

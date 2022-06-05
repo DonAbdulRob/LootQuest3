@@ -1,7 +1,12 @@
+/**
+ * The main component handles the highest-level routing of pages based on user interaction.
+ * See the 'Pages' folder for various pages.
+ */
+
 import * as React from "react";
-import IntroScreen from "./Pages/IntroScreen";
-import { PageProps } from "./Pages/Shared/PageBaseProps";
-import { PlayScreen } from "./Pages/PlayScreen";
+import { PageProps } from "./Pages/SharedProps/PageBaseProps";
+import IntroPage from "./Pages/IntroPage";
+import { PlayPage } from "./Pages/PlayPage";
 
 function getDesiredPage(currentPage: number, setPage: Function) {
     let data: PageProps = {
@@ -11,9 +16,9 @@ function getDesiredPage(currentPage: number, setPage: Function) {
 
     switch (currentPage) {
         case 0:
-            return <IntroScreen {...data}/>;
+            return <IntroPage {...data}/>;
         case 1:
-            return <PlayScreen {...data}/>;
+            return <PlayPage {...data}/>;
     }
 }
 

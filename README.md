@@ -9,18 +9,30 @@ Features (manay TODO):
 - Highly versatile windows for managing your equipped items, inventory, the world map itself and game console.
 - And more!
 
-# Run project with:
+# How do I play?
 
-npm run s
+You can follow the build instructions below to play it if you are able to download this repo and already have node/npm installed locally.
 
-# View Project Online
-
-You can easily view this project online using your favorite web browser. Though, I have conveniently set up a Stackblitz instance for viewing, testing and fiddling. Feel free to check it out here:
+Otherwise, I have conveniently set up a Stackblitz instance for playing, viewing, testing and fiddling with this project. Feel free to check it out here:
 
 Editor Link: https://stackblitz.com/edit/react-ts-ncpvqc?file=src/index.tsx
 Application URL: https://react-ts-ncpvqc.stackblitz.io
 
-# Default React Stuff Below:
+If you haven't used an online IDE like stackblitz before, check it out! You can fork the project directly through their interface and fiddle in real-time.
+
+# What's There To See in this Git Repo?
+
+Check out the docs folder to see meta-information relating to this project beyond the scope of this readme, like project goals and a high-level archiectural overview. And, of course, check out the code in /src.
+
+# To Build This Project
+
+Download and install node/npm to your computer and set it all up.
+Download this repo and unzip it to some location.
+Open up a command prompt or powershell location set to your unzipped LootQuest3 archive.
+Run 'npm run s' to run the game.
+
+***
+# Default React Stuff Below: (Kept for prosperity)
 
 # Getting Started with Create React App
 

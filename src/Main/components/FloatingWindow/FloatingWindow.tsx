@@ -95,7 +95,12 @@ export default function FloatingWindow(props: FloatingWindowProps): JSX.Element 
         assignDragBehavior(titleRef.current, 3);
     });
 
-    return <div className="floating-window">
+    var style = {
+        top: props.top + "px",
+        left: props.left + "px"
+    }
+
+    return <div className="floating-window" style={style}>
         <div className="floating-window-titlebar flex-container" ref={titleBarRef}>
             <div className="flex-item-left">
                 <button onClick={(e) => {minimizeClick(e, windowContentRef)}}>Minimize</button>

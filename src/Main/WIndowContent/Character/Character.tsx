@@ -1,5 +1,5 @@
 import React from "react";
-import CharacterProps from "./CharacterProps";
+import CharacterProps from "../SharedProps/CharacterProps";
 
 export default function Character(props: CharacterProps): JSX.Element {
     let f = props.fighter;
