@@ -47,14 +47,6 @@ function openIntroPage(props: PageProps) {
 }
 
 /**
- * Resets all window positions on click by changing the key associated with their parent container.
- * Algorithm flips key between 0 and 1.
- */
-function resetWindows(uniqueKey: number, setUniqueKey: Function) {
-    setUniqueKey((uniqueKey + 1) % 2);
-}
-
-/**
  * Builds and returns our array of window content to display on the page.
  */
 function getWindows(pos: PosData, player: Fighter, setPlayer: Function, enemy: Fighter, setEnemy: Function) {
@@ -98,24 +90,23 @@ function getWindows(pos: PosData, player: Fighter, setPlayer: Function, enemy: F
 
 export function PlayPage(props: PageProps) {
     // Var init.
-    const [uniqueKey, setUniqueKey] = React.useState(0);
+    const [refreshVar, setRefreshVar] = React.useState(0);
     const [player, setPlayer] = React.useState(new Fighter(true));
     const [enemy, setEnemy] = React.useState(new Fighter(false));
     let pos: PosData = { data: 0 }; // don't set as ref or state, no need for fancy integrations.
-
+    
     // Contains main window management render
     return <div>
         <div>
             <h1>Loot Quest World Map!</h1>
-            {player.name}
         </div>
         
         <div>
-            <MainButton text="Reset Windows" callBack={() => { pos.data = 0; resetWindows(uniqueKey, setUniqueKey); }}></MainButton>
+            <MainButton text="Reset Windows" callBack={() => { setRefreshVar(v => v + 1); }}></MainButton>
             <MainButton text="Quit" callBack={() => { openIntroPage(props); }}></MainButton>
         </div>
         
-        <div id="floating-window-container" key={uniqueKey}>
+        <div id="floating-window-container" key={refreshVar}>
             {getWindows(pos, player, setPlayer, enemy, setEnemy)}
         </div>
     </div>;

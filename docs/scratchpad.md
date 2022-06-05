@@ -9,3 +9,8 @@ for (var i = 0; i < 100; i++) {
     });
 }
 
+# PlayPage Snippets
+
+<FloatingWindow { ...{title: "Inventory", contentElement: <Inventory { ...{ fighter: player, setFighter: setPlayer }}/>, top: 5, left: 5}} />
+
+<MainButton text="Test" callBack={() => { setPlayer(p => enemy); }}></MainButton>

@@ -30,7 +30,7 @@
 
 ## TODO - Medium Term:
 
-4. Actually style the game to look nice.
+4. Actually style the game to look nice. Add proper intro screen with game settings and character select (name, difficulty, etc.).
 5. Implement World Map Feature to explore. Random fights start from world map.
 6. Add health potion drop from monsters for healing. Add ability to right-click in inventory to use them.
 

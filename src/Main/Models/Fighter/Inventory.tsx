@@ -1,24 +1,44 @@
-export class Item {
-    name: string = "";
-    minDamage: number = 0;
-    maxDamage: number = 0;
-    minHealth: number = 0;
-    maxHealth: number = 0;
+export enum ItemType {
+    WEAPON, CHESTPLATE
+}
 
-    constructor(name: string, minDamage: number, maxDamage: number, minHealth: number, maxHealth: number) {
+export class Item {
+    name: string;
+    type: ItemType;
+    minDamage: number;
+    maxDamage: number;
+    health: number;
+
+    constructor(name: string, type: ItemType, minDamage: number, maxDamage: number, health: number) {
         this.name = name;
+        this.type = type;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
-        this.minHealth = minHealth;
-        this.maxHealth = maxHealth;
+        this.health = health;
     }
 }
 
+export enum EquipmentSlotMapping {
+    weapon = 0,
+    chestplate = 1
+}
+
 export class Equipment {
-    sword: Item | null = null;
-    armor: Item | null = null;
+    items: Array<Item | null> = [];
+
+    constructor() {
+        this.items = Array(Object.keys(EquipmentSlotMapping).length / 2).fill(null);
+    }
 }
 
 export default class Inventory {
-    items: Array<Item> = [new Item("Wood Sword", 1, 1, 0, 0)];
+    items: Array<Item>;
+
+    constructor() {
+        this.items = [
+            new Item("Wood Sword", ItemType.WEAPON, 10, 10, 0),
+            new Item("Stone Sword", ItemType.WEAPON, 10, 10, 0),
+            new Item("Bark Chestplate", ItemType.CHESTPLATE, 0, 0, 20)
+        ];
+    }
 }
