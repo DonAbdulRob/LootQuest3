@@ -1,27 +1,55 @@
+import { getRandomValueBetween } from "../Helper";
+import StatBlock from "../Shared/StatBlock";
 import Inventory, { Equipment } from "./Inventory";
 
 export default class Fighter {
-    name: string;
-    currentHealth: number;
-    maxHealth: number;
-    minDamage: number;
-    maxDamage: number;
+    name: string = "";
+    isPlayer: boolean = false;
+    statBlock: StatBlock = new StatBlock();
     inventory: Inventory = new Inventory();
     equipment: Equipment = new Equipment();
-    
+
     constructor(isPlayer: boolean) {
-        if (isPlayer) {
+        this.isPlayer = isPlayer;
+        this.reset();
+    }
+
+    reset = () => {
+        if (this.isPlayer) {
             this.name = "Joe";
-            this.currentHealth = 100;
-            this.maxHealth = 100;
-            this.minDamage = 2;
-            this.maxDamage = 4;
+            this.statBlock.healthMin = 100;
+            this.statBlock.healthMax = 100;
+            this.statBlock.damageMin = 2;
+            this.statBlock.damageMax = 4;
         } else {
             this.name = "Monster";
-            this.currentHealth = 20;
-            this.maxHealth = 20;
-            this.minDamage = 1;
-            this.maxDamage = 3;
+            this.statBlock.healthMin = 20;
+            this.statBlock.healthMax = 20;
+            this.statBlock.damageMin = 1;
+            this.statBlock.damageMax = 3;
         }
+    }
+
+    getDamageRange = (): [a: number, b: number] => {
+        let damageMin = this.statBlock.damageMin;
+        let damageMax = this.statBlock.damageMax;
+
+        for (const item of this.equipment.items) {
+            if (item) {
+                damageMin += item.minDamage;
+                damageMax += item.maxDamage;
+            }
+        }
+
+        return [damageMin, damageMax];
+    }
+
+    getDamageDisplay = (): string => {
+        const r = this.getDamageRange();
+        return r[0] + "-" + r[1];
+    }
+    
+    getDamage = () => {
+        return getRandomValueBetween(...this.getDamageRange());
     }
 }

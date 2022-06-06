@@ -95,7 +95,7 @@ export default function FloatingWindow(props: FloatingWindowProps): JSX.Element 
         assignDragBehavior(titleRef.current, 3);
     });
 
-    var style = {
+    let style = {
         top: props.top + "px",
         left: props.left + "px"
     }

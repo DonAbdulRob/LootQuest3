@@ -2,14 +2,15 @@ import React from "react";
 import CharacterProps from "../SharedProps/CharacterProps";
 
 export default function Character(props: CharacterProps): JSX.Element {
-    let f = props.fighter;
+    let fighter = props.fighter;
 
     return (
         <div>
-            <h1>{f.name}</h1>
+            <h1>{fighter.name}</h1>
             <p>The floating window's content</p>
-            <p>HP: {f.currentHealth}/{f.maxHealth}</p>
-            <p>DMG: {f.minDamage}/{f.maxDamage}</p>
+            <p>HP: {fighter.statBlock.healthMin}/{fighter.statBlock.healthMax}</p>
+            <p>DMG: {fighter.getDamageDisplay()}</p>
+            <p>ARMOR: {fighter.statBlock.armor}</p>
         </div>
     )
 }

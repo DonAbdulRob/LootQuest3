@@ -1,7 +1,7 @@
 .floating-window {
     position: absolute;
     max-width: 500px;
-    max-height: 500px;
+    max-height: 1000px;
     z-index: 9;
     border: 1px solid #d3d3d3;
     background-color: white;

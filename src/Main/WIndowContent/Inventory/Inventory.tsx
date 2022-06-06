@@ -1,6 +1,7 @@
 import React from "react";
 import Fighter from "../../Models/Fighter/Fighter";
 import { EquipmentSlotMapping, Item, ItemType } from "../../Models/Fighter/Inventory";
+import { refreshRef } from "../../Pages/PlayPage";
 import CharacterProps from "../SharedProps/CharacterProps";
 import InventoryItem from "./InventoryItem";
 
@@ -40,31 +41,19 @@ function equip(props: CharacterProps, inventorySlot: number) {
 
     // Remove inventory item from inventory.
     fighter.inventory.items.splice(inventorySlot, 1);
-
-    props.setFighter((oldFighter: Fighter) => {
-        fighter = {...oldFighter};
-        return fighter;
-    });
+    refreshRef();
 }
 
 function drop(props: CharacterProps, inventorySlot: number) {
     let fighter = props.fighter;
     fighter.inventory.items.splice(inventorySlot, 1);
-
-    props.setFighter((oldFighter: Fighter) => {
-        fighter = {...oldFighter};
-        return fighter;
-    });
+    refreshRef();
 }
 
 function clone(props: CharacterProps) {
     let fighter = props.fighter;
     fighter.inventory.items.push(new Item("Wood Sword", ItemType.WEAPON, 10, 10, 0));
-
-    props.setFighter((oldFighter: Fighter) => {
-        fighter = {...oldFighter};
-        return fighter;
-    });
+    refreshRef();
 }
 
 function getInventoryMap(props: CharacterProps): JSX.Element[] {

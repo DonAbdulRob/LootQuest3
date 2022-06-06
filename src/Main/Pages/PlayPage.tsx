@@ -13,6 +13,8 @@ import { PageProps } from "./SharedProps/PageBaseProps";
 import { FloatingWindowProps } from "../Components/FloatingWindow/FloatingWindowProps";
 import Inventory from "../WIndowContent/Inventory/Inventory";
 import Equipment from "../WIndowContent/Equipment/Equipment";
+import CombatState, { CombatStateEnum } from "../Models/Shared/CombatState";
+import Console, { ConsoleData } from "../WIndowContent/Console/Console";
 
 const topInterval = 250;
 const topIntervalDivisor = 250 * 3;
@@ -49,7 +51,8 @@ function openIntroPage(props: PageProps) {
 /**
  * Builds and returns our array of window content to display on the page.
  */
-function getWindows(pos: PosData, player: Fighter, setPlayer: Function, enemy: Fighter, setEnemy: Function) {
+function getWindows(pos: PosData, player: Fighter, setPlayer: Function, enemy: Fighter, setEnemy: Function,
+    combatState: CombatState, setCombatState: Function, combatLog: ConsoleData, setCombatLog: Function) {
     let counter = 0;
     let windows: Array<FloatingWindowPropsBuilder> = [
         {
@@ -57,12 +60,16 @@ function getWindows(pos: PosData, player: Fighter, setPlayer: Function, enemy: F
             contentElement: <Character {...{fighter: player, setFighter: setPlayer}} />
         },
         {
-            title: "Enemy",
-            contentElement: <Character {...{fighter: enemy, setFighter: setEnemy}} />
+            title: "Combat",
+            contentElement: <Combat { ...{ player: player, enemy: enemy, setPlayer: setPlayer,
+                    setEnemy: setEnemy, combatState: combatState, setCombatState: setCombatState,
+                    combatLog: combatLog, setCombatLog: setCombatLog
+                }}
+            />
         },
         {
-            title: "Combat",
-            contentElement: <Combat { ...{ player: player, enemy: enemy, setPlayer: setPlayer, setEnemy: setEnemy}}/>
+            title: "Enemy",
+            contentElement: <Character {...{fighter: enemy, setFighter: setEnemy}} />
         },
         {
             title: "Inventory",
@@ -71,11 +78,15 @@ function getWindows(pos: PosData, player: Fighter, setPlayer: Function, enemy: F
         {
             title: "Equipment",
             contentElement: <Equipment { ...{ fighter: player, setFighter: setPlayer }}/>
+        },
+        {
+            title: "Console",
+            contentElement: <Console { ...{ consoleData: combatLog, setConsoleDate: setCombatLog }}/>
         }
     ];
 
     // Calculate window positions and add to window objects.
-    for (var win of windows) {
+    for (let win of windows) {
         getWindowObject(pos, win);
     }
 
@@ -88,12 +99,33 @@ function getWindows(pos: PosData, player: Fighter, setPlayer: Function, enemy: F
     });
 }
 
+/**
+ * See archiecture.md for why we use force refresh here instead of other options. (Ctrl+f code: 95821)
+ */
+function startFight(combatState: CombatState, doForceRefresh: Function) {
+    if (combatState.combatState === CombatStateEnum.OUT_OF_COMBAT) {
+        combatState.advance();
+        doForceRefresh();
+    }
+}
+
+function forceRefresh(setRefreshVar: Function) {
+    setRefreshVar((v: number) => v + 1);
+}
+
+export let refreshRef: Function;
+
 export function PlayPage(props: PageProps) {
-    // Var init.
-    const [refreshVar, setRefreshVar] = React.useState(0);
+    // let init.
     const [player, setPlayer] = React.useState(new Fighter(true));
     const [enemy, setEnemy] = React.useState(new Fighter(false));
+    const [combatState, setCombatState] = React.useState(new CombatState());
+    const [combatLog, setCombatLog]: [ConsoleData, Function] = React.useState(new ConsoleData());
     let pos: PosData = { data: 0 }; // don't set as ref or state, no need for fancy integrations.
+
+    const [refreshVar, setRefreshVar] = React.useState(0);
+    const doForceRefresh = () => { forceRefresh(setRefreshVar) };
+    refreshRef = doForceRefresh;
     
     // Contains main window management render
     return <div>
@@ -102,12 +134,13 @@ export function PlayPage(props: PageProps) {
         </div>
         
         <div>
-            <MainButton text="Reset Windows" callBack={() => { setRefreshVar(v => v + 1); }}></MainButton>
+            <MainButton text="Find Fight" callBack={() => { startFight(combatState, doForceRefresh) }}></MainButton>
+            <MainButton text="Reset Windows" callBack={doForceRefresh}></MainButton>
             <MainButton text="Quit" callBack={() => { openIntroPage(props); }}></MainButton>
         </div>
         
         <div id="floating-window-container" key={refreshVar}>
-            {getWindows(pos, player, setPlayer, enemy, setEnemy)}
+            {getWindows(pos, player, setPlayer, enemy, setEnemy, combatState, setCombatState, combatLog, setCombatLog)}
         </div>
     </div>;
 }
