@@ -1,9 +1,9 @@
 import React from "react";
 import Fighter from "../../Models/Fighter/Fighter";
 import { CombatStateEnum } from "../../Models/Shared/CombatState";
-import { refreshRef as __GLOBAL_REFRESH_FUNC_REF } from "../../Pages/PlayPage";
 import { ConsoleData } from "../Console/Console";
 import CombatProps from "./CombatProps";
+import LootTransition from "./LootTransition";
 
 function handleAttack(props: CombatProps, combatLog: ConsoleData, setCombatLog: Function) {
     // var init
@@ -73,14 +73,9 @@ export default function Combat(props: CombatProps): JSX.Element {
             </div>;
             break;
         case CombatStateEnum.LOOTING:
-            display = <div>
-                <h1>Loot!</h1>
-                <p>Item List: TODO</p>
-                <button onClick={() => {
-                    props.combatState.advance();
-                    __GLOBAL_REFRESH_FUNC_REF();
-                }}>End Looting</button>
-            </div>;
+            display = <div></div>;
+            // DAR TODO - complete transition.
+            // display = <LootTransition />
             break;
         default:
             display = <div></div>;

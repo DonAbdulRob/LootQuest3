@@ -16,6 +16,8 @@ import Equipment from "../WIndowContent/Equipment/Equipment";
 import CombatState, { CombatStateEnum } from "../Models/Shared/CombatState";
 import Console, { ConsoleData } from "../WIndowContent/Console/Console";
 
+export let __GLOBAL_REFRESH_FUNC_REF: Function;
+
 const topInterval = 250;
 const topIntervalDivisor = 250 * 3;
 const leftInterval = 400;
@@ -113,8 +115,6 @@ function forceRefresh(setRefreshVar: Function) {
     setRefreshVar((v: number) => v + 1);
 }
 
-export let refreshRef: Function;
-
 export function PlayPage(props: PageProps) {
     // let init.
     const [player, setPlayer] = React.useState(new Fighter(true));
@@ -125,7 +125,7 @@ export function PlayPage(props: PageProps) {
 
     const [refreshVar, setRefreshVar] = React.useState(0);
     const doForceRefresh = () => { forceRefresh(setRefreshVar) };
-    refreshRef = doForceRefresh;
+    __GLOBAL_REFRESH_FUNC_REF = doForceRefresh;
     
     // Contains main window management render
     return <div>
