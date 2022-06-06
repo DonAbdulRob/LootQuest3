@@ -1,6 +1,6 @@
 import { getRandomValueBetween } from "../Helper";
 import StatBlock from "../Shared/StatBlock";
-import Inventory, { Equipment } from "./Inventory";
+import Inventory, { Equipment, Item } from "./Inventory";
 
 export default class Fighter {
     name: string = "";
@@ -51,5 +51,11 @@ export default class Fighter {
     
     getDamage = () => {
         return getRandomValueBetween(...this.getDamageRange());
+    }
+
+    getArmor = () => {
+        let armor = this.statBlock.armor;
+        this.equipment.items.forEach((v: Item | null) => { if (v != null) armor += v.armor });
+        return armor;
     }
 }

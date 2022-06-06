@@ -6,14 +6,23 @@ import { ConsoleData } from "../Console/Console";
 import CombatProps from "./CombatProps";
 
 function handleAttack(props: CombatProps, combatLog: ConsoleData, setCombatLog: Function) {
+    // var init
     let player: Fighter = { ...props.player};
     let enemy: Fighter = { ...props.enemy};
-
-    let playerArmor = player.statBlock.armor;
-    let enemyArmor = enemy.statBlock.armor;
-
+    let playerArmor = player.getArmor();
+    let enemyArmor = enemy.getArmor();
     let playerDamage = player.getDamage() - enemyArmor;
     let enemyDamage = enemy.getDamage() - playerArmor
+
+    // Cap damage to 0 minimum.
+    if (playerDamage < 0) {
+        playerDamage = 0;
+    }
+
+    if (enemyDamage < 0) {
+        enemyDamage = 0;
+    }
+
     player.statBlock.healthMin -= enemyDamage;
     enemy.statBlock.healthMin -= playerDamage;
 

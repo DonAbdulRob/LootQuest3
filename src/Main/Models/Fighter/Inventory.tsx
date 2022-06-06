@@ -8,13 +8,15 @@ export class Item {
     minDamage: number;
     maxDamage: number;
     health: number;
+    armor: number = 0;
 
-    constructor(name: string, type: ItemType, minDamage: number, maxDamage: number, health: number) {
+    constructor(name: string, type: ItemType, minDamage: number, maxDamage: number, health: number, armor: number) {
         this.name = name;
         this.type = type;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
         this.health = health;
+        this.armor = armor;
     }
 }
 
@@ -36,9 +38,9 @@ export default class Inventory {
 
     constructor() {
         this.items = [
-            new Item("Wood Sword", ItemType.WEAPON, 10, 10, 0),
-            new Item("Stone Sword", ItemType.WEAPON, 10, 10, 0),
-            new Item("Bark Chestplate", ItemType.CHESTPLATE, 0, 0, 20)
+            new Item("Wood Sword", ItemType.WEAPON, 10, 10, 0, 0),
+            new Item("Stone Sword", ItemType.WEAPON, 10, 10, 0, 0),
+            new Item("Bark Chestplate", ItemType.CHESTPLATE, 0, 0, 20, 1)
         ];
     }
 }

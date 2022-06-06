@@ -49,7 +49,7 @@ export interface ConsoleProps {
 
 export default function Console(props: ConsoleProps) {
     return <div>
-        <h2>Console</h2>
+        <h1>Console</h1>
         {props.consoleData.get()}
     </div>
 }

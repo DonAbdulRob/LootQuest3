@@ -1,8 +1,8 @@
-# LootQuest3 Description
+# Loot Quest (LootQuest3) Description
 
-Hello! This is the next iteration of the game LootQuest, a turn-based RPG where your goal is to explore the world and defeat the boss for all the money and glory in the universe.
+Hello! This is the next iteration of the game Loot Quest, a turn-based RPG where your goal is to explore the world and defeat the boss for all the money, items and glory in the universe.
 
-Features (manay TODO):
+Features (many TODO):
 - Infinite World Map, enemies and items
 - Turn-Based Combat
 - Spells and Abilities

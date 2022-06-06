@@ -52,7 +52,7 @@ function drop(props: CharacterProps, inventorySlot: number) {
 
 function clone(props: CharacterProps) {
     let fighter = props.fighter;
-    fighter.inventory.items.push(new Item("Wood Sword", ItemType.WEAPON, 10, 10, 0));
+    fighter.inventory.items.push(new Item("Wood Sword", ItemType.WEAPON, 10, 10, 0, 0));
     refreshRef();
 }
 

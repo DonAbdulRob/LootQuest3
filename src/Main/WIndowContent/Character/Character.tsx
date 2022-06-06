@@ -10,7 +10,7 @@ export default function Character(props: CharacterProps): JSX.Element {
             <p>The floating window's content</p>
             <p>HP: {fighter.statBlock.healthMin}/{fighter.statBlock.healthMax}</p>
             <p>DMG: {fighter.getDamageDisplay()}</p>
-            <p>ARMOR: {fighter.statBlock.armor}</p>
+            <p>ARMOR: {fighter.getArmor()}</p>
         </div>
     )
 }
