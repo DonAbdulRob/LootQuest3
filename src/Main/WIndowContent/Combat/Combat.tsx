@@ -1,14 +1,12 @@
 import React from "react";
 import Fighter from "../../Models/Fighter/Fighter";
-import { CombatStateEnum } from "../../Models/Shared/CombatState";
+import { __GLOBAL_GAME_STORE } from "../../Models/GlobalGameStore";
+import CombatState, { CombatStateEnum } from "../../Models/Shared/CombatState";
+import { __GLOBAL_REFRESH_FUNC_REF } from "../../Pages/PlayPage";
 import { ConsoleData } from "../Console/Console";
-import CombatProps from "./CombatProps";
-import LootTransition from "./LootTransition";
 
-function handleAttack(props: CombatProps, combatLog: ConsoleData, setCombatLog: Function) {
+function handleAttack(player: Fighter, enemy: Fighter, combatState: CombatState, consoleData: ConsoleData) {
     // var init
-    let player: Fighter = { ...props.player};
-    let enemy: Fighter = { ...props.enemy};
     let playerArmor = player.getArmor();
     let enemyArmor = enemy.getArmor();
     let playerDamage = player.getDamage() - enemyArmor;
@@ -26,36 +24,30 @@ function handleAttack(props: CombatProps, combatLog: ConsoleData, setCombatLog: 
     player.statBlock.healthMin -= enemyDamage;
     enemy.statBlock.healthMin -= playerDamage;
 
-    combatLog.add("Player hit for " + playerDamage);
-    combatLog.add("Enemy hit for " + enemyDamage);
+    consoleData.add("Player hit for " + playerDamage);
+    consoleData.add("Enemy hit for " + enemyDamage);
 
     if (player.statBlock.healthMin <= 0) {
-        combatLog.add("You died, but a passing Cleric revived you at full life. (Nice!)");
+        consoleData.add("You died, but a passing Cleric revived you at full life. (Nice!)");
         player.statBlock.healthMin = player.statBlock.healthMax;
-
-        props.combatState.advance();
-        props.setCombatState(props.combatState);
+        combatState.advance();
     }
 
     if (enemy.statBlock.healthMin <= 0) {
-        combatLog.add("Enemy died.");
+        consoleData.add("Enemy died.");
         enemy.reset();
-
-        props.combatState.advance();
-        props.setCombatState(props.combatState);
+        combatState.advance();
     }
 
-    props.setPlayer(player);
-    props.setEnemy(enemy);
-    setCombatLog(combatLog);
+    __GLOBAL_REFRESH_FUNC_REF();
 }
 
-export default function Combat(props: CombatProps): JSX.Element {
-    let f1 = props.player;
-    let f2 = props.enemy;
-    let combatState = props.combatState;
+export default function Combat(props: {}): JSX.Element {
+    let player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
+    let enemy = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);
+    let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
+    let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
     let display;
-    let [combatLog, setCombatLog] = [props.combatLog, props.setCombatLog];
 
     switch (combatState.combatState) {
         case CombatStateEnum.OUT_OF_COMBAT:
@@ -65,17 +57,21 @@ export default function Combat(props: CombatProps): JSX.Element {
             break;
         case CombatStateEnum.IN_COMBAT:
             display = <div>
-                <h1>{f1.name} vs. {f2.name}</h1>
-                <p>{f1.statBlock.healthMin} vs. {f2.statBlock.healthMin}</p>
-                <button onClick={() => { handleAttack(props, combatLog, setCombatLog); }}>Attack</button>
+                <h1>{player.name} vs. {enemy.name}</h1>
+                <p>{player.statBlock.healthMin} vs. {enemy.statBlock.healthMin}</p>
+                <button onClick={() => { handleAttack(player, enemy, combatState, consoleData); }}>Attack</button>
                 <button>Defend (Take 50% Damage)</button>
                 <button>Flee</button>
             </div>;
             break;
         case CombatStateEnum.LOOTING:
-            display = <div></div>;
-            // DAR TODO - complete transition.
-            // display = <LootTransition />
+            display = <div>
+                <h1>Looting!</h1>
+                <button onClick={() => { 
+                    combatState.advance();
+                    __GLOBAL_REFRESH_FUNC_REF();
+                }}>End Looting</button>
+            </div>;
             break;
         default:
             display = <div></div>;

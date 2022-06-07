@@ -1,4 +1,5 @@
 import React from "react";
+import { __GLOBAL_GAME_STORE } from "../../Models/GlobalGameStore";
 
 interface Line {
     text: string,
@@ -42,14 +43,11 @@ export class ConsoleData {
     }
 }
 
-export interface ConsoleProps {
-    consoleData: ConsoleData;
-    setConsoleDate: Function;
-}
+export default function Console() {
+    let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
 
-export default function Console(props: ConsoleProps) {
     return <div>
         <h1>Console</h1>
-        {props.consoleData.get()}
+        {consoleData.get()}
     </div>
 }

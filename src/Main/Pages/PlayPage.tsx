@@ -4,7 +4,6 @@
  */
 
 import React from "react";
-import Fighter from "../Models/Fighter/Fighter";
 import MainButton from "../Components/Buttons/MainButton";
 import FloatingWindow from "../Components/FloatingWindow/FloatingWindow";
 import Character from "../WIndowContent/Character/Character";
@@ -14,7 +13,8 @@ import { FloatingWindowProps } from "../Components/FloatingWindow/FloatingWindow
 import Inventory from "../WIndowContent/Inventory/Inventory";
 import Equipment from "../WIndowContent/Equipment/Equipment";
 import CombatState, { CombatStateEnum } from "../Models/Shared/CombatState";
-import Console, { ConsoleData } from "../WIndowContent/Console/Console";
+import Console from "../WIndowContent/Console/Console";
+import { __GLOBAL_GAME_STORE } from "../Models/GlobalGameStore";
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
 
@@ -53,37 +53,32 @@ function openIntroPage(props: PageProps) {
 /**
  * Builds and returns our array of window content to display on the page.
  */
-function getWindows(pos: PosData, player: Fighter, setPlayer: Function, enemy: Fighter, setEnemy: Function,
-    combatState: CombatState, setCombatState: Function, combatLog: ConsoleData, setCombatLog: Function) {
+function getWindows(pos: PosData) {
     let counter = 0;
     let windows: Array<FloatingWindowPropsBuilder> = [
         {
             title: "Player",
-            contentElement: <Character {...{fighter: player, setFighter: setPlayer}} />
+            contentElement: <Character usePlayer={true}/>
         },
         {
             title: "Combat",
-            contentElement: <Combat { ...{ player: player, enemy: enemy, setPlayer: setPlayer,
-                    setEnemy: setEnemy, combatState: combatState, setCombatState: setCombatState,
-                    combatLog: combatLog, setCombatLog: setCombatLog
-                }}
-            />
+            contentElement: <Combat />
         },
         {
             title: "Enemy",
-            contentElement: <Character {...{fighter: enemy, setFighter: setEnemy}} />
+            contentElement: <Character usePlayer={false} />
         },
         {
             title: "Inventory",
-            contentElement: <Inventory { ...{ fighter: player, setFighter: setPlayer }}/>
+            contentElement: <Inventory usePlayer={true} />
         },
         {
             title: "Equipment",
-            contentElement: <Equipment { ...{ fighter: player, setFighter: setPlayer }}/>
+            contentElement: <Equipment usePlayer={true} />
         },
         {
             title: "Console",
-            contentElement: <Console { ...{ consoleData: combatLog, setConsoleDate: setCombatLog }}/>
+            contentElement: <Console />
         }
     ];
 
@@ -104,10 +99,10 @@ function getWindows(pos: PosData, player: Fighter, setPlayer: Function, enemy: F
 /**
  * See archiecture.md for why we use force refresh here instead of other options. (Ctrl+f code: 95821)
  */
-function startFight(combatState: CombatState, doForceRefresh: Function) {
+function startFight(combatState: CombatState) {
     if (combatState.combatState === CombatStateEnum.OUT_OF_COMBAT) {
         combatState.advance();
-        doForceRefresh();
+        __GLOBAL_REFRESH_FUNC_REF();
     }
 }
 
@@ -116,16 +111,11 @@ function forceRefresh(setRefreshVar: Function) {
 }
 
 export function PlayPage(props: PageProps) {
-    // let init.
-    const [player, setPlayer] = React.useState(new Fighter(true));
-    const [enemy, setEnemy] = React.useState(new Fighter(false));
-    const [combatState, setCombatState] = React.useState(new CombatState());
-    const [combatLog, setCombatLog]: [ConsoleData, Function] = React.useState(new ConsoleData());
+    // var inits
     let pos: PosData = { data: 0 }; // don't set as ref or state, no need for fancy integrations.
-
     const [refreshVar, setRefreshVar] = React.useState(0);
-    const doForceRefresh = () => { forceRefresh(setRefreshVar) };
-    __GLOBAL_REFRESH_FUNC_REF = doForceRefresh;
+    __GLOBAL_REFRESH_FUNC_REF = () => { forceRefresh(setRefreshVar) };
+    let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
     
     // Contains main window management render
     return <div>
@@ -134,13 +124,13 @@ export function PlayPage(props: PageProps) {
         </div>
         
         <div>
-            <MainButton text="Find Fight" callBack={() => { startFight(combatState, doForceRefresh) }}></MainButton>
-            <MainButton text="Reset Windows" callBack={doForceRefresh}></MainButton>
+            <MainButton text="Find Fight" callBack={() => { startFight(combatState) }}></MainButton>
+            <MainButton text="Reset Windows" callBack={__GLOBAL_REFRESH_FUNC_REF}></MainButton>
             <MainButton text="Quit" callBack={() => { openIntroPage(props); }}></MainButton>
         </div>
         
         <div id="floating-window-container" key={refreshVar}>
-            {getWindows(pos, player, setPlayer, enemy, setEnemy, combatState, setCombatState, combatLog, setCombatLog)}
+            {getWindows(pos)}
         </div>
     </div>;
 }

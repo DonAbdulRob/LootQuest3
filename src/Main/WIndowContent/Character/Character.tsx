@@ -1,9 +1,12 @@
 import React from "react";
+import { __GLOBAL_GAME_STORE } from "../../Models/GlobalGameStore";
 import CharacterProps from "../SharedProps/CharacterProps";
 
 export default function Character(props: CharacterProps): JSX.Element {
-    let fighter = props.fighter;
-
+    let fighter = (props.usePlayer) ? 
+        __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player) :
+        __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);
+    
     return (
         <div>
             <h1>{fighter.name}</h1>

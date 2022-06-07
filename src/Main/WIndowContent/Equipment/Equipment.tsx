@@ -1,11 +1,12 @@
 import React from "react";
 import Fighter from "../../Models/Fighter/Fighter";
 import { Item, ItemType, EquipmentSlotMapping } from "../../Models/Fighter/Inventory";
+import { __GLOBAL_GAME_STORE } from "../../Models/GlobalGameStore";
+import { __GLOBAL_REFRESH_FUNC_REF } from "../../Pages/PlayPage";
 import CharacterProps from "../SharedProps/CharacterProps";
 import EquipmentItem from "./EquipmentItem";
 
-function unequip(props: CharacterProps, inventorySlot: number) {
-    let fighter = props.fighter;
+function unequip(fighter: Fighter, inventorySlot: number) {
     let invItem: Item | null = fighter.equipment.items[inventorySlot];
 
     // Add equipment item to inventory.
@@ -24,17 +25,11 @@ function unequip(props: CharacterProps, inventorySlot: number) {
                 break;
         }
     }
-
-    props.setFighter((oldFighter: Fighter) => {
-        fighter = {...oldFighter};
-        return fighter;
-    });
+    
+    __GLOBAL_REFRESH_FUNC_REF();
 }
 
-
-function getEquipmentMap(props: CharacterProps): JSX.Element[] {
-    let fighter: Fighter = props.fighter;
-
+function getEquipmentMap(fighter: Fighter): JSX.Element[] {
     if (fighter.equipment.items.length === 0) {
         return [<div key={0}></div>];
     }
@@ -42,16 +37,25 @@ function getEquipmentMap(props: CharacterProps): JSX.Element[] {
     return fighter.equipment.items.map((v, i) => {
         return <div key={i}>
             <div>Slot {i}: <EquipmentItem item={fighter.equipment.items[i]} /></div>
-            <button onClick={() => { unequip(props, i)}}>Unequip</button>
+            <button onClick={() => { unequip(fighter, i)}}>Unequip</button>
         </div>;
     });
 }
 
 export default function Equipment(props: CharacterProps): JSX.Element {
+    const store: any = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let fighter;
+
+    if ((props.usePlayer)) {
+        fighter = store.player;
+    } else {
+        fighter = store.enemy;
+    }
+
     return (
         <div>
             <h1>Equipment</h1>
-            {getEquipmentMap(props)}
+            {getEquipmentMap(fighter)}
         </div>
     )
 }

@@ -1,12 +1,12 @@
 import React from "react";
 import Fighter from "../../Models/Fighter/Fighter";
 import { EquipmentSlotMapping, Item, ItemType } from "../../Models/Fighter/Inventory";
+import { __GLOBAL_GAME_STORE } from "../../Models/GlobalGameStore";
 import { __GLOBAL_REFRESH_FUNC_REF } from "../../Pages/PlayPage";
 import CharacterProps from "../SharedProps/CharacterProps";
 import InventoryItem from "./InventoryItem";
 
-function equip(props: CharacterProps, inventorySlot: number) {
-    let fighter = props.fighter;
+function equip(fighter: Fighter, inventorySlot: number) {
     let invItem: Item = fighter.inventory.items[inventorySlot];
     let invItemType: ItemType = invItem.type;
     let equipItem: Item | null = null;
@@ -44,40 +44,45 @@ function equip(props: CharacterProps, inventorySlot: number) {
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function drop(props: CharacterProps, inventorySlot: number) {
-    let fighter = props.fighter;
+function drop(fighter: Fighter, inventorySlot: number) {
     fighter.inventory.items.splice(inventorySlot, 1);
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function clone(props: CharacterProps) {
-    let fighter = props.fighter;
+function clone(fighter: Fighter) {
     fighter.inventory.items.push(new Item("Wood Sword", ItemType.WEAPON, 10, 10, 0, 0));
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function getInventoryMap(props: CharacterProps): JSX.Element[] {
-    let f1: Fighter = props.fighter;
-
-    if (f1.inventory.items.length === 0) {
+function getInventoryMap(fighter: Fighter): JSX.Element[] {
+    if (fighter.inventory.items.length === 0) {
         return [<div key={0}></div>];
     }
 
-    return f1.inventory.items.map((v, i) => {
+    return fighter.inventory.items.map((v, i) => {
         return <div key={i}>
-            <div>Slot {i}: <InventoryItem item={f1.inventory.items[i]} /></div>
-            <button onClick={() => { equip(props, i)}}>Equip</button>
-            <button onClick={() => { drop(props, i)}}>Drop</button>
-            <button onClick={() => { clone(props)}}>Add Item to Inventory</button>
+            <div>Slot {i}: <InventoryItem item={fighter.inventory.items[i]} /></div>
+            <button onClick={() => { equip(fighter, i)}}>Equip</button>
+            <button onClick={() => { drop(fighter, i)}}>Drop</button>
+            <button onClick={() => { clone(fighter)}}>Add Item to Inventory</button>
         </div>;
     });
 }
 
 export default function Inventory(props: CharacterProps): JSX.Element {
+    const store: any = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let fighter;
+
+    if ((props.usePlayer)) {
+        fighter = store.player;
+    } else {
+        fighter = store.enemy;
+    }
+    
     return (
         <div>
             <h1>Inventory</h1>
-            {getInventoryMap(props)}
+            {getInventoryMap(fighter)}
         </div>
     )
 }
