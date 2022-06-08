@@ -1,13 +1,13 @@
 # Architecture
 
-- public/index.html is application main entry point. Creates <div id="root"></div>
-- Index.tsx is called by react or some other dependency to bootstart the rest of the application
-- Index.tsx includes <App />, that creates the component specified in App.tsx
-- Component <App /> calls <Main /> contained in Main.tsx
-- Component <Main /> routes to other components based on application state.
-    - Routes to <PlayPage />
+-   public/index.html is application main entry point. Creates <div id="root"></div>
+-   Index.tsx is called by react or some other dependency to bootstart the rest of the application
+-   Index.tsx includes <App />, that creates the component specified in App.tsx
+-   Component <App /> calls <Main /> contained in Main.tsx
+-   Component <Main /> routes to other components based on application state.
+    -   Routes to <PlayPage />
         Contains 'Windows' that are defined within the 'WindowContent' folder.
-    - Routes to <IntroPage />
+    -   Routes to <IntroPage />
         Contains generic page elements to navigate away from start menu to the <PlayPage /> component.
 
 # Design Considerations
@@ -33,15 +33,15 @@ Example:
 
 combatState.advance();
 setCombatState(() => {
-    return combatState;
+return combatState;
 });
 
 This codes increments combatState as expected. This code (that attempts to change combatReference internal pointer) works once, then fails after:
 
 combatState.advance();
 setCombatState(() => {
-    combatState = {...combatState};
-    return combatState;
+combatState = {...combatState};
+return combatState;
 });
 
 So, yeah, after like 3 hours, I decided to just go with manual refreshes from now on whenever there is nested state change that react is failing to pick up.
@@ -49,7 +49,7 @@ Doing this avoids the hassle of dealing with setState not detecting changes or t
 
 # Why Zustand? Why Refresh Components manually with Zustand?
 
-I use Zustand SPECIFICALLY for the global state support that it provides because global data is pretty much essential for projects because passing data through props is clunky and cumbersome. 
+I use Zustand SPECIFICALLY for the global state support that it provides because global data is pretty much essential for projects because passing data through props is clunky and cumbersome.
 
 Zuckland's other features are not a good fit for this project's goals.
 

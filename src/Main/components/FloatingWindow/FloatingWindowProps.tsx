@@ -1,6 +1,6 @@
 export interface FloatingWindowProps {
-    title: string
-    contentElement: JSX.Element
-    top: number
-    left: number
+    title: string;
+    contentElement: JSX.Element;
+    top: number;
+    left: number;
 }

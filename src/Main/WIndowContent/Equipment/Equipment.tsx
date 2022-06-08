@@ -1,10 +1,11 @@
-import React from "react";
-import Fighter from "../../Models/Fighter/Fighter";
-import { Item, ItemType, EquipmentSlotMapping } from "../../Models/Fighter/Inventory";
-import { __GLOBAL_GAME_STORE } from "../../Models/GlobalGameStore";
-import { __GLOBAL_REFRESH_FUNC_REF } from "../../Pages/PlayPage";
-import CharacterProps from "../SharedProps/CharacterProps";
-import EquipmentItem from "./EquipmentItem";
+import React from 'react';
+import Fighter from '../../Models/Fighter/Fighter';
+import { EquipmentSlotMapping } from '../../Models/Fighter/Inventory';
+import { Item, ItemType } from '../../Models/Fighter/Item';
+import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
+import CharacterProps from '../SharedProps/CharacterProps';
+import EquipmentItem from './EquipmentItem';
 
 function unequip(fighter: Fighter, inventorySlot: number) {
     let invItem: Item | null = fighter.equipment.items[inventorySlot];
@@ -12,7 +13,7 @@ function unequip(fighter: Fighter, inventorySlot: number) {
     // Add equipment item to inventory.
     if (invItem !== null) {
         fighter.inventory.items.push(invItem);
-        
+
         // Clear out equipment slot.
         switch (invItem.type) {
             case ItemType.WEAPON:
@@ -25,7 +26,7 @@ function unequip(fighter: Fighter, inventorySlot: number) {
                 break;
         }
     }
-    
+
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
@@ -35,10 +36,21 @@ function getEquipmentMap(fighter: Fighter): JSX.Element[] {
     }
 
     return fighter.equipment.items.map((v, i) => {
-        return <div key={i}>
-            <div>Slot {i}: <EquipmentItem item={fighter.equipment.items[i]} /></div>
-            <button onClick={() => { unequip(fighter, i)}}>Unequip</button>
-        </div>;
+        return (
+            <div key={i}>
+                <div>
+                    Slot {i}:{' '}
+                    <EquipmentItem item={fighter.equipment.items[i]} />
+                </div>
+                <button
+                    onClick={() => {
+                        unequip(fighter, i);
+                    }}
+                >
+                    Unequip
+                </button>
+            </div>
+        );
     });
 }
 
@@ -46,7 +58,7 @@ export default function Equipment(props: CharacterProps): JSX.Element {
     const store: any = __GLOBAL_GAME_STORE((__DATA) => __DATA);
     let fighter;
 
-    if ((props.usePlayer)) {
+    if (props.usePlayer) {
         fighter = store.player;
     } else {
         fighter = store.enemy;
@@ -57,5 +69,5 @@ export default function Equipment(props: CharacterProps): JSX.Element {
             <h1>Equipment</h1>
             {getEquipmentMap(fighter)}
         </div>
-    )
+    );
 }

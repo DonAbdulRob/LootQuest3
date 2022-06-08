@@ -1,17 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "jsx": "react",
-    "moduleResolution": "node",
-    "strict": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "types": ["react/next", "react-dom/next"],
-    "outDir": "dist",
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist/**/*"]
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "jsx": "react",
+        "moduleResolution": "node",
+        "strict": true,
+        "allowJs": true,
+        "skipLibCheck": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "types": ["react/next", "react-dom/next"],
+        "outDir": "dist"
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "dist/**/*"]
 }

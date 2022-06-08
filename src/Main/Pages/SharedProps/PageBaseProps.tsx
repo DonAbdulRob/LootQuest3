@@ -1,4 +1,4 @@
 export interface PageProps {
-    page: number,
-    setPage: Function
+    page: number;
+    setPage: Function;
 }

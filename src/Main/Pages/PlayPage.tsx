@@ -3,34 +3,33 @@
  * It is the focal point for all other windows and player interactions.
  */
 
-import React from "react";
-import MainButton from "../Components/Buttons/MainButton";
-import FloatingWindow from "../Components/FloatingWindow/FloatingWindow";
-import Character from "../WIndowContent/Character/Character";
-import Combat from "../WIndowContent/Combat/Combat";
-import { PageProps } from "./SharedProps/PageBaseProps";
-import { FloatingWindowProps } from "../Components/FloatingWindow/FloatingWindowProps";
-import Inventory from "../WIndowContent/Inventory/Inventory";
-import Equipment from "../WIndowContent/Equipment/Equipment";
-import CombatState, { CombatStateEnum } from "../Models/Shared/CombatState";
-import Console from "../WIndowContent/Console/Console";
-import { __GLOBAL_GAME_STORE } from "../Models/GlobalGameStore";
+import React from 'react';
+import MainButton from '../Components/Buttons/MainButton';
+import FloatingWindow from '../Components/FloatingWindow/FloatingWindow';
+import Character from '../WIndowContent/Character/Character';
+import Combat from '../WIndowContent/Combat/Combat';
+import { PageProps } from './SharedProps/PageBaseProps';
+import { FloatingWindowProps } from '../Components/FloatingWindow/FloatingWindowProps';
+import Inventory from '../WIndowContent/Inventory/Inventory';
+import Equipment from '../WIndowContent/Equipment/Equipment';
+import Console from '../WIndowContent/Console/Console';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
 
+const rowMod = 4;
 const topInterval = 250;
-const topIntervalDivisor = 250 * 3;
-const leftInterval = 400;
+const topIntervalDivisor = 250 * rowMod;
+const leftInterval = 300;
 
- interface FloatingWindowPropsBuilder {
-    title: string
-    contentElement: JSX.Element
-    top?: number
-    left?: number
+interface FloatingWindowPropsBuilder {
+    title: string;
+    contentElement: JSX.Element;
+    top?: number;
+    left?: number;
 }
 
 interface PosData {
-    data: number
+    data: number;
 }
 
 /**
@@ -38,14 +37,18 @@ interface PosData {
  */
 function getWindowObject(pos: PosData, win: FloatingWindowPropsBuilder) {
     const p = pos.data;
-    const topCellLayoutMod = (topInterval * (Math.floor((topInterval * p / (topIntervalDivisor)))));
-    const topCellResetMod = (Math.floor((p / 9)) * 50);
-    win["top"] = 150 + (topCellLayoutMod % topIntervalDivisor) + topCellResetMod;
-    win["left"] = 10 + (leftInterval * (p % 3));
+    const topCellLayoutMod =
+        topInterval * Math.floor((topInterval * p) / topIntervalDivisor);
+    const topCellResetMod = Math.floor(p / 9) * 50;
+    win['top'] =
+        150 + (topCellLayoutMod % topIntervalDivisor) + topCellResetMod;
+    win['left'] = 10 + leftInterval * (p % rowMod);
     pos.data++;
 }
 
-// Use our setPage function to change game page back to intro.
+/**
+ *  Use our setPage function to change game page back to intro.
+ */
 function openIntroPage(props: PageProps) {
     props.setPage(0);
 }
@@ -57,29 +60,29 @@ function getWindows(pos: PosData) {
     let counter = 0;
     let windows: Array<FloatingWindowPropsBuilder> = [
         {
-            title: "Player",
-            contentElement: <Character usePlayer={true}/>
+            title: 'Player',
+            contentElement: <Character usePlayer={true} />,
         },
         {
-            title: "Combat",
-            contentElement: <Combat />
+            title: 'Combat',
+            contentElement: <Combat />,
         },
         {
-            title: "Enemy",
-            contentElement: <Character usePlayer={false} />
+            title: 'Enemy',
+            contentElement: <Character usePlayer={false} />,
         },
         {
-            title: "Inventory",
-            contentElement: <Inventory usePlayer={true} />
+            title: 'Inventory',
+            contentElement: <Inventory usePlayer={true} />,
         },
         {
-            title: "Equipment",
-            contentElement: <Equipment usePlayer={true} />
+            title: 'Equipment',
+            contentElement: <Equipment usePlayer={true} />,
         },
         {
-            title: "Console",
-            contentElement: <Console />
-        }
+            title: 'Console',
+            contentElement: <Console />,
+        },
     ];
 
     // Calculate window positions and add to window objects.
@@ -89,21 +92,15 @@ function getWindows(pos: PosData) {
 
     // Create list of windows to display on page.
     // Flex our skills a bit by using the 'as' keyword to convert our windows object to correct type.
-    return (windows as Array<FloatingWindowProps>).map((v: FloatingWindowProps) => {
-        return <div key={counter++}>
-            <FloatingWindow {...v} />
-        </div>;
-    });
-}
-
-/**
- * See archiecture.md for why we use force refresh here instead of other options. (Ctrl+f code: 95821)
- */
-function startFight(combatState: CombatState) {
-    if (combatState.combatState === CombatStateEnum.OUT_OF_COMBAT) {
-        combatState.advance();
-        __GLOBAL_REFRESH_FUNC_REF();
-    }
+    return (windows as Array<FloatingWindowProps>).map(
+        (v: FloatingWindowProps) => {
+            return (
+                <div key={counter++}>
+                    <FloatingWindow {...v} />
+                </div>
+            );
+        },
+    );
 }
 
 function forceRefresh(setRefreshVar: Function) {
@@ -114,23 +111,32 @@ export function PlayPage(props: PageProps) {
     // var inits
     let pos: PosData = { data: 0 }; // don't set as ref or state, no need for fancy integrations.
     const [refreshVar, setRefreshVar] = React.useState(0);
-    __GLOBAL_REFRESH_FUNC_REF = () => { forceRefresh(setRefreshVar) };
-    let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
-    
-    // Contains main window management render
-    return <div>
+    __GLOBAL_REFRESH_FUNC_REF = () => {
+        forceRefresh(setRefreshVar);
+    };
+
+    return (
         <div>
-            <h1>Loot Quest World Map!</h1>
+            <div>
+                <h1>Loot Quest World Map!</h1>
+            </div>
+
+            <div>
+                <MainButton
+                    text="Reset Windows"
+                    callBack={__GLOBAL_REFRESH_FUNC_REF}
+                ></MainButton>
+                <MainButton
+                    text="Quit"
+                    callBack={() => {
+                        openIntroPage(props);
+                    }}
+                ></MainButton>
+            </div>
+
+            <div id="floating-window-container" key={refreshVar}>
+                {getWindows(pos)}
+            </div>
         </div>
-        
-        <div>
-            <MainButton text="Find Fight" callBack={() => { startFight(combatState) }}></MainButton>
-            <MainButton text="Reset Windows" callBack={__GLOBAL_REFRESH_FUNC_REF}></MainButton>
-            <MainButton text="Quit" callBack={() => { openIntroPage(props); }}></MainButton>
-        </div>
-        
-        <div id="floating-window-container" key={refreshVar}>
-            {getWindows(pos)}
-        </div>
-    </div>;
+    );
 }

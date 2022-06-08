@@ -1,16 +1,23 @@
-import React from "react";
-import Fighter from "../../Models/Fighter/Fighter";
-import { __GLOBAL_GAME_STORE } from "../../Models/GlobalGameStore";
-import CombatState, { CombatStateEnum } from "../../Models/Shared/CombatState";
-import { __GLOBAL_REFRESH_FUNC_REF } from "../../Pages/PlayPage";
-import { ConsoleData } from "../Console/Console";
+import React from 'react';
+import MainButton from '../../Components/Buttons/MainButton';
+import Fighter from '../../Models/Fighter/Fighter';
+import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
+import CombatState, { CombatStateEnum } from '../../Models/Shared/CombatState';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
+import { ConsoleData } from '../Console/Console';
+import LootTransition from './LootTransition';
 
-function handleAttack(player: Fighter, enemy: Fighter, combatState: CombatState, consoleData: ConsoleData) {
+function handleAttack(
+    player: Fighter,
+    enemy: Fighter,
+    combatState: CombatState,
+    consoleData: ConsoleData,
+) {
     // var init
     let playerArmor = player.getArmor();
     let enemyArmor = enemy.getArmor();
     let playerDamage = player.getDamage() - enemyArmor;
-    let enemyDamage = enemy.getDamage() - playerArmor
+    let enemyDamage = enemy.getDamage() - playerArmor;
 
     // Cap damage to 0 minimum.
     if (playerDamage < 0) {
@@ -24,22 +31,31 @@ function handleAttack(player: Fighter, enemy: Fighter, combatState: CombatState,
     player.statBlock.healthMin -= enemyDamage;
     enemy.statBlock.healthMin -= playerDamage;
 
-    consoleData.add("Player hit for " + playerDamage);
-    consoleData.add("Enemy hit for " + enemyDamage);
+    consoleData.add('Player hit for ' + playerDamage);
+    consoleData.add('Enemy hit for ' + enemyDamage);
 
     if (player.statBlock.healthMin <= 0) {
-        consoleData.add("You died, but a passing Cleric revived you at full life. (Nice!)");
+        consoleData.add(
+            'You died, but a passing Cleric revived you at full life. (Nice!)',
+        );
         player.statBlock.healthMin = player.statBlock.healthMax;
         combatState.advance();
     }
 
     if (enemy.statBlock.healthMin <= 0) {
-        consoleData.add("Enemy died.");
+        consoleData.add('Enemy died.');
         enemy.reset();
         combatState.advance();
     }
 
     __GLOBAL_REFRESH_FUNC_REF();
+}
+
+function startFight(combatState: CombatState) {
+    if (combatState.combatState === CombatStateEnum.OUT_OF_COMBAT) {
+        combatState.advance();
+        __GLOBAL_REFRESH_FUNC_REF();
+    }
 }
 
 export default function Combat(props: {}): JSX.Element {
@@ -51,27 +67,47 @@ export default function Combat(props: {}): JSX.Element {
 
     switch (combatState.combatState) {
         case CombatStateEnum.OUT_OF_COMBAT:
-            display = <div>
-                <p>No enemy yet!</p>
-            </div>
+            display = (
+                <div>
+                    <p>No enemy yet!</p>
+                    <MainButton
+                        text="Find Fight"
+                        callBack={() => {
+                            startFight(combatState);
+                        }}
+                    ></MainButton>
+                </div>
+            );
             break;
         case CombatStateEnum.IN_COMBAT:
-            display = <div>
-                <h1>{player.name} vs. {enemy.name}</h1>
-                <p>{player.statBlock.healthMin} vs. {enemy.statBlock.healthMin}</p>
-                <button onClick={() => { handleAttack(player, enemy, combatState, consoleData); }}>Attack</button>
-                <button>Defend (Take 50% Damage)</button>
-                <button>Flee</button>
-            </div>;
+            display = (
+                <div>
+                    <h1>
+                        {player.name} vs. {enemy.name}
+                    </h1>
+                    <p>
+                        {player.statBlock.healthMin} vs.{' '}
+                        {enemy.statBlock.healthMin}
+                    </p>
+                    <button
+                        onClick={() => {
+                            handleAttack(
+                                player,
+                                enemy,
+                                combatState,
+                                consoleData,
+                            );
+                        }}
+                    >
+                        Attack
+                    </button>
+                    <button>Defend (Take 50% Damage)</button>
+                    <button>Flee</button>
+                </div>
+            );
             break;
         case CombatStateEnum.LOOTING:
-            display = <div>
-                <h1>Looting!</h1>
-                <button onClick={() => { 
-                    combatState.advance();
-                    __GLOBAL_REFRESH_FUNC_REF();
-                }}>End Looting</button>
-            </div>;
+            display = <LootTransition />;
             break;
         default:
             display = <div></div>;

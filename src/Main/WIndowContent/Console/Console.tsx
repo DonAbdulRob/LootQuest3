@@ -1,14 +1,14 @@
-import React from "react";
-import { __GLOBAL_GAME_STORE } from "../../Models/GlobalGameStore";
+import React from 'react';
+import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 
 interface Line {
-    text: string,
-    time: string
+    text: string;
+    time: string;
 }
 
 function getFormattedTime(x: number) {
     if (x < 10) {
-        return "0" + x;
+        return '0' + x;
     }
     return x;
 }
@@ -19,12 +19,17 @@ export class ConsoleData {
 
     add(x: string): void {
         let d: Date = new Date();
-        let s: string = getFormattedTime(d.getHours()) + ":" + getFormattedTime(d.getMinutes()) + ":" + getFormattedTime(d.getSeconds());
+        let s: string =
+            getFormattedTime(d.getHours()) +
+            ':' +
+            getFormattedTime(d.getMinutes()) +
+            ':' +
+            getFormattedTime(d.getSeconds());
 
-        this.lines.push({text: x, time: s});
+        this.lines.push({ text: x, time: s });
 
         if (this.lines.length > 10) {
-            this.lines.splice(0, 1); 
+            this.lines.splice(0, 1);
         }
     }
 
@@ -34,11 +39,13 @@ export class ConsoleData {
 
     get(): Array<JSX.Element> {
         return this.lines.map((v, i) => {
-            return <div key={i}>
-                <p className="consoleLine">
-                    [{ v.time }]: {v.text} 
-                </p>
-            </div>
+            return (
+                <div key={i}>
+                    <p className="consoleLine">
+                        [{v.time}]: {v.text}
+                    </p>
+                </div>
+            );
         });
     }
 }
@@ -46,8 +53,10 @@ export class ConsoleData {
 export default function Console() {
     let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
 
-    return <div>
-        <h1>Console</h1>
-        {consoleData.get()}
-    </div>
+    return (
+        <div>
+            <h1>Console</h1>
+            {consoleData.get()}
+        </div>
+    );
 }

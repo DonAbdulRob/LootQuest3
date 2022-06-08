@@ -1,3 +1,3 @@
 export default interface CharacterProps {
-    usePlayer: boolean
+    usePlayer: boolean;
 }

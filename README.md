@@ -1,13 +1,14 @@
 # Loot Quest (LootQuest3) Description
 
-Hello! This is the next iteration of the game Loot Quest, a turn-based RPG where your goal is to explore the world and defeat the boss for all the money, items and glory in the universe.
+Loot Quest is a traditional turn-based game made modern. Set in an ultra-difficult world full of intricate and one-of-a-kind mechanics, you'll start as a humble peasant with no items, fame or reputation to your name. Struggle your way toward greater strength and conquer. Or, succumb to the environment around you and be conquered.
 
 Features (many TODO):
-- Infinite World Map, enemies and items
-- Turn-Based Combat
-- Spells and Abilities
-- Highly versatile windows for managing your equipped items, inventory, the world map itself and game console.
-- And more!
+
+-   Infinite World Map, enemies and items
+-   Turn-Based Combat
+-   Spells and Abilities
+-   Highly versatile windows for managing your equipped items, inventory, the world map itself and game console.
+-   And more!
 
 # How do I play?
 
@@ -31,7 +32,8 @@ Download this repo and unzip it to some location.
 Open up a command prompt or powershell location set to your unzipped LootQuest3 archive.
 Run 'npm run s' to run the game.
 
-***
+---
+
 # Default React Stuff Below: (Kept for prosperity)
 
 # Getting Started with Create React App
