@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './MainButton.css';
 
 interface Props {
     text: string;

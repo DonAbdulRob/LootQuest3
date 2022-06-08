@@ -1,4 +1,5 @@
 import React from 'react';
+import ItemPopup from '../../Components/Popups/ItemPopup';
 import ItemProp from '../SharedProps/ItemProp';
 
 export default function InventoryItem(props: ItemProp) {
@@ -6,5 +7,5 @@ export default function InventoryItem(props: ItemProp) {
         return <div>[NO ITEM]</div>;
     }
 
-    return <div>{props.item.name}</div>;
+    return <ItemPopup item={props.item} addLootButton={false} />;
 }

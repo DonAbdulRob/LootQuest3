@@ -5,15 +5,19 @@ body {
         'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-size: 12px !important;
-}
-
-h1 {
-    font-size: 20px !important;
-    border: 1px solid rgb(128, 128, 128);
+    font-size: 12px;
 }
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
         monospace;
+}
+
+.App {
+    background-color: rgb(138, 232, 255);
+    border: 1px solid rgb(128, 128, 128);
+}
+
+div {
+    padding: 3px;
 }

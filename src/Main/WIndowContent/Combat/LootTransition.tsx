@@ -17,7 +17,7 @@ function generateNewLoot() {
 
 function getLootDisplay(loot: Array<Item>) {
     return loot.map((v: Item, i: number) => {
-        return <ItemPopup key={i} item={v} />;
+        return <ItemPopup key={i} item={v} addLootButton={true} />;
     });
 }
 
