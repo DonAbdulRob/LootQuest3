@@ -66,10 +66,7 @@ function getInventoryMap(fighter: Fighter): JSX.Element[] {
     return fighter.inventory.items.map((v, i) => {
         return (
             <div key={i}>
-                <div>
-                    Slot {i}:{' '}
-                    <InventoryItem item={fighter.inventory.items[i]} />
-                </div>
+                <InventoryItem item={fighter.inventory.items[i]} />
                 <button
                     onClick={() => {
                         equip(fighter, i);

@@ -5,7 +5,7 @@ body {
         'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-size: 12px;
+    color: rgb(15, 43, 73);
 }
 
 code {
@@ -14,10 +14,22 @@ code {
 }
 
 .App {
-    background-color: rgb(138, 232, 255);
+    background-color: rgb(33, 144, 172);
     border: 1px solid rgb(128, 128, 128);
 }
 
 div {
     padding: 3px;
+}
+
+button {
+    background-color: #336574;
+    border: none;
+    color: white;
+    min-width: 50px;
+    min-height: 30px;
+    margin: 3px;
+    box-sizing: 5px;
+    box-shadow: #000000;
+    border: 1px solid rgb(228, 228, 228);
 }

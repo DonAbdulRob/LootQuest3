@@ -8,8 +8,8 @@
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 120px;
-    background-color: black;
-    color: #fff;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
@@ -18,6 +18,7 @@
     bottom: 150%;
     left: 50%;
     margin-left: -60px;
+    border: 1px solid black;
 }
 
 .tooltip .tooltiptext::after {
