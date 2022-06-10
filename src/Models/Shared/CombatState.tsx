@@ -16,6 +16,10 @@ export default class CombatState {
         this.combatState = (this.combatState + 1) % 3;
     };
 
+    reset = () => {
+        this.combatState = 0;
+    };
+
     enableLootLock = () => {
         this.generateLootLock = true;
     };

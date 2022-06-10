@@ -8,7 +8,7 @@ const el = document.getElementById('root');
 
 if (el === null) throw new Error('Root container missing in index.html');
 
-el.className = 'App main';
+el.className = 'root';
 
 const root = createRoot(el);
 root.render(

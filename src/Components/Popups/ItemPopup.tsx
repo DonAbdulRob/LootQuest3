@@ -6,7 +6,8 @@ import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import './ItemPopup.css';
 
 interface ItemPopupProps {
-    item: Item;
+    prefix: string;
+    item: Item | null;
     addLootButton: boolean;
 }
 
@@ -34,19 +35,28 @@ export default function ItemPopup(props: ItemPopupProps) {
 
     let item = props.item;
 
-    return (
-        <div className="tooltip">
-            <div>{item.name}</div>
-            {lootButton}
-            <span className="tooltiptext">
-                <p>{item.name}</p>
-                <p>{item.description}</p>
-                <p>
-                    Bonus Damage: {item.minDamage} - {item.maxDamage}
-                </p>
-                <p>Bonus Health: {item.health}</p>
-                <p>Bonus Armor: {item.armor}</p>
-            </span>
-        </div>
-    );
+    if (item === null) {
+        return (
+            <div className="tooltip">
+                <p>{props.prefix + ' '}None</p>
+            </div>
+        );
+    } else {
+        return (
+            <div className="tooltip">
+                <div>
+                    {props.prefix + item.name} {lootButton}
+                </div>
+                <span className="tooltiptext">
+                    <p className="item-name">{item.name}</p>
+                    <p className="item-description">{item.description}</p>
+                    <p className="item-stats">
+                        Bonus Damage: {item.minDamage} - {item.maxDamage}
+                    </p>
+                    <p className="item-stats">Bonus Health: {item.health}</p>
+                    <p className="item-stats">Bonus Armor: {item.armor}</p>
+                </span>
+            </div>
+        );
+    }
 }

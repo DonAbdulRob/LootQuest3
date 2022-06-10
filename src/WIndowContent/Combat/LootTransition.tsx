@@ -2,11 +2,12 @@ import React from 'react';
 import ItemPopup from '../../Components/Popups/ItemPopup';
 import { Item, ItemGen } from '../../Models/Fighter/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
+import { getRandomValueUpTo } from '../../Models/Helper';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 
 function generateNewLoot() {
     var loot: Array<Item> = [];
-    let lootAmount = Math.random() * 10 + 2;
+    let lootAmount = getRandomValueUpTo(2) + 1;
 
     for (var i = 0; i < lootAmount; i++) {
         loot.push(ItemGen.getRandomSword());
@@ -17,7 +18,7 @@ function generateNewLoot() {
 
 function getLootDisplay(loot: Array<Item>) {
     return loot.map((v: Item, i: number) => {
-        return <ItemPopup key={i} item={v} addLootButton={true} />;
+        return <ItemPopup prefix="" key={i} item={v} addLootButton={true} />;
     });
 }
 

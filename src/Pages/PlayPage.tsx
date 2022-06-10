@@ -42,7 +42,7 @@ function getWindowObject(pos: PosData, win: FloatingWindowPropsBuilder) {
     const topCellResetMod = Math.floor(p / 9) * 50;
     win['top'] =
         150 + (topCellLayoutMod % topIntervalDivisor) + topCellResetMod;
-    win['left'] = 10 + leftInterval * (p % rowMod);
+    win['left'] = 60 + leftInterval * (p % rowMod);
     pos.data++;
 }
 

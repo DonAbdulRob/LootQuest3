@@ -54,7 +54,7 @@ export default function Console() {
     let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
 
     return (
-        <div>
+        <div className="window-core">
             <h1>Console</h1>
             {consoleData.get()}
         </div>

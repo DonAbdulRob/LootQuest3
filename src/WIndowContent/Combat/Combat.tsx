@@ -39,12 +39,11 @@ function handleAttack(
             'You died, but a passing Cleric revived you at full life. (Nice!)',
         );
         player.statBlock.healthMin = player.statBlock.healthMax;
-        combatState.advance();
-    }
-
-    if (enemy.statBlock.healthMin <= 0) {
+        combatState.reset();
+    } else if (enemy.statBlock.healthMin <= 0) {
         consoleData.add('Enemy died.');
-        enemy.reset();
+        player.gold += enemy.gold;
+        enemy.nullMonster();
         combatState.advance();
     }
 
@@ -73,6 +72,7 @@ export default function Combat(props: {}): JSX.Element {
                     <MainButton
                         text="Find Fight"
                         callBack={() => {
+                            enemy.generateMonster();
                             startFight(combatState);
                         }}
                     ></MainButton>
@@ -113,5 +113,5 @@ export default function Combat(props: {}): JSX.Element {
             display = <div></div>;
     }
 
-    return display;
+    return <div className="window-core">{display}</div>;
 }

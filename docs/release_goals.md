@@ -12,6 +12,8 @@ This document has all of the planned goals for Loot Quest's completion.
 - Cheat Window (should be easy now with global state)
 - Polish existing features a bit. Play and identify what is needed to make things 'work'.
    - smarter window logic (dynmic z axis, store window position, resize windows, etc.) -> possible settings menu for windows?
+- Shop / Item Rarity / Console Input / Health Pot
+- hide certain stats in enemy tab (gold/exp, etc.) Cheat tab can provide insight into these stats later.
 
 
 ## TODO - Short Term:

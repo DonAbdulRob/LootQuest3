@@ -1,11 +1,11 @@
 import React from 'react';
+import ItemPopup from '../../Components/Popups/ItemPopup';
 import Fighter from '../../Models/Fighter/Fighter';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Inventory';
 import { Item, ItemType } from '../../Models/Fighter/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import CharacterProps from '../SharedProps/CharacterProps';
-import InventoryItem from './InventoryItem';
 
 function equip(fighter: Fighter, inventorySlot: number) {
     let invItem: Item = fighter.inventory.items[inventorySlot];
@@ -74,7 +74,11 @@ function getInventoryMap(fighter: Fighter): JSX.Element[] {
     return fighter.inventory.items.map((v, i) => {
         return (
             <div key={i}>
-                <InventoryItem item={fighter.inventory.items[i]} />
+                <ItemPopup
+                    prefix=""
+                    item={fighter.inventory.items[i]}
+                    addLootButton={false}
+                />
                 <button
                     onClick={() => {
                         equip(fighter, i);
@@ -112,7 +116,7 @@ export default function Inventory(props: CharacterProps): JSX.Element {
     }
 
     return (
-        <div>
+        <div className="window-core">
             <h1>Inventory</h1>
             {getInventoryMap(fighter)}
         </div>

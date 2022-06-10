@@ -28,5 +28,5 @@ export default function App(): JSX.Element {
     // 0 = intro, 1 = main game page
     const [page, setPage] = React.useState(1);
 
-    return getDesiredPage(page, setPage);
+    return <div className="app">{getDesiredPage(page, setPage)}</div>;
 }
