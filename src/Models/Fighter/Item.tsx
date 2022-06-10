@@ -7,6 +7,7 @@ export enum ItemType {
 
 export class Item {
     name: string;
+    description: string;
     type: ItemType;
     minDamage: number;
     maxDamage: number;
@@ -15,6 +16,7 @@ export class Item {
 
     constructor(
         name: string,
+        description: string,
         type: ItemType,
         minDamage: number,
         maxDamage: number,
@@ -22,6 +24,7 @@ export class Item {
         armor: number,
     ) {
         this.name = name;
+        this.description = description;
         this.type = type;
         this.minDamage = minDamage;
         this.maxDamage = maxDamage;
@@ -33,10 +36,13 @@ export class Item {
 export class ItemGen {
     static getRandomSword(): Item {
         const materials = ['Wood', 'Stone', 'Iron', 'Gold', 'Diamond'];
-        const min = Math.random() * 3;
-        const max = min + Math.random() * 3;
+        const min = Math.round(Math.random() * 3);
+        const max = Math.round(min + Math.random() * 3);
+        const mat = getRandomElement(materials);
+
         return new Item(
-            getRandomElement(materials) + ' Sword',
+            mat + ' Sword',
+            'A sword made of ' + mat,
             ItemType.WEAPON,
             min,
             max,

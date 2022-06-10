@@ -59,8 +59,8 @@ function startFight(combatState: CombatState) {
 }
 
 export default function Combat(props: {}): JSX.Element {
-    let player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
-    let enemy = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);
+    let player: Fighter = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
+    let enemy: Fighter = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);
     let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
     let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
     let display;

@@ -32,12 +32,20 @@ export default function ItemPopup(props: ItemPopupProps) {
         );
     }
 
+    let item = props.item;
+
     return (
         <div className="tooltip">
-            <div>{props.item.name}</div>
+            <div>{item.name}</div>
             {lootButton}
             <span className="tooltiptext">
-                <p>This is a tooltip example.</p>
+                <p>{item.name}</p>
+                <p>{item.description}</p>
+                <p>
+                    Bonus Damage: {item.minDamage} - {item.maxDamage}
+                </p>
+                <p>Bonus Health: {item.health}</p>
+                <p>Bonus Armor: {item.armor}</p>
             </span>
         </div>
     );

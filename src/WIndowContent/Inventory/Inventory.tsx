@@ -53,7 +53,15 @@ function drop(fighter: Fighter, inventorySlot: number) {
 
 function clone(fighter: Fighter) {
     fighter.addItemToInventory(
-        new Item('Wood Sword', ItemType.WEAPON, 10, 10, 0, 0),
+        new Item(
+            'Wood Sword',
+            'A cloned wooden sword.',
+            ItemType.WEAPON,
+            10,
+            10,
+            0,
+            0,
+        ),
     );
     __GLOBAL_REFRESH_FUNC_REF();
 }

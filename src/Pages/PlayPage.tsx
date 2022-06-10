@@ -16,10 +16,10 @@ import Console from '../WIndowContent/Console/Console';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
 
-const rowMod = 4;
-const topInterval = 250;
-const topIntervalDivisor = 250 * rowMod;
-const leftInterval = 300;
+const rowMod = 3;
+const topInterval = 320;
+const topIntervalDivisor = topInterval * rowMod;
+const leftInterval = 450;
 
 interface FloatingWindowPropsBuilder {
     title: string;
@@ -72,12 +72,12 @@ function getWindows(pos: PosData) {
             contentElement: <Character usePlayer={false} />,
         },
         {
-            title: 'Inventory',
-            contentElement: <Inventory usePlayer={true} />,
-        },
-        {
             title: 'Equipment',
             contentElement: <Equipment usePlayer={true} />,
+        },
+        {
+            title: 'Inventory',
+            contentElement: <Inventory usePlayer={true} />,
         },
         {
             title: 'Console',

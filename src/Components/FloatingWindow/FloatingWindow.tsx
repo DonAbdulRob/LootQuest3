@@ -8,7 +8,11 @@ let pos1 = 0,
     pos3 = 0,
     pos4 = 0;
 
-function assignDragBehavior(ele: any, levelsToParent: number) {
+function assignDragBehavior(
+    ele: any,
+    levelsToParent: number,
+    parentDivRef: any,
+) {
     // Implement draggable logic.
     function mouseDownFunction(mouseDownEvent: any) {
         mouseDownEvent = mouseDownEvent || window.event;
@@ -21,6 +25,7 @@ function assignDragBehavior(ele: any, levelsToParent: number) {
         function mouseUp(e: any) {
             document.removeEventListener('mouseup', mouseUp);
             document.removeEventListener('mousemove', mouseMove);
+            parentDivRef.current.style['z-index'] = 2;
         }
 
         function mouseMove(e: any) {
@@ -44,12 +49,13 @@ function assignDragBehavior(ele: any, levelsToParent: number) {
 
             let finalTop = elmnt.offsetTop - pos2;
             let finalLeft = elmnt.offsetLeft - pos1;
-            let maxBottom = document.body.clientHeight - 200;
-            let maxRight = document.body.clientWidth - 500;
+            let maxBottom = document.body.clientHeight - 25;
+            let maxRight = document.body.clientWidth - 300;
 
+            /**
             if (maxBottom < 500) {
                 maxBottom = 500;
-            }
+            }*/
 
             if (finalTop < 0) {
                 finalTop = 0;
@@ -69,6 +75,8 @@ function assignDragBehavior(ele: any, levelsToParent: number) {
 
         document.addEventListener('mouseup', mouseUp);
         document.addEventListener('mousemove', mouseMove);
+
+        parentDivRef.current.style['z-index'] = 9;
     }
 
     if (ele !== null) {
@@ -94,10 +102,11 @@ export default function FloatingWindow(
     const titleBarRef = React.useRef<HTMLDivElement>(null);
     const titleRef = React.useRef<HTMLDivElement>(null);
     const windowContentRef = React.useRef<HTMLDivElement>(null);
+    const parentEleRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        assignDragBehavior(titleBarRef.current, 1);
-        assignDragBehavior(titleRef.current, 3);
+        assignDragBehavior(titleBarRef.current, 1, parentEleRef);
+        assignDragBehavior(titleRef.current, 3, parentEleRef);
     });
 
     let style = {
@@ -106,7 +115,7 @@ export default function FloatingWindow(
     };
 
     return (
-        <div className="floating-window" style={style}>
+        <div className="floating-window" style={style} ref={parentEleRef}>
             <div
                 className="floating-window-titlebar flex-container"
                 ref={titleBarRef}

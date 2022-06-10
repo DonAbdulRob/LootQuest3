@@ -7,6 +7,13 @@ This document has all of the planned goals for Loot Quest's completion.
 -   N/A - Continue using comments and 'let' and 'const' as appropriate.
 -   Get short-term 1-3 working on a primitive level.
 
+- Finish loot display component.
+- Create right-click menu for inv.
+- Cheat Window (should be easy now with global state)
+- Polish existing features a bit. Play and identify what is needed to make things 'work'.
+   - smarter window logic (dynmic z axis, store window position, resize windows, etc.) -> possible settings menu for windows?
+
+
 ## TODO - Short Term:
 
 1. Implement inventory and equipment floating windows and systems. +
@@ -22,12 +29,16 @@ This document has all of the planned goals for Loot Quest's completion.
    b. Should be able to modify health, damage and names of combatants with data-bound logic.
 
 3. Implement looting from combat.
-   a. Create 'not in combat' state for combat window.
-   b. Add ability to start combat while in not in combat state.
-   c. Implement transition from non-combat to combat.
+   a. Create 'not in combat' state for combat window. +
+   b. Add ability to start combat while in not in combat state. +
+   c. Implement transition from non-combat to combat. +
    d. Implement transition for combat window to a loot window on combat end (i.) or death screen (ii.).
-   i. loot screen 1. Loot screen should contain items. 2. On click, items transfer to inventory. 3. Give option to click item to transfer to inventory or right-click menu option to transfer. 4. Add button to end loot phase, resetting combat window to empty state.
-   ii. death screen 1. display game over and ability to restart (send back to intro screen, reset player data).
+      i. loot screen
+         1. Loot screen should contain items.
+         2. On click, items transfer to inventory.
+         3. Give option to click item to transfer to inventory or right-click menu option to transfer.
+         4. Add button to end loot phase, resetting combat window to empty state.
+      ii. death screen 1. display game over and ability to restart (send back to intro screen, reset game data).
 
 4. Implement 3 player skills and 3 enemy skills for combat diversity.
 

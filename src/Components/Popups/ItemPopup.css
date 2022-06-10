@@ -1,4 +1,4 @@
-/** Credit to W3schools for code. */
+/** Credit to W3schools for most of this css. */
 .tooltip {
     position: relative;
     display: inline-block;
@@ -7,17 +7,17 @@
 
 .tooltip .tooltiptext {
     visibility: hidden;
-    width: 120px;
+    position: absolute;
+    width: 300px;
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
-    position: absolute;
     z-index: 1;
     bottom: 150%;
     left: 50%;
-    margin-left: -60px;
+    margin-left: -80%;
     border: 1px solid black;
 }
 
@@ -25,7 +25,7 @@
     content: '';
     position: absolute;
     top: 100%;
-    left: 50%;
+    left: 25%;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;

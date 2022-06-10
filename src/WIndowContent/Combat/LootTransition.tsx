@@ -33,7 +33,6 @@ export default function LootTransition() {
     return (
         <div>
             <h1>Loot!</h1>
-            <hr />
             {getLootDisplay(loot)}
             <hr />
             <button

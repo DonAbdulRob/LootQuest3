@@ -18,16 +18,16 @@ export default class Fighter {
     reset = () => {
         if (this.isPlayer) {
             this.name = 'Joe';
-            this.statBlock.healthMin = 100;
-            this.statBlock.healthMax = 100;
-            this.statBlock.damageMin = 2;
-            this.statBlock.damageMax = 4;
-        } else {
-            this.name = 'Monster';
-            this.statBlock.healthMin = 20;
-            this.statBlock.healthMax = 20;
+            this.statBlock.healthMin = 10;
+            this.statBlock.healthMax = 10;
             this.statBlock.damageMin = 1;
-            this.statBlock.damageMax = 3;
+            this.statBlock.damageMax = 1;
+        } else {
+            this.name = 'Adorable Rat';
+            this.statBlock.healthMin = 3;
+            this.statBlock.healthMax = 3;
+            this.statBlock.damageMin = 1;
+            this.statBlock.damageMax = 1;
         }
     };
 
@@ -47,7 +47,11 @@ export default class Fighter {
 
     getDamageDisplay = (): string => {
         const r = this.getDamageRange();
-        return r[0] + '-' + r[1];
+        return r[0] + ' - ' + r[1];
+    };
+
+    getHealthDisplay = (): string => {
+        return this.statBlock.healthMin + '/' + this.getHealthMax();
     };
 
     getDamage = () => {
@@ -60,6 +64,14 @@ export default class Fighter {
             if (v != null) armor += v.armor;
         });
         return armor;
+    };
+
+    getHealthMax = () => {
+        let healthMax = this.statBlock.healthMax;
+        this.equipment.items.forEach((v: Item | null) => {
+            if (v != null) healthMax += v.health;
+        });
+        return healthMax;
     };
 
     addItemToInventory = (item: Item) => {
