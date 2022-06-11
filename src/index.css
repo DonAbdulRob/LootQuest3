@@ -1,3 +1,10 @@
+html,
+body {
+    margin: 0;
+    font-size: 18px;
+    background-color: rgb(221, 232, 235);
+}
+
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
@@ -6,22 +13,17 @@ body {
     color: rgb(15, 43, 73);
 }
 
-html,
-body {
-    margin: 0;
-    height: 97%;
-}
-
 button {
     background-color: #336574;
     border: none;
     color: white;
     min-width: 50px;
     min-height: 30px;
-    margin: 3px;
+    margin: 5px;
     box-sizing: 5px;
     box-shadow: #000000;
     border: 1px solid rgb(228, 228, 228);
+    font-size: 18px;
 }
 
 h1,
@@ -36,14 +38,11 @@ p {
 }
 
 .root {
-    background-color: rgb(221, 232, 235);
-    border: 1px solid rgb(128, 128, 128);
-    margin: 10px;
-    padding: 10px;
     height: 100%;
 }
 
 .app {
+    padding: 10px;
     background-color: rgb(33, 144, 172);
     border: 1px solid rgb(128, 128, 128);
 }
@@ -52,10 +51,4 @@ p {
     padding: 5px;
     margin: 5px;
     border: 1px solid black;
-}
-
-.equipment-list {
-    line-height: 35px;
-    margin: auto;
-    display: flex;
 }

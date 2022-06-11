@@ -42,7 +42,7 @@ export class ConsoleData {
             return (
                 <div key={i}>
                     <p className="consoleLine">
-                        [{v.time}]: {v.text}
+                        {v.time}: {v.text}
                     </p>
                 </div>
             );

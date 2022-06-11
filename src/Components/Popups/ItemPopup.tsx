@@ -1,4 +1,6 @@
 import React from 'react';
+import Fighter from '../../Models/Fighter/Fighter';
+import { EquipmentSlotMapping } from '../../Models/Fighter/Inventory';
 import { Item } from '../../Models/Fighter/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { removeElement } from '../../Models/Helper';
@@ -9,6 +11,90 @@ interface ItemPopupProps {
     prefix: string;
     item: Item | null;
     addLootButton: boolean;
+}
+
+function capitalizeFirstLetter(str: string) {
+    const arr = str.split('');
+    arr[0] = arr[0].toLocaleUpperCase();
+    return arr.join('');
+}
+
+function getDiffPrefix(diff: number): JSX.Element {
+    if (diff < 0) {
+        return <span className="red">{diff}</span>;
+    } else if (diff > 0) {
+        return <span className="green">{'+' + diff}</span>;
+    } else {
+        return <span>{diff}</span>;
+    }
+}
+
+function getDiff(fighter: Fighter, item: any, field: any) {
+    let val;
+    let equipmentItem: any;
+
+    if (item.type === 0) {
+        equipmentItem = fighter.equipment.items[EquipmentSlotMapping.weapon];
+    } else {
+        equipmentItem =
+            fighter.equipment.items[EquipmentSlotMapping.chestplate];
+    }
+
+    if (equipmentItem !== null && equipmentItem !== undefined) {
+        val = equipmentItem[field];
+        return item[field] - val;
+    }
+
+    return 0;
+}
+
+function getFieldDisplay(fighter: Fighter, item: any, field: any) {
+    let diff = getDiff(fighter, item, field);
+    let diffDisplay = null;
+
+    if (diff !== 0) {
+        diffDisplay = (
+            <span>
+                {', ['}
+                {getDiffPrefix(diff)}
+                {']'}
+            </span>
+        );
+    }
+
+    return (item[field] !== '' && item[field] !== 0) || diff != null ? (
+        <p className="item-description">
+            Bonus {capitalizeFirstLetter(field)}: {item[field]}
+            {diffDisplay}
+        </p>
+    ) : null;
+}
+
+function getDamageDisplay(fighter: Fighter, item: Item) {
+    let diff1 = getDiff(fighter, item, 'minDamage');
+    let diff2 = getDiff(fighter, item, 'maxDamage');
+    let diffDisplay = null;
+
+    if (diff1 !== 0 || diff2 !== 0) {
+        diffDisplay = (
+            <span>
+                {', ['}
+                {getDiffPrefix(diff1)}
+                {' / '}
+                {getDiffPrefix(diff2)}
+                {']'}
+            </span>
+        );
+    }
+
+    return item.minDamage !== 0 ||
+        item.maxDamage !== 0 ||
+        diffDisplay !== null ? (
+        <p className="item-description">
+            Bonus Damage: {item.minDamage} - {item.maxDamage}
+            {diffDisplay}
+        </p>
+    ) : null;
 }
 
 export default function ItemPopup(props: ItemPopupProps) {
@@ -50,11 +136,9 @@ export default function ItemPopup(props: ItemPopupProps) {
                 <span className="tooltiptext">
                     <p className="item-name">{item.name}</p>
                     <p className="item-description">{item.description}</p>
-                    <p className="item-stats">
-                        Bonus Damage: {item.minDamage} - {item.maxDamage}
-                    </p>
-                    <p className="item-stats">Bonus Health: {item.health}</p>
-                    <p className="item-stats">Bonus Armor: {item.armor}</p>
+                    {getDamageDisplay(player, item)}
+                    {getFieldDisplay(player, item, 'health')}
+                    {getFieldDisplay(player, item, 'armor')}
                 </span>
             </div>
         );

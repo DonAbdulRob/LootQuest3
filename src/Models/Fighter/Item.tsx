@@ -1,4 +1,4 @@
-import { getRandomElement } from '../Helper';
+import { getRandomElement, getRandomValueUpTo } from '../Helper';
 
 export enum ItemType {
     WEAPON,
@@ -36,8 +36,8 @@ export class Item {
 export class ItemGen {
     static getRandomSword(): Item {
         const materials = ['Wood', 'Stone', 'Iron', 'Gold', 'Diamond'];
-        const min = Math.round(Math.random() * 3);
-        const max = Math.round(min + Math.random() * 3);
+        const min = getRandomValueUpTo(2) + 1;
+        const max = Math.round(min + getRandomValueUpTo(2));
         const mat = getRandomElement(materials);
 
         return new Item(

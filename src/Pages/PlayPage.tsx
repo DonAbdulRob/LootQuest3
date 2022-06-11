@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import MainButton from '../Components/Buttons/MainButton';
 import FloatingWindow from '../Components/FloatingWindow/FloatingWindow';
 import Character from '../WIndowContent/Character/Character';
 import Combat from '../WIndowContent/Combat/Combat';
@@ -13,6 +12,7 @@ import { FloatingWindowProps } from '../Components/FloatingWindow/FloatingWindow
 import Inventory from '../WIndowContent/Inventory/Inventory';
 import Equipment from '../WIndowContent/Equipment/Equipment';
 import Console from '../WIndowContent/Console/Console';
+import Cheat from '../WIndowContent/Cheat/Cheat';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
 
@@ -83,6 +83,10 @@ function getWindows(pos: PosData) {
             title: 'Console',
             contentElement: <Console />,
         },
+        {
+            title: 'Cheat',
+            contentElement: <Cheat />,
+        },
     ];
 
     // Calculate window positions and add to window objects.
@@ -118,20 +122,21 @@ export function PlayPage(props: PageProps) {
     return (
         <div>
             <div>
-                <h1>Loot Quest World Map!</h1>
-            </div>
-
-            <div>
-                <MainButton
-                    text="Reset Windows"
-                    callBack={__GLOBAL_REFRESH_FUNC_REF}
-                ></MainButton>
-                <MainButton
-                    text="Quit"
-                    callBack={() => {
+                <h1>Loot Quest</h1>
+                <button
+                    onClick={() => {
+                        __GLOBAL_REFRESH_FUNC_REF();
+                    }}
+                >
+                    Reset Windows
+                </button>
+                <button
+                    onClick={() => {
                         openIntroPage(props);
                     }}
-                ></MainButton>
+                >
+                    Quit
+                </button>
             </div>
 
             <div id="floating-window-container" key={refreshVar}>

@@ -1,59 +1,41 @@
 # LootQuest3 Release Goals for 1.0:
 
-This document has all of the planned goals for Loot Quest's completion.
+This document has all of the planned goals for Loot Quest's completion, iterated periodically as goals are met.
 
-## TODO - HIGH PRIO - CONTINUAL:
+## TODO - HIGH PRIO/CONTINUAL:
 
--   N/A - Continue using comments and 'let' and 'const' as appropriate.
--   Get short-term 1-3 working on a primitive level.
-
-- Finish loot display component.
-- Create right-click menu for inv.
-- Cheat Window (should be easy now with global state)
+- Continue using comments and 'let' and 'const' as appropriate.
 - Polish existing features a bit. Play and identify what is needed to make things 'work'.
-   - smarter window logic (dynmic z axis, store window position, resize windows, etc.) -> possible settings menu for windows?
-- Shop / Item Rarity / Console Input / Health Pot
-- hide certain stats in enemy tab (gold/exp, etc.) Cheat tab can provide insight into these stats later.
-
+- Keep styling game to look nice. 
 
 ## TODO - Short Term:
 
-1. Implement inventory and equipment floating windows and systems. +
-   a. Create inventory data structure and floating window to display. +
-   b. Create equipment data structure and floating window to display. +
-   c. Implement ability to click items between the two data structures to move items between the two freely. +
-   i. Needs to be able to handle inventory being full and swapping items between the two systems when needed. 1. Requires capping inventory size mechanics.
-   d. Add ability to right-click inventory items to show popover and select 'equip' to manually equip. (come back on step '5')
-   e. Add ability to right-click inventory items to show popover and select 'destroy' to destroy. (come back on step '5')
-
-2. Implement cheat window to manipulate player and enemy data freely.
-   a. Implement a GameState context to better manage the huge amount of props getting passed into windows that may continue to expand indefinitely.
-   b. Should be able to modify health, damage and names of combatants with data-bound logic.
-
-3. Implement looting from combat.
-   a. Create 'not in combat' state for combat window. +
-   b. Add ability to start combat while in not in combat state. +
-   c. Implement transition from non-combat to combat. +
-   d. Implement transition for combat window to a loot window on combat end (i.) or death screen (ii.).
-      i. loot screen
-         1. Loot screen should contain items.
-         2. On click, items transfer to inventory.
-         3. Give option to click item to transfer to inventory or right-click menu option to transfer.
-         4. Add button to end loot phase, resetting combat window to empty state.
-      ii. death screen 1. display game over and ability to restart (send back to intro screen, reset game data).
-
+1. Smarter window logic: store window position to prevent constant resets, allow resizing windows
+2. Add health potion drop from monsters for healing. Add ability to consume using 'use' button (in place of equip).
+3. Add save/load.
 4. Implement 3 player skills and 3 enemy skills for combat diversity.
+5. Better game start logic.
+   i. Re-enable intro screen, style a bit better and allow transition to 'New Game' state.
+   ii. In 'New Game' screen, allow character name picking & difficulty selection.
+6. hide certain stats in enemy tab (gold/exp, etc.) (Create instance of 'Character' window with enemy as the fighter arg and isPlayer set to true to view all hidden stats.)
+   i. Possibly hide enemy screen altogether.
+7. Show monster description and image in combat window.
 
 ## TODO - Medium Term:
 
-5. Actually style the game to look nice. Add proper intro screen with game settings and character select (name, difficulty, etc.).
-6. Add health potion drop from monsters for healing. Add ability to right-click in inventory to use them.
-7. Implement World Map Feature to explore. Random fights start from world map.
-8. Window transparency when not hovered with setting to modify. Settings menu?
+1. Explore addition of other features to add to short-term.
+   - Shop
+   - Item Rarity
+   - Console Input (?)
+   - Skills
+   - Exp gain on kill to levelup
+   - Stats from leveling, etc.
+   - Area Select OR World map / Areas (probably area select for now).
+2. Settings menu? 
 
 ## TODO: Long Term:
 
-9. Flesh out systems to have content for implemented systems up to level 10.
+1. Flesh out systems to have content for implemented systems up to level 10.
 
 # Already Done.
 
@@ -64,4 +46,36 @@ This document has all of the planned goals for Loot Quest's completion.
 5. Create a floating window for enemies that display their stats too.
 6. Implement actual combat mechanisms. (turn-based hits to the death)
 
--   Independent Console Window has been added.
+- Independent Console Window has been added.
+- Finish loot display component.
+- Cheat Window (should be easy now with global state
+x Create right-click menu for inv. (prio lowered)
+
+## Large older section marked done 6/10/2022:
+
++   Get short-term 1-3 working on a primitive level.
+
+1. Implement inventory and equipment floating windows and systems. +
+   a. Create inventory data structure and floating window to display. +
+   b. Create equipment data structure and floating window to display. +
+   c. Implement ability to click items between the two data structures to move items between the two freely. +
+      i. Needs to be able to handle inventory being full and swapping items between the two systems when needed. 
+         1. Requires capping inventory size mechanics.
+   d. Add ability to right-click inventory items to show popover and select 'equip' to manually equip. (come back on step '5') x
+   e. Add ability to right-click inventory items to show popover and select 'destroy' to destroy. (come back on step '5') x
+
+2. Implement cheat window to manipulate player and enemy data freely.
+   a. Implement a GameState context to better manage the huge amount of props getting passed into windows that may continue to expand indefinitely. +
+   b. Should be able to modify health, damage and names of combatants with data-bound logic. x (will add as needed)
+
+3. Implement looting from combat.
+   a. Create 'not in combat' state for combat window. +
+   b. Add ability to start combat while in not in combat state. +
+   c. Implement transition from non-combat to combat. +
+   d. Implement transition for combat window to a loot window on combat end (i.) or death screen (ii.).
+      i. loot screen +
+         1. Loot screen should contain items. +
+         2. On click, items transfer to inventory. +
+         3. Give option to click item to transfer to inventory or right-click menu option to transfer. x
+         4. Add button to end loot phase, resetting combat window to empty state. +
+      ii. death screen 1. display game over and ability to restart (send back to intro screen, reset game data). (we chose to revive player instead) x

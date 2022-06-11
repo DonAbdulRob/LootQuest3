@@ -47,6 +47,15 @@ export default class Inventory {
                 3,
                 0,
             ),
+            new Item(
+                'Cardboard Chestplate',
+                `A chestplate made from torn cardboard boxes. Does offer 'some' protection, but makes you uncomfortable, stiff and a bit itchy. You also smell... urine?`,
+                ItemType.CHESTPLATE,
+                0,
+                0,
+                1,
+                1,
+            ),
         ];
     }
 }

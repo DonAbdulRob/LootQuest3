@@ -49,18 +49,10 @@ function assignDragBehavior(
 
             let finalTop = elmnt.offsetTop - pos2;
             let finalLeft = elmnt.offsetLeft - pos1;
-            let maxBottom = document.body.clientHeight - 25;
             let maxRight = document.body.clientWidth - 300;
-
-            /**
-            if (maxBottom < 500) {
-                maxBottom = 500;
-            }*/
 
             if (finalTop < 0) {
                 finalTop = 0;
-            } else if (finalTop >= maxBottom) {
-                finalTop = maxBottom;
             }
 
             if (finalLeft < 0) {

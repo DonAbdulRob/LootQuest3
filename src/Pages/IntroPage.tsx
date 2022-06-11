@@ -3,7 +3,6 @@
  */
 
 import * as React from 'react';
-import MainButton from '../Components/Buttons/MainButton';
 import { PageProps } from './SharedProps/PageBaseProps';
 
 export default function IntroPage(props: PageProps) {
@@ -24,7 +23,13 @@ export default function IntroPage(props: PageProps) {
             </div>
 
             <div className="center">
-                <MainButton text="Start" callBack={openMainPage}></MainButton>
+                <button
+                    onClick={() => {
+                        openMainPage();
+                    }}
+                >
+                    Start
+                </button>
                 <br />
             </div>
         </div>

@@ -51,21 +51,6 @@ function drop(fighter: Fighter, inventorySlot: number) {
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function clone(fighter: Fighter) {
-    fighter.addItemToInventory(
-        new Item(
-            'Wood Sword',
-            'A cloned wooden sword.',
-            ItemType.WEAPON,
-            10,
-            10,
-            0,
-            0,
-        ),
-    );
-    __GLOBAL_REFRESH_FUNC_REF();
-}
-
 function getInventoryMap(fighter: Fighter): JSX.Element[] {
     if (fighter.inventory.items.length === 0) {
         return [<div key={0}></div>];
@@ -92,13 +77,6 @@ function getInventoryMap(fighter: Fighter): JSX.Element[] {
                     }}
                 >
                     Drop
-                </button>
-                <button
-                    onClick={() => {
-                        clone(fighter);
-                    }}
-                >
-                    Add Item to Inventory
                 </button>
             </div>
         );

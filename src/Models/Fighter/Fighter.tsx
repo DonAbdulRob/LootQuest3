@@ -58,8 +58,8 @@ export default class Fighter {
         } else if (monsterType === 2) {
             this.name = 'Baby Turtle';
             this.level = 1;
-            this.statBlock.healthMin = 3;
-            this.statBlock.healthMax = 3;
+            this.statBlock.healthMin = 2;
+            this.statBlock.healthMax = 2;
             this.statBlock.damageMin = 1;
             this.statBlock.damageMax = 1;
             this.statBlock.armor = 1;

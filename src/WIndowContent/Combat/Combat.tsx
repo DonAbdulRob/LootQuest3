@@ -1,5 +1,4 @@
 import React from 'react';
-import MainButton from '../../Components/Buttons/MainButton';
 import Fighter from '../../Models/Fighter/Fighter';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import CombatState, { CombatStateEnum } from '../../Models/Shared/CombatState';
@@ -28,10 +27,17 @@ function handleAttack(
         enemyDamage = 0;
     }
 
-    player.statBlock.healthMin -= enemyDamage;
     enemy.statBlock.healthMin -= playerDamage;
-
     consoleData.add('Player hit for ' + playerDamage);
+
+    if (enemy.statBlock.healthMin <= 0) {
+        consoleData.add('Enemy died.');
+        player.gold += enemy.gold;
+        enemy.nullMonster();
+        combatState.advance();
+    }
+
+    player.statBlock.healthMin -= enemyDamage;
     consoleData.add('Enemy hit for ' + enemyDamage);
 
     if (player.statBlock.healthMin <= 0) {
@@ -40,11 +46,6 @@ function handleAttack(
         );
         player.statBlock.healthMin = player.statBlock.healthMax;
         combatState.reset();
-    } else if (enemy.statBlock.healthMin <= 0) {
-        consoleData.add('Enemy died.');
-        player.gold += enemy.gold;
-        enemy.nullMonster();
-        combatState.advance();
     }
 
     __GLOBAL_REFRESH_FUNC_REF();
@@ -69,13 +70,14 @@ export default function Combat(props: {}): JSX.Element {
             display = (
                 <div>
                     <p>No enemy yet!</p>
-                    <MainButton
-                        text="Find Fight"
-                        callBack={() => {
+                    <button
+                        onClick={() => {
                             enemy.generateMonster();
                             startFight(combatState);
                         }}
-                    ></MainButton>
+                    >
+                        Find Fight
+                    </button>
                 </div>
             );
             break;
