@@ -1,6 +1,6 @@
 import React from 'react';
 import Fighter from '../../Models/Fighter/Fighter';
-import { Equipment, EquipmentType } from '../../Models/Fighter/Item';
+import { Equipment, EquipmentType } from '../../Models/Item/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 
@@ -10,10 +10,14 @@ function addGodSword(fighter: Fighter) {
         'A cheat god sword.',
         EquipmentType.WEAPON,
     );
-    item.minDamage = 99;
-    item.maxDamage = 99;
-    item.armor = 99;
-    item.health = 99;
+
+    item.statBlock.damageMin = 99;
+    item.statBlock.damageMax = 99;
+    item.statBlock.health = 99;
+    item.statBlock.stamina = 99;
+    item.statBlock.mana = 99;
+    item.statBlock.armor = 99;
+
     fighter.addItemToInventory(item);
     __GLOBAL_REFRESH_FUNC_REF();
 }

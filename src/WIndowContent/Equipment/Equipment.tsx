@@ -1,11 +1,11 @@
 import React from 'react';
 import ItemPopup from '../../Components/Popups/ItemPopup';
 import Fighter from '../../Models/Fighter/Fighter';
-import { EquipmentSlotMapping } from '../../Models/Fighter/Inventory';
-import { Item, EquipmentType } from '../../Models/Fighter/Item';
+import { EquipmentType } from '../../Models/Item/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import CharacterProps from '../SharedProps/CharacterProps';
+import { EquipmentSlotMapping } from '../../Models/Item/EquipmentSlots';
 
 function unequip(fighter: Fighter, inventorySlot: number) {
     let invItem = fighter.equipmentSlots.items[inventorySlot];

@@ -1,7 +1,14 @@
+/**
+ * A fighter represents players and monsters that battle each other.
+ * Also, if it is ever decided to make inanimate objects into battle-able entities, this would be used too...
+ */
 import { getRandomValueBetween, getRandomValueUpTo } from '../Helper';
 import { StatBlock } from '../Shared/StatBlock';
-import Inventory, { EquipmentSlots } from './Inventory';
-import { Equipment, Item } from './Item';
+import Inventory from '../Item/Inventory';
+import { Equipment, Item } from '../Item/Item';
+import { AbilityContainer } from './Ability/AbilityContainer';
+import { EquipmentSlots } from '../Item/EquipmentSlots';
+import { StatusContainer } from './Status';
 
 export default class Fighter {
     name: string = '';
@@ -12,12 +19,19 @@ export default class Fighter {
     statBlock: StatBlock = {
         healthMin: 0,
         healthMax: 0,
+        staminaMin: 0,
+        staminaMax: 0,
+        manaMin: 0,
+        manaMax: 0,
         damageMin: 0,
         damageMax: 0,
         armor: 0,
     };
+
     inventory: Inventory = new Inventory();
     equipmentSlots: EquipmentSlots = new EquipmentSlots();
+    abilities: AbilityContainer = new AbilityContainer();
+    statusContainer: StatusContainer = new StatusContainer();
 
     getJSON() {
         return JSON.stringify(this);
@@ -51,6 +65,8 @@ export default class Fighter {
                 this.equipmentSlots.items.push(null);
             }
         }
+
+        // TODO de-serialize abilities.
     }
 
     constructor(isPlayer: boolean) {
@@ -71,8 +87,12 @@ export default class Fighter {
             this.gold = 0;
             this.statBlock.healthMin = 10;
             this.statBlock.healthMax = 10;
+            this.statBlock.staminaMin = 5;
+            this.statBlock.staminaMax = 5;
+            this.statBlock.manaMin = 5;
+            this.statBlock.manaMax = 5;
             this.statBlock.damageMin = 1;
-            this.statBlock.damageMax = 2;
+            this.statBlock.damageMax = 1;
         }
     };
 
@@ -116,8 +136,8 @@ export default class Fighter {
 
         for (const equipment of this.equipmentSlots.items) {
             if (equipment) {
-                damageMin += equipment.minDamage;
-                damageMax += equipment.maxDamage;
+                damageMin += equipment.statBlock.damageMin;
+                damageMax += equipment.statBlock.damageMax;
             }
         }
 
@@ -133,14 +153,22 @@ export default class Fighter {
         return this.statBlock.healthMin + '/' + this.getHealthMax();
     };
 
-    getDamage = () => {
+    getStaminaDisplay = (): string => {
+        return this.statBlock.staminaMin + '/' + this.getStaminaMax();
+    };
+
+    getManaDisplay = (): string => {
+        return this.statBlock.manaMin + '/' + this.getManaMax();
+    };
+
+    getRandomDamageValue = () => {
         return getRandomValueBetween(...this.getDamageRange());
     };
 
     getArmor = () => {
         let armor = this.statBlock.armor;
         this.equipmentSlots.items.forEach((v: Equipment | null) => {
-            if (v != null) armor += v.armor;
+            if (v != null) armor += v.statBlock.armor;
         });
         return armor;
     };
@@ -148,9 +176,25 @@ export default class Fighter {
     getHealthMax = () => {
         let healthMax = this.statBlock.healthMax;
         this.equipmentSlots.items.forEach((v: Equipment | null) => {
-            if (v != null) healthMax += v.health;
+            if (v != null) healthMax += v.statBlock.health;
         });
         return healthMax;
+    };
+
+    getStaminaMax = () => {
+        let staminaMax = this.statBlock.staminaMax;
+        this.equipmentSlots.items.forEach((v: Equipment | null) => {
+            if (v != null) staminaMax += v.statBlock.stamina;
+        });
+        return staminaMax;
+    };
+
+    getManaMax = () => {
+        let manaMax = this.statBlock.manaMax;
+        this.equipmentSlots.items.forEach((v: Equipment | null) => {
+            if (v != null) manaMax += v.statBlock.mana;
+        });
+        return manaMax;
     };
 
     addItemToInventory = (item: Item) => {

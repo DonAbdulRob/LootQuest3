@@ -1,4 +1,4 @@
-import { Item } from '../Fighter/Item';
+import { Item } from '../Item/Item';
 
 export enum CombatStateEnum {
     OUT_OF_COMBAT,

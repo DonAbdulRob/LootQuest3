@@ -4,6 +4,8 @@ Loot Quest is a traditional turn-based game made modern. Set in an ultra-difficu
 
 Features (many TODO):
 
+-   A story-based world where items have detailed descriptions and monsters have lots of little details in fights.
+-   A deep turn-based combat system featuring limb damage, status effects, special effects and monsters that learn and evolve throughout combat.
 -   Infinite World Map, enemies and items
 -   Turn-Based Combat
 -   Spells and Abilities

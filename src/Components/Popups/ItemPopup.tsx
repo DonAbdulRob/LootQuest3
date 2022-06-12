@@ -1,11 +1,16 @@
 import React from 'react';
 import Fighter from '../../Models/Fighter/Fighter';
-import { EquipmentSlotMapping } from '../../Models/Fighter/Inventory';
-import { Equipment, Item } from '../../Models/Fighter/Item';
+import {
+    Equipment,
+    EquipmentType,
+    Item,
+    ItemType,
+} from '../../Models/Item/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { removeElement } from '../../Models/Helper';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import './ItemPopup.css';
+import { EquipmentSlotMapping } from '../../Models/Item/EquipmentSlots';
 
 interface ItemPopupProps {
     prefix: string;
@@ -29,27 +34,41 @@ function getDiffPrefix(diff: number): JSX.Element {
     }
 }
 
-function getDiff(fighter: Fighter, item: any, field: any) {
-    let val;
-    let equipmentItem: any;
+function getDiff(fighter: Fighter, item: Item, field: string) {
+    // Only allow items.
+    if (item.itemType !== ItemType.EQUIPMENT) {
+        return 0;
+    }
 
-    if (item.type === 0) {
+    let itemAsEquipment: Equipment = item as Equipment;
+    let equipmentItem: Equipment | null = null;
+
+    if (itemAsEquipment.equipmentType === EquipmentType.WEAPON) {
         equipmentItem =
             fighter.equipmentSlots.items[EquipmentSlotMapping.weapon];
-    } else {
+    } else if (itemAsEquipment.equipmentType === EquipmentType.CHESTPLATE) {
         equipmentItem =
             fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate];
+    } else {
+        console.log('NO DEFINED ITEM TYPE!');
+        return 0;
     }
 
     if (equipmentItem !== null && equipmentItem !== undefined) {
-        val = equipmentItem[field];
-        return item[field] - val;
+        let equipmentStatBlock: any = equipmentItem.statBlock;
+        let equipmentVal: any = equipmentStatBlock[field];
+        let itemStatBlock: any = itemAsEquipment.statBlock;
+        let itemVal = itemStatBlock[field];
+
+        // If we are getting NaN, undefined, etc. here, double check that field names are correct below.
+        // Because, I spell out 'damageMin' and other EquipmentStatBlock fields manually.
+        return itemVal - equipmentVal;
     }
 
     return 0;
 }
 
-function getFieldDisplay(fighter: Fighter, item: any, field: any) {
+function getFieldDisplay(fighter: Fighter, item: Equipment, field: any) {
     let diff = getDiff(fighter, item, field);
     let diffDisplay = null;
 
@@ -63,17 +82,19 @@ function getFieldDisplay(fighter: Fighter, item: any, field: any) {
         );
     }
 
-    return (item[field] !== '' && item[field] !== 0) || diff != null ? (
+    let statBlock: any = item.statBlock;
+
+    return statBlock[field] !== 0 || diff !== 0 ? (
         <p className="item-description">
-            Bonus {capitalizeFirstLetter(field)}: {item[field]}
+            Bonus {capitalizeFirstLetter(field)}: {statBlock[field]}
             {diffDisplay}
         </p>
     ) : null;
 }
 
 function getDamageDisplay(fighter: Fighter, item: Equipment) {
-    let diff1 = getDiff(fighter, item, 'minDamage');
-    let diff2 = getDiff(fighter, item, 'maxDamage');
+    let diff1 = getDiff(fighter, item, 'damageMin');
+    let diff2 = getDiff(fighter, item, 'damageMax');
     let diffDisplay = null;
 
     if (diff1 !== 0 || diff2 !== 0) {
@@ -88,11 +109,13 @@ function getDamageDisplay(fighter: Fighter, item: Equipment) {
         );
     }
 
-    return item.minDamage !== 0 ||
-        item.maxDamage !== 0 ||
+    let statBlock = item.statBlock;
+
+    return statBlock.damageMin !== 0 ||
+        statBlock.damageMax !== 0 ||
         diffDisplay !== null ? (
         <p className="item-description">
-            Bonus Damage: {item.minDamage} - {item.maxDamage}
+            Bonus Damage: {statBlock.damageMin} - {statBlock.damageMax}
             {diffDisplay}
         </p>
     ) : null;
@@ -128,6 +151,8 @@ export default function ItemPopup(props: ItemPopupProps) {
             <span>
                 {getDamageDisplay(player, item)}
                 {getFieldDisplay(player, item, 'health')}
+                {getFieldDisplay(player, item, 'stamina')}
+                {getFieldDisplay(player, item, 'mana')}
                 {getFieldDisplay(player, item, 'armor')}
             </span>
         );

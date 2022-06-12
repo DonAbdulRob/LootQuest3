@@ -11,9 +11,24 @@ This document has all of the planned goals for Loot Quest's completion, iterated
    - Unable to save/load while in combat, etc.
 - Keep styling game to look nice. (don't forget icons eventually instead of buttons everywhere)
 
+
+- Started work on help page. (#6 in short-term);
+- Working on skills. 
+   - Added mana, stamina resources. +
+   - Added status system. +
+   - Refactor interfaces for stat blocks. +
+   - Refactored items, equipment, abilities, etc. to all be distinct classes with comments. +
+   - Added architectural notes relating to how 'core effects' work internally. +
+   - Style skills. Create popup on hover.
+   - Move combat screen to main game area.
+
+
 ## TODO - Short Term:
 
-1. Implement 3 player skills and 3 enemy skills for combat diversity.
+1. Implement 1 player skill, 1 enemy skill.
+   - Implement mana to power skills.
+   - Implement 'Defend and Flee' combat options.
+   - Add 'Power Strike' skill to deal +2 attack damage at the cost of some mana.
 2. Settings Page (note: PAGE, not window).
 3. Better game start logic.
    i. Re-enable intro screen, style a bit better and allow transition to 'New Game' state.

@@ -1,19 +1,19 @@
 import React from 'react';
 import ItemPopup from '../../Components/Popups/ItemPopup';
 import Fighter from '../../Models/Fighter/Fighter';
-import { EquipmentSlotMapping } from '../../Models/Fighter/Inventory';
 import {
     Item,
     EquipmentType,
     ItemType,
     Equipment,
     Consumable,
-} from '../../Models/Fighter/Item';
-import { CONSUMABLE_EFFECT_FUNCTION } from '../../Models/Fighter/ItemEffects';
+} from '../../Models/Item/Item';
+import { CONSUMABLE_EFFECT_FUNCTION } from '../../Models/Item/ItemEffectToCoreEffectMapper';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { ConsoleData } from '../Console/Console';
 import CharacterProps from '../SharedProps/CharacterProps';
+import { EquipmentSlotMapping } from '../../Models/Item/EquipmentSlots';
 
 function equip(fighter: Fighter, inventorySlot: number) {
     let invItem: Equipment | Item = fighter.inventory.items[inventorySlot];

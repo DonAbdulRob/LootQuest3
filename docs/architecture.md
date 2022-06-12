@@ -65,3 +65,10 @@ d. Setting up things 'the ideal way' is too time-expensive at the moment.
 The big killers are points c & d, where Pure React, Zustand, Recoil, or whatever you're using do not perform deep checking of objects for state changes. React pros know this; it's a pain to setup a bunch of useState() calls to bind non-flat objects and recommendations are to flatten objects, then bind the object attributes individually that we're going to watch change to useState (or whatever library your using's) calls.
 
 For a high-budget enterprise app with thousands of planned manhours, sure, I can go the hard route and set all of these models up and maintain them. No problem. However, for Loot Quest, we'll take the completely unnoticeable performance hit by calling refresh operations after events happen that change state attributes. The genius of this decision will become more evident as the project becomes larger and the sheer number of data-bound attributes entering existance becomes massive.
+
+## Class Function References
+
+Some classes, like 'AbilityList.tsx's Ability class' include a function reference as a property, rather than the literal function definition.
+This is done for the sake of serialization. And, it also enables Effect Functions, contained in EffectLib.tsx, to have zero dependencies and be able to be run anywhere at any time.
+Each feature's relevant 'x to core effect mapper .tsx' file can be used to match function references to their actual effect function contained within EffectLib.tsx.
+EffectLib.tsx contains all of the game's unique effects.

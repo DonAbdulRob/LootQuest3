@@ -63,10 +63,6 @@ function openIntroPage(props: PageProps) {
 function getWindows(pos: PosData, windowStateManager: WindowStateManager) {
     let windows: Array<FloatingWindowPropsBuilder> = [
         {
-            title: 'Player',
-            contentElement: <Character usePlayer={true} />,
-        },
-        {
             title: 'Combat',
             contentElement: <Combat />,
         },
@@ -75,16 +71,21 @@ function getWindows(pos: PosData, windowStateManager: WindowStateManager) {
             contentElement: <Character usePlayer={false} />,
         },
         {
-            title: 'Equipment',
-            contentElement: <Equipment usePlayer={true} />,
-        },
-        {
             title: 'Inventory',
             contentElement: <Inventory usePlayer={true} />,
         },
         {
+            title: 'Player',
+            contentElement: <Character usePlayer={true} />,
+        },
+        {
             title: 'Console',
             contentElement: <Console />,
+        },
+
+        {
+            title: 'Equipment',
+            contentElement: <Equipment usePlayer={true} />,
         },
         {
             title: 'Cheat',

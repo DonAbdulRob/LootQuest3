@@ -1,6 +1,10 @@
-import { getRandomElement, getRandomValueUpTo } from '../Helper';
-import * as ItemEffects from './ItemEffects';
+import { StatBlock } from '../Shared/StatBlock';
 
+/**
+ * This file contains the base definition for items.
+ * Items are objects that the player can own that have any number of uses.
+ * Equipment, consumables and quest items (future) will all be items.
+ */
 export enum ItemType {
     EQUIPMENT,
     CONSUMABLE,
@@ -47,12 +51,25 @@ export class Item {
     }
 }
 
+export interface EquipmentStatBlock {
+    health: number;
+    stamina: number;
+    mana: number;
+    damageMin: number;
+    damageMax: number;
+    armor: number;
+}
+
 export class Equipment extends Item {
-    equipmentType: EquipmentType = 0;
-    minDamage: number = 0;
-    maxDamage: number = 0;
-    health: number = 0;
-    armor: number = 0;
+    equipmentType: EquipmentType = EquipmentType.WEAPON;
+    statBlock: EquipmentStatBlock = {
+        health: 0,
+        stamina: 0,
+        mana: 0,
+        damageMin: 0,
+        damageMax: 0,
+        armor: 0,
+    };
 
     constructor(
         name: string,
@@ -77,33 +94,5 @@ export class Consumable extends Item {
         super(name, description, ItemType.CONSUMABLE);
         this.useFunctionId = useFunctionId;
         this.useCount = useCount;
-    }
-}
-
-export class ItemGen {
-    static getRandomSword(): Item {
-        const materials = ['Wood', 'Stone', 'Iron', 'Gold', 'Diamond'];
-        const min = getRandomValueUpTo(2) + 1;
-        const max = Math.round(min + getRandomValueUpTo(2));
-        const mat = getRandomElement(materials);
-
-        let newItem: Equipment = new Equipment(
-            mat + ' Sword',
-            'A sword made of ' + mat,
-            EquipmentType.WEAPON,
-        );
-
-        newItem.minDamage = min;
-        newItem.maxDamage = max;
-        return newItem;
-    }
-    static getOranHerb(): Item {
-        let newItem = new Consumable(
-            'Oran Herb',
-            `A common herb known for its light healing properties. You won't win any fights with it, but outside of combat, it can be a great aid.`,
-            ItemEffects.EFFECT_ID_ORAN_HERB,
-            1,
-        );
-        return newItem;
     }
 }

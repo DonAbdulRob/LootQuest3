@@ -1,9 +1,10 @@
 import React from 'react';
 import ItemPopup from '../../Components/Popups/ItemPopup';
-import { Item, ItemGen } from '../../Models/Fighter/Item';
+import { Item } from '../../Models/Item/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { getRandomValueUpTo } from '../../Models/Helper';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
+import { ItemGen } from '../../Models/Item/ItemGen';
 
 function generateNewLoot() {
     var loot: Array<Item> = [];

@@ -24,6 +24,8 @@ export default function Character(props: CharacterProps): JSX.Element {
                 <p className="header-2">{'Lvl. ' + fighter.level}</p>
                 <p>Gold: {fighter.gold}</p>
                 <p>HP: {fighter.getHealthDisplay()}</p>
+                <p>SP: {fighter.getStaminaDisplay()}</p>
+                <p>MP: {fighter.getManaDisplay()}</p>
                 <p>DMG: {fighter.getDamageDisplay()}</p>
                 <p>ARMOR: {fighter.getArmor()}</p>
             </div>

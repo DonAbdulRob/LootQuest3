@@ -19,7 +19,7 @@ export class FloatingWindowData {
 export default class WindowStateManager {
     windowDataArr: Array<FloatingWindowData> = [];
     maxZIndex = 5;
-    opacity: number = 0.9;
+    opacity: number = 1;
 
     resetWindows() {
         this.windowDataArr = [];
@@ -98,21 +98,4 @@ export default class WindowStateManager {
 
         return false;
     }
-
-    /**
-     * 
-     * 
-    windowStateManager.setMouseEntered(props.id, false);
-
-    setMouseEntered(id: number, val: boolean) {
-        for (var data of this.windowDataArr) {
-            if (data.id === id) {
-                data.mouseEntered = val;
-            } 
-        }
-    }
-
-    
-    onMouseLeave={(e: any) => {}}
-     */
 }
