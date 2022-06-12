@@ -5,20 +5,28 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 ## TODO - HIGH PRIO/CONTINUAL:
 
 - Continue using comments and 'let' and 'const' as appropriate.
-- Polish existing features a bit. Play and identify what is needed to make things 'work'.
+- Polish existing features as needed.
+- Play and identify what is needed to make things 'work' and put in list format here for later task delegation.
+   - Using item in combat, equpping items = use a turn.
+   - Unable to save/load while in combat, etc.
 - Keep styling game to look nice. (don't forget icons eventually instead of buttons everywhere)
 
 ## TODO - Short Term:
 
-2. Add health potion drop from monsters for healing. Add ability to consume using 'use' button (in place of equip).
-3. Add save/load.
-4. Implement 3 player skills and 3 enemy skills for combat diversity.
-5. Better game start logic.
+1. Implement 3 player skills and 3 enemy skills for combat diversity.
+2. Settings Page (note: PAGE, not window).
+3. Better game start logic.
    i. Re-enable intro screen, style a bit better and allow transition to 'New Game' state.
    ii. In 'New Game' screen, allow character name picking & difficulty selection.
-6. hide certain stats in enemy tab (gold/exp, etc.) (Create instance of 'Character' window with enemy as the fighter arg and isPlayer set to true to view all hidden stats.)
-   i. Possibly hide enemy screen altogether.
-7. Show monster description and image in combat window.
+4. Start work toward removal of enemy window.
+   i. Show monster description and image in combat window.
+   note: Create instance of 'Character' window with enemy as the fighter arg and isPlayer set to true to view all hidden stats.
+5. Leveling
+   i. More health from leveling. More damage after a few levels?
+6. Help Page.
+7. Proper transitions between all pages.
+8. Area Select window.
+   i. Monster specific item drop pools.
 
 ## TODO - Medium Term:
 
@@ -26,10 +34,7 @@ This document has all of the planned goals for Loot Quest's completion, iterated
    - Shop
    - Item Rarity
    - Console Input (?)
-   - Skills
-   - Exp gain on kill to levelup
-   - Stats from leveling, etc.
-   - Area Select OR World map / Areas (probably area select for now).
+   - More Skills
 2. Settings menu? 
 
 ## TODO: Long Term:
@@ -37,6 +42,7 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 1. Flesh out systems to have content for implemented systems up to level 10.
 2. Multiple enemies?
 3. Co-Op? Multiplayer?
+4. Item identification system?
 
 # Already Done.
 
@@ -83,3 +89,5 @@ x Create right-click menu for inv. (prio lowered)
 
 
 + 1. Smarter window logic: store window position to prevent constant resets, allow resizing windows
++ 2. Add health potion drop from monsters for healing. Add ability to consume using 'use' button (in place of equip).
++ 3. Add save/load.

@@ -1,7 +1,7 @@
 import React from 'react';
 import Fighter from '../../Models/Fighter/Fighter';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Inventory';
-import { Item } from '../../Models/Fighter/Item';
+import { Equipment, Item } from '../../Models/Fighter/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { removeElement } from '../../Models/Helper';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
@@ -34,10 +34,11 @@ function getDiff(fighter: Fighter, item: any, field: any) {
     let equipmentItem: any;
 
     if (item.type === 0) {
-        equipmentItem = fighter.equipment.items[EquipmentSlotMapping.weapon];
+        equipmentItem =
+            fighter.equipmentSlots.items[EquipmentSlotMapping.weapon];
     } else {
         equipmentItem =
-            fighter.equipment.items[EquipmentSlotMapping.chestplate];
+            fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate];
     }
 
     if (equipmentItem !== null && equipmentItem !== undefined) {
@@ -70,7 +71,7 @@ function getFieldDisplay(fighter: Fighter, item: any, field: any) {
     ) : null;
 }
 
-function getDamageDisplay(fighter: Fighter, item: Item) {
+function getDamageDisplay(fighter: Fighter, item: Equipment) {
     let diff1 = getDiff(fighter, item, 'minDamage');
     let diff2 = getDiff(fighter, item, 'maxDamage');
     let diffDisplay = null;
@@ -120,7 +121,17 @@ export default function ItemPopup(props: ItemPopupProps) {
     }
 
     let item = props.item;
+    let statDisplay = null;
 
+    if (item instanceof Equipment) {
+        statDisplay = (
+            <span>
+                {getDamageDisplay(player, item)}
+                {getFieldDisplay(player, item, 'health')}
+                {getFieldDisplay(player, item, 'armor')}
+            </span>
+        );
+    }
     if (item === null) {
         return (
             <div className="tooltip">
@@ -136,9 +147,7 @@ export default function ItemPopup(props: ItemPopupProps) {
                 <span className="tooltiptext">
                     <p className="item-name">{item.name}</p>
                     <p className="item-description">{item.description}</p>
-                    {getDamageDisplay(player, item)}
-                    {getFieldDisplay(player, item, 'health')}
-                    {getFieldDisplay(player, item, 'armor')}
+                    {statDisplay}
                 </span>
             </div>
         );

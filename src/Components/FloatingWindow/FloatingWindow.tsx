@@ -5,7 +5,6 @@ import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import WindowStateManager, {
     FloatingWindowData,
 } from '../../Models/Singles/WindowStateManager';
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 
 function assignDragBehavior(
     ele: any,

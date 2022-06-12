@@ -1,5 +1,4 @@
 import { FloatingWindowPropsBuilder } from '../../Pages/PlayPage';
-import { __GLOBAL_GAME_STORE } from '../GlobalGameStore';
 
 export class FloatingWindowData {
     id: number;

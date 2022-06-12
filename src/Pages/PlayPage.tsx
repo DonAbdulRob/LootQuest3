@@ -3,17 +3,19 @@
  * It is the focal point for all other windows and player interactions.
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import FloatingWindow from '../Components/FloatingWindow/FloatingWindow';
 import Character from '../WIndowContent/Character/Character';
 import Combat from '../WIndowContent/Combat/Combat';
 import { PageProps } from './SharedProps/PageBaseProps';
 import Inventory from '../WIndowContent/Inventory/Inventory';
 import Equipment from '../WIndowContent/Equipment/Equipment';
-import Console from '../WIndowContent/Console/Console';
+import Console, { ConsoleData } from '../WIndowContent/Console/Console';
 import Cheat from '../WIndowContent/Cheat/Cheat';
 import WindowStateManager from '../Models/Singles/WindowStateManager';
 import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
+import Fighter from '../Models/Fighter/Fighter';
+import { getPaddedToTwoDigits, G_MONTHS_ARR } from '../Models/Helper';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
 
@@ -129,6 +131,10 @@ export function PlayPage(props: PageProps) {
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE(
         (__DATA: any) => __DATA.windowStateManager,
     );
+    let player: Fighter = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
+    let consoleData: ConsoleData = __GLOBAL_GAME_STORE(
+        (__DATA: any) => __DATA.consoleData,
+    );
 
     return (
         <div>
@@ -136,18 +142,59 @@ export function PlayPage(props: PageProps) {
                 <h1>Loot Quest</h1>
                 <button
                     onClick={() => {
+                        var a = document.createElement('a');
+                        a.href = window.URL.createObjectURL(
+                            new Blob([player.getJSON()], {
+                                type: 'text/plain',
+                            }),
+                        );
+
+                        let now = new Date();
+
+                        let nowStr: string =
+                            G_MONTHS_ARR[now.getMonth()] +
+                            '_' +
+                            getPaddedToTwoDigits(now.getDate()) +
+                            '_' +
+                            now.getFullYear() +
+                            '_' +
+                            getPaddedToTwoDigits(now.getHours()) +
+                            '_' +
+                            getPaddedToTwoDigits(now.getMinutes()) +
+                            '_' +
+                            getPaddedToTwoDigits(now.getSeconds());
+
+                        a.download = 'Loot_Quest_' + nowStr + '.txt';
+                        a.click();
+                        consoleData.add('Game saved.');
+                        __GLOBAL_REFRESH_FUNC_REF();
+                    }}
+                >
+                    Save
+                </button>
+                Load:{' '}
+                <input
+                    type="file"
+                    onChange={(e: any) => {
+                        let file = e.target.files[0];
+                        let reader = new FileReader();
+
+                        reader.addEventListener('load', function (e1: any) {
+                            player.fromJSON(e1.target.result);
+                            consoleData.add('Game loaded.');
+                            __GLOBAL_REFRESH_FUNC_REF();
+                        });
+
+                        reader.readAsText(file);
+                    }}
+                ></input>
+                <button
+                    onClick={() => {
                         windowStateManager.resetWindows();
                         __GLOBAL_REFRESH_FUNC_REF();
                     }}
                 >
                     Reset Windows
-                </button>
-                <button
-                    onClick={() => {
-                        openIntroPage(props);
-                    }}
-                >
-                    Quit
                 </button>
                 Window Transparency
                 <input
@@ -160,6 +207,13 @@ export function PlayPage(props: PageProps) {
                         __GLOBAL_REFRESH_FUNC_REF();
                     }}
                 />
+                <button
+                    onClick={() => {
+                        openIntroPage(props);
+                    }}
+                >
+                    Quit
+                </button>
             </div>
 
             <div id="floating-window-container" key={refreshVar}>

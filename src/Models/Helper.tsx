@@ -16,6 +16,25 @@ export function removeElement(arr: Array<any>, ele: any) {
     return arr.filter((v) => v !== ele);
 }
 
-export default function Helper() {
-    return;
+export const G_MONTHS_ARR = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+];
+
+export function getPaddedToTwoDigits(x: number): string {
+    if (x < 10) {
+        return '0' + x;
+    }
+
+    return x + ' ';
 }

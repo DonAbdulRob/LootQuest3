@@ -2,23 +2,38 @@ import React from 'react';
 import ItemPopup from '../../Components/Popups/ItemPopup';
 import Fighter from '../../Models/Fighter/Fighter';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Inventory';
-import { Item, ItemType } from '../../Models/Fighter/Item';
+import {
+    Item,
+    EquipmentType,
+    ItemType,
+    Equipment,
+    Consumable,
+} from '../../Models/Fighter/Item';
+import { CONSUMABLE_EFFECT_FUNCTION } from '../../Models/Fighter/ItemEffects';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
+import { ConsoleData } from '../Console/Console';
 import CharacterProps from '../SharedProps/CharacterProps';
 
 function equip(fighter: Fighter, inventorySlot: number) {
-    let invItem: Item = fighter.inventory.items[inventorySlot];
-    let invItemType: ItemType = invItem.type;
+    let invItem: Equipment | Item = fighter.inventory.items[inventorySlot];
+
+    if (!(invItem instanceof Equipment)) {
+        console.log('Dev error. Trying to equip non-equip: ' + invItem.name);
+        return;
+    }
+
+    let invItemType: EquipmentType = invItem.equipmentType;
     let equipItem: Item | null = null;
 
     switch (invItemType) {
-        case ItemType.WEAPON:
-            equipItem = fighter.equipment.items[EquipmentSlotMapping.weapon];
-            break;
-        case ItemType.CHESTPLATE:
+        case EquipmentType.WEAPON:
             equipItem =
-                fighter.equipment.items[EquipmentSlotMapping.chestplate];
+                fighter.equipmentSlots.items[EquipmentSlotMapping.weapon];
+            break;
+        case EquipmentType.CHESTPLATE:
+            equipItem =
+                fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate];
             break;
         default:
             break;
@@ -31,11 +46,12 @@ function equip(fighter: Fighter, inventorySlot: number) {
 
     // Move inventory item to our equipment slots.
     switch (invItemType) {
-        case ItemType.WEAPON:
-            fighter.equipment.items[EquipmentSlotMapping.weapon] = invItem;
+        case EquipmentType.WEAPON:
+            fighter.equipmentSlots.items[EquipmentSlotMapping.weapon] = invItem;
             break;
-        case ItemType.CHESTPLATE:
-            fighter.equipment.items[EquipmentSlotMapping.chestplate] = invItem;
+        case EquipmentType.CHESTPLATE:
+            fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate] =
+                invItem;
             break;
         default:
             break;
@@ -51,19 +67,39 @@ function drop(fighter: Fighter, inventorySlot: number) {
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function getInventoryMap(fighter: Fighter): JSX.Element[] {
+function getInventoryMap(
+    fighter: Fighter,
+    consoleData: ConsoleData,
+): JSX.Element[] {
     if (fighter.inventory.items.length === 0) {
         return [<div key={0}></div>];
     }
 
     return fighter.inventory.items.map((v, i) => {
-        return (
-            <div key={i}>
-                <ItemPopup
-                    prefix=""
-                    item={fighter.inventory.items[i]}
-                    addLootButton={false}
-                />
+        let useButton = null;
+        let equipButton = null;
+
+        if (v.itemType === ItemType.CONSUMABLE) {
+            useButton = (
+                <button
+                    onClick={() => {
+                        let func = CONSUMABLE_EFFECT_FUNCTION(
+                            (v as Consumable).useFunctionId,
+                        );
+
+                        if (func != null) {
+                            func(fighter, i, consoleData);
+                            __GLOBAL_REFRESH_FUNC_REF();
+                        }
+                    }}
+                >
+                    Use
+                </button>
+            );
+        }
+
+        if (v.itemType === ItemType.EQUIPMENT) {
+            equipButton = (
                 <button
                     onClick={() => {
                         equip(fighter, i);
@@ -71,6 +107,18 @@ function getInventoryMap(fighter: Fighter): JSX.Element[] {
                 >
                     Equip
                 </button>
+            );
+        }
+
+        return (
+            <div key={i}>
+                <ItemPopup
+                    prefix=""
+                    item={fighter.inventory.items[i]}
+                    addLootButton={false}
+                />
+                {useButton}
+                {equipButton}
                 <button
                     onClick={() => {
                         drop(fighter, i);
@@ -85,6 +133,7 @@ function getInventoryMap(fighter: Fighter): JSX.Element[] {
 
 export default function Inventory(props: CharacterProps): JSX.Element {
     const store: any = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
     let fighter;
 
     if (props.usePlayer) {
@@ -96,7 +145,7 @@ export default function Inventory(props: CharacterProps): JSX.Element {
     return (
         <div className="window-core">
             <h1>Inventory</h1>
-            {getInventoryMap(fighter)}
+            {getInventoryMap(fighter, consoleData)}
         </div>
     );
 }

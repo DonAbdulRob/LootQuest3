@@ -1,7 +1,7 @@
 import { getRandomValueBetween, getRandomValueUpTo } from '../Helper';
-import StatBlock from '../Shared/StatBlock';
-import Inventory, { Equipment } from './Inventory';
-import { Item } from './Item';
+import { StatBlock } from '../Shared/StatBlock';
+import Inventory, { EquipmentSlots } from './Inventory';
+import { Equipment, Item } from './Item';
 
 export default class Fighter {
     name: string = '';
@@ -9,9 +9,49 @@ export default class Fighter {
     exp: number = 0;
     gold: number = 0;
     isPlayer: boolean = false;
-    statBlock: StatBlock = new StatBlock();
+    statBlock: StatBlock = {
+        healthMin: 0,
+        healthMax: 0,
+        damageMin: 0,
+        damageMax: 0,
+        armor: 0,
+    };
     inventory: Inventory = new Inventory();
-    equipment: Equipment = new Equipment();
+    equipmentSlots: EquipmentSlots = new EquipmentSlots();
+
+    getJSON() {
+        return JSON.stringify(this);
+    }
+
+    fromJSON(str: string) {
+        let obj = JSON.parse(str);
+        let item1;
+        let ele;
+
+        this.name = obj.name;
+        this.level = obj.level;
+        this.exp = obj.exp;
+        this.gold = obj.gold;
+        this.statBlock = obj.statBlock;
+
+        this.inventory.items = [];
+
+        for (item1 of obj.inventory.items) {
+            this.inventory.items.push(Item.getFromJSON(item1));
+        }
+
+        this.equipmentSlots.items = [];
+
+        for (var i = 0; i < obj.equipmentSlots.items.length; i++) {
+            ele = obj.equipmentSlots.items[i];
+
+            if (ele !== null) {
+                this.equipmentSlots.items.push(Item.getFromJSON(ele));
+            } else {
+                this.equipmentSlots.items.push(null);
+            }
+        }
+    }
 
     constructor(isPlayer: boolean) {
         this.isPlayer = isPlayer;
@@ -74,10 +114,10 @@ export default class Fighter {
         let damageMin = this.statBlock.damageMin;
         let damageMax = this.statBlock.damageMax;
 
-        for (const item of this.equipment.items) {
-            if (item) {
-                damageMin += item.minDamage;
-                damageMax += item.maxDamage;
+        for (const equipment of this.equipmentSlots.items) {
+            if (equipment) {
+                damageMin += equipment.minDamage;
+                damageMax += equipment.maxDamage;
             }
         }
 
@@ -99,7 +139,7 @@ export default class Fighter {
 
     getArmor = () => {
         let armor = this.statBlock.armor;
-        this.equipment.items.forEach((v: Item | null) => {
+        this.equipmentSlots.items.forEach((v: Equipment | null) => {
             if (v != null) armor += v.armor;
         });
         return armor;
@@ -107,7 +147,7 @@ export default class Fighter {
 
     getHealthMax = () => {
         let healthMax = this.statBlock.healthMax;
-        this.equipment.items.forEach((v: Item | null) => {
+        this.equipmentSlots.items.forEach((v: Equipment | null) => {
             if (v != null) healthMax += v.health;
         });
         return healthMax;
@@ -115,5 +155,13 @@ export default class Fighter {
 
     addItemToInventory = (item: Item) => {
         this.inventory.items.push(item);
+    };
+
+    healHealth = (x: number) => {
+        this.statBlock.healthMin += x;
+
+        if (this.statBlock.healthMin > this.statBlock.healthMax) {
+            this.statBlock.healthMin = this.statBlock.healthMax;
+        }
     };
 }
