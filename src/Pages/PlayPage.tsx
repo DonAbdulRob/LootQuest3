@@ -3,16 +3,17 @@
  * It is the focal point for all other windows and player interactions.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import FloatingWindow from '../Components/FloatingWindow/FloatingWindow';
 import Character from '../WIndowContent/Character/Character';
 import Combat from '../WIndowContent/Combat/Combat';
 import { PageProps } from './SharedProps/PageBaseProps';
-import { FloatingWindowProps } from '../Components/FloatingWindow/FloatingWindowProps';
 import Inventory from '../WIndowContent/Inventory/Inventory';
 import Equipment from '../WIndowContent/Equipment/Equipment';
 import Console from '../WIndowContent/Console/Console';
 import Cheat from '../WIndowContent/Cheat/Cheat';
+import WindowStateManager from '../Models/Singles/WindowStateManager';
+import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
 
@@ -21,7 +22,8 @@ const topInterval = 320;
 const topIntervalDivisor = topInterval * rowMod;
 const leftInterval = 450;
 
-interface FloatingWindowPropsBuilder {
+export interface FloatingWindowPropsBuilder {
+    id?: number;
     title: string;
     contentElement: JSX.Element;
     top?: number;
@@ -56,8 +58,7 @@ function openIntroPage(props: PageProps) {
 /**
  * Builds and returns our array of window content to display on the page.
  */
-function getWindows(pos: PosData) {
-    let counter = 0;
+function getWindows(pos: PosData, windowStateManager: WindowStateManager) {
     let windows: Array<FloatingWindowPropsBuilder> = [
         {
             title: 'Player',
@@ -90,21 +91,28 @@ function getWindows(pos: PosData) {
     ];
 
     // Calculate window positions and add to window objects.
+    let c: number = 0;
+
     for (let win of windows) {
-        getWindowObject(pos, win);
+        win.id = c;
+
+        if (windowStateManager.isFree(c)) {
+            getWindowObject(pos, win);
+            windowStateManager.subscribe(win.id, win);
+        }
+
+        c++;
     }
 
     // Create list of windows to display on page.
     // Flex our skills a bit by using the 'as' keyword to convert our windows object to correct type.
-    return (windows as Array<FloatingWindowProps>).map(
-        (v: FloatingWindowProps) => {
-            return (
-                <div key={counter++}>
-                    <FloatingWindow {...v} />
-                </div>
-            );
-        },
-    );
+    return windows.map((v: FloatingWindowPropsBuilder, i: number) => {
+        return (
+            <div key={i}>
+                <FloatingWindow id={i} contentElement={v.contentElement} />
+            </div>
+        );
+    });
 }
 
 function forceRefresh(setRefreshVar: Function) {
@@ -118,6 +126,9 @@ export function PlayPage(props: PageProps) {
     __GLOBAL_REFRESH_FUNC_REF = () => {
         forceRefresh(setRefreshVar);
     };
+    let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE(
+        (__DATA: any) => __DATA.windowStateManager,
+    );
 
     return (
         <div>
@@ -125,6 +136,7 @@ export function PlayPage(props: PageProps) {
                 <h1>Loot Quest</h1>
                 <button
                     onClick={() => {
+                        windowStateManager.resetWindows();
                         __GLOBAL_REFRESH_FUNC_REF();
                     }}
                 >
@@ -137,10 +149,21 @@ export function PlayPage(props: PageProps) {
                 >
                     Quit
                 </button>
+                Window Transparency
+                <input
+                    type="range"
+                    min="10"
+                    max="100"
+                    value={windowStateManager.opacity * 100}
+                    onChange={(e: any) => {
+                        windowStateManager.opacity = e.target.value * 0.01;
+                        __GLOBAL_REFRESH_FUNC_REF();
+                    }}
+                />
             </div>
 
             <div id="floating-window-container" key={refreshVar}>
-                {getWindows(pos)}
+                {getWindows(pos, windowStateManager)}
             </div>
         </div>
     );

@@ -1,10 +1,7 @@
 .floating-window {
     position: absolute;
-    max-width: 500px;
-    max-height: 1000px;
-    border: 1px solid rgb(128, 128, 128);
     background-color: white;
-    z-index: 2;
+    border: 3px solid rgb(165, 152, 235);
 }
 
 .floating-window-titlebar {
@@ -24,4 +21,9 @@
     left: 50%;
     padding: 5px 10px;
     margin: 2px 2px 2px 0px !important;
+}
+
+.align-right {
+    display: flex;
+    justify-content: right;
 }

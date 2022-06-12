@@ -6,11 +6,10 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 
 - Continue using comments and 'let' and 'const' as appropriate.
 - Polish existing features a bit. Play and identify what is needed to make things 'work'.
-- Keep styling game to look nice. 
+- Keep styling game to look nice. (don't forget icons eventually instead of buttons everywhere)
 
 ## TODO - Short Term:
 
-1. Smarter window logic: store window position to prevent constant resets, allow resizing windows
 2. Add health potion drop from monsters for healing. Add ability to consume using 'use' button (in place of equip).
 3. Add save/load.
 4. Implement 3 player skills and 3 enemy skills for combat diversity.
@@ -36,6 +35,8 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 ## TODO: Long Term:
 
 1. Flesh out systems to have content for implemented systems up to level 10.
+2. Multiple enemies?
+3. Co-Op? Multiplayer?
 
 # Already Done.
 
@@ -79,3 +80,6 @@ x Create right-click menu for inv. (prio lowered)
          3. Give option to click item to transfer to inventory or right-click menu option to transfer. x
          4. Add button to end loot phase, resetting combat window to empty state. +
       ii. death screen 1. display game over and ability to restart (send back to intro screen, reset game data). (we chose to revive player instead) x
+
+
++ 1. Smarter window logic: store window position to prevent constant resets, allow resizing windows
