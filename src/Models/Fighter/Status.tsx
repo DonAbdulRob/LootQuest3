@@ -1,15 +1,18 @@
+// Special 'skip turn' status for when player/monster uses ability.
+export const G_HIDDEN_SKIP_TURN_STATUS = 'HIDDEN_SKIP_TURN_STATUS';
+
 export class Status {
     name: string;
     remainingTurns: number;
-    doFunc: Function;
-    endFunc: Function;
+    doFunc: Function | null;
+    endFunc: Function | null;
     isBeneficial: boolean;
 
     constructor(
         name: string,
         remainingTurns: number,
-        applyEffect: Function,
-        endEffect: Function,
+        applyEffect: Function | null,
+        endEffect: Function | null,
         isBeneficial: boolean,
     ) {
         this.name = name;
@@ -27,6 +30,16 @@ export class StatusContainer {
         this.statusArr = [];
     }
 
+    hasSkipTurnStatus() {
+        for (var status of this.statusArr) {
+            if (status.name === G_HIDDEN_SKIP_TURN_STATUS) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     clear() {
         this.statusArr = [];
     }
@@ -39,19 +52,26 @@ export class StatusContainer {
         for (let status of this.statusArr) {
             if (status.name === newStatus.name) {
                 // End old status effect.
-                status.endFunc();
+                if (status.endFunc !== null) {
+                    status.endFunc();
+                }
 
                 // Replace status with new status.
                 status = newStatus;
 
                 // Run new statuses func.
-                status.doFunc();
+                if (status.doFunc !== null) {
+                    status.doFunc();
+                }
                 return;
             }
         }
 
         // Run new statuses func.
-        newStatus.doFunc();
+        if (newStatus.endFunc !== null) {
+            newStatus.endFunc();
+        }
+
         this.statusArr.push(newStatus);
     }
 
@@ -77,7 +97,12 @@ export class StatusContainer {
         // Call end effects and remove from status array all expirated status.
         for (let i = expiredStatusEffects.length - 1; i > -1; i--) {
             numEle = expiredStatusEffects[i];
-            this.statusArr[numEle].endFunc();
+            let endFunc = this.statusArr[numEle].endFunc;
+
+            if (endFunc !== null) {
+                endFunc();
+            }
+
             this.statusArr.splice(numEle, 1);
         }
     }

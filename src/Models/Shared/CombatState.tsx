@@ -27,4 +27,8 @@ export default class CombatState {
     disableLootLock = () => {
         this.generateLootLock = false;
     };
+
+    inCombat = () => {
+        return this.combatState === CombatStateEnum.IN_COMBAT;
+    };
 }

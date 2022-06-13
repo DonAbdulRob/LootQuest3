@@ -44,12 +44,26 @@ p {
 
 .app {
     padding: 10px;
-    background-color: rgb(33, 144, 172);
-    border: 1px solid rgb(128, 128, 128);
 }
 
 .window-core {
     padding: 5px;
     margin: 5px;
-    border: 1px solid black;
+    max-width: 450px;
+}
+
+.window-flex {
+    display: 'flex';
+    flex-direction: 'row';
+}
+
+.combat-window {
+    position: absolute;
+    top: 110px;
+    left: 440px;
+    height: 295px;
+    width: 735px;
+    background-color: rgb(228, 237, 245);
+    border: 3px solid rgb(186, 201, 230);
+    padding: 5px;
 }

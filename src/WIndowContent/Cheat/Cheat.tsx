@@ -1,15 +1,11 @@
 import React from 'react';
-import Fighter from '../../Models/Fighter/Fighter';
 import { Equipment, EquipmentType } from '../../Models/Item/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
+import { Player } from '../../Models/Fighter/Fighter';
 
-function addGodSword(fighter: Fighter) {
-    let item = new Equipment(
-        'God Sword',
-        'A cheat god sword.',
-        EquipmentType.WEAPON,
-    );
+function addGodSword(fighter: Player) {
+    let item = new Equipment('God Sword', 'A cheat god sword.', EquipmentType.WEAPON);
 
     item.statBlock.damageMin = 99;
     item.statBlock.damageMax = 99;
@@ -23,7 +19,7 @@ function addGodSword(fighter: Fighter) {
 }
 
 export default function Cheat(props: {}): JSX.Element {
-    let player: Fighter = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
+    let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
 
     return (
         <div className="window-core">

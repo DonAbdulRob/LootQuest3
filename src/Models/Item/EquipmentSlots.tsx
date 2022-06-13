@@ -17,4 +17,8 @@ export class EquipmentSlots {
             null,
         );
     }
+
+    clear() {
+        this.items = [];
+    }
 }

@@ -6,32 +6,44 @@ import * as AbilityEffects from './AbilityToCoreEffectMapper';
 
 export class Ability {
     name: string;
-    description: string;
+    loreDescription: string;
+    literalDescription: string;
     staminaCost: number;
     manaCost: number;
     effectFunctionReference: number;
 
     constructor(
         name: string,
-        description: string,
+        loreDescription: string,
+        literalDescription: string,
         staminaCost: number,
         manaCost: number,
         effectFunctionReference: number,
     ) {
         this.name = name;
-        this.description = description;
+        this.loreDescription = loreDescription;
+        this.literalDescription = literalDescription;
         this.staminaCost = staminaCost;
         this.manaCost = manaCost;
         this.effectFunctionReference = effectFunctionReference;
     }
 }
 
-export const _G_ABILITY_LIST = {
+export const G_ABILITY_LIST = {
     POWER_STRIKE: new Ability(
         'Power Strike',
-        'Attack harder than normal. Deal +2 damage.',
+        'Exert yourself to attack with much a tad more force than normal.',
+        'Attack with +2 Total Damage',
         1,
         0,
         AbilityEffects.ABILITY_ID_POWER_STRIKE,
+    ),
+    LESSER_HEAL: new Ability(
+        'Lesser Heal',
+        `The weakest healing spell, known for being both expensive and ineffective. It will heal only a small cut at best.`,
+        'Heal +1 health',
+        0,
+        3,
+        AbilityEffects.ABILITY_ID_LESSER_HEAL,
     ),
 };

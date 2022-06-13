@@ -14,15 +14,12 @@ import Console, { ConsoleData } from '../WIndowContent/Console/Console';
 import Cheat from '../WIndowContent/Cheat/Cheat';
 import WindowStateManager from '../Models/Singles/WindowStateManager';
 import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
-import Fighter from '../Models/Fighter/Fighter';
 import { getPaddedToTwoDigits, G_MONTHS_ARR } from '../Models/Helper';
+import { _GAME_IN_DEBUG_MODE } from '../App';
+import Ability from '../WIndowContent/Ability/Ability';
+import { Player } from '../Models/Fighter/Fighter';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
-
-const rowMod = 3;
-const topInterval = 320;
-const topIntervalDivisor = topInterval * rowMod;
-const leftInterval = 450;
 
 export interface FloatingWindowPropsBuilder {
     id?: number;
@@ -30,24 +27,6 @@ export interface FloatingWindowPropsBuilder {
     contentElement: JSX.Element;
     top?: number;
     left?: number;
-}
-
-interface PosData {
-    data: number;
-}
-
-/**
- * Creates a final window object by calculating the top and left properties of a 'win' argument. Then, adds to our finalWindows array.
- */
-function getWindowObject(pos: PosData, win: FloatingWindowPropsBuilder) {
-    const p = pos.data;
-    const topCellLayoutMod =
-        topInterval * Math.floor((topInterval * p) / topIntervalDivisor);
-    const topCellResetMod = Math.floor(p / 9) * 50;
-    win['top'] =
-        150 + (topCellLayoutMod % topIntervalDivisor) + topCellResetMod;
-    win['left'] = 60 + leftInterval * (p % rowMod);
-    pos.data++;
 }
 
 /**
@@ -60,38 +39,55 @@ function openIntroPage(props: PageProps) {
 /**
  * Builds and returns our array of window content to display on the page.
  */
-function getWindows(pos: PosData, windowStateManager: WindowStateManager) {
+function getWindows(windowStateManager: WindowStateManager) {
     let windows: Array<FloatingWindowPropsBuilder> = [
-        {
-            title: 'Combat',
-            contentElement: <Combat />,
-        },
-        {
-            title: 'Enemy',
-            contentElement: <Character usePlayer={false} />,
-        },
-        {
-            title: 'Inventory',
-            contentElement: <Inventory usePlayer={true} />,
-        },
         {
             title: 'Player',
             contentElement: <Character usePlayer={true} />,
+            top: 110,
+            left: 10,
         },
         {
             title: 'Console',
             contentElement: <Console />,
+            top: 450,
+            left: 10,
         },
-
+        {
+            title: 'Ability',
+            contentElement: <Ability />,
+            top: 450,
+            left: 510,
+        },
         {
             title: 'Equipment',
-            contentElement: <Equipment usePlayer={true} />,
+            contentElement: <Equipment />,
+            top: 110,
+            left: 1200,
         },
         {
-            title: 'Cheat',
-            contentElement: <Cheat />,
+            title: 'Inventory',
+            contentElement: <Inventory />,
+            top: 350,
+            left: 1200,
         },
     ];
+
+    if (_GAME_IN_DEBUG_MODE) {
+        windows.push({
+            title: 'Cheat',
+            contentElement: <Cheat />,
+            top: 100,
+            left: 100,
+        });
+
+        windows.push({
+            title: 'Enemy',
+            contentElement: <Character usePlayer={false} />,
+            top: 100,
+            left: 100,
+        });
+    }
 
     // Calculate window positions and add to window objects.
     let c: number = 0;
@@ -100,7 +96,6 @@ function getWindows(pos: PosData, windowStateManager: WindowStateManager) {
         win.id = c;
 
         if (windowStateManager.isFree(c)) {
-            getWindowObject(pos, win);
             windowStateManager.subscribe(win.id, win);
         }
 
@@ -122,20 +117,19 @@ function forceRefresh(setRefreshVar: Function) {
     setRefreshVar((v: number) => v + 1);
 }
 
+function getDesiredContent() {
+    return <Combat />;
+}
+
 export function PlayPage(props: PageProps) {
     // var inits
-    let pos: PosData = { data: 0 }; // don't set as ref or state, no need for fancy integrations.
     const [refreshVar, setRefreshVar] = React.useState(0);
     __GLOBAL_REFRESH_FUNC_REF = () => {
         forceRefresh(setRefreshVar);
     };
-    let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE(
-        (__DATA: any) => __DATA.windowStateManager,
-    );
-    let player: Fighter = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
-    let consoleData: ConsoleData = __GLOBAL_GAME_STORE(
-        (__DATA: any) => __DATA.consoleData,
-    );
+    let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
+    let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
+    let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
 
     return (
         <div>
@@ -216,10 +210,12 @@ export function PlayPage(props: PageProps) {
                     Quit
                 </button>
             </div>
-
             <div id="floating-window-container" key={refreshVar}>
-                {getWindows(pos, windowStateManager)}
+                {getWindows(windowStateManager)}
             </div>
+
+            <hr />
+            {getDesiredContent()}
         </div>
     );
 }

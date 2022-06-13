@@ -3,20 +3,20 @@
  */
 
 import { ConsoleData } from '../../../WIndowContent/Console/Console';
-import Fighter from '../../Fighter/Fighter';
+import { Fighter } from '../../Fighter/Fighter';
 
 export function activateHealthHealItem(
-    player: Fighter,
+    fighter: Fighter,
     inventoryIndex: number,
     consoleData: ConsoleData,
     healAmount: number,
     message: string,
 ) {
-    player.healHealth(healAmount);
-    removeItem(player, inventoryIndex);
+    fighter.healHealth(healAmount);
+    removeItem(fighter, inventoryIndex);
     consoleData.add(message);
 }
 
-export function removeItem(player: Fighter, i: number) {
-    player.inventory.items.splice(i, 1);
+export function removeItem(fighter: Fighter, i: number) {
+    fighter.inventory.items.splice(i, 1);
 }

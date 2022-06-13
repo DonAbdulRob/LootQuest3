@@ -8,6 +8,8 @@ import IntroPage from './Pages/IntroPage';
 import { PlayPage } from './Pages/PlayPage';
 import { PageProps } from './Pages/SharedProps/PageBaseProps';
 
+export const _GAME_IN_DEBUG_MODE = false;
+
 function getDesiredPage(currentPage: number, setPage: Function): JSX.Element {
     let data: PageProps = {
         page: currentPage,

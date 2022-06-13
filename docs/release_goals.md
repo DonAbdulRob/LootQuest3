@@ -12,35 +12,23 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 - Keep styling game to look nice. (don't forget icons eventually instead of buttons everywhere)
 
 
-- Started work on help page. (#6 in short-term);
-- Working on skills. 
-   - Added mana, stamina resources. +
-   - Added status system. +
-   - Refactor interfaces for stat blocks. +
-   - Refactored items, equipment, abilities, etc. to all be distinct classes with comments. +
-   - Added architectural notes relating to how 'core effects' work internally. +
-   - Style skills. Create popup on hover.
-   - Move combat screen to main game area.
-
+- Double check that all features still work as intended from most recent commit.
+- Continue work on help page. (#5 in short-term);
 
 ## TODO - Short Term:
 
-1. Implement 1 player skill, 1 enemy skill.
-   - Implement mana to power skills.
-   - Implement 'Defend and Flee' combat options.
-   - Add 'Power Strike' skill to deal +2 attack damage at the cost of some mana.
-2. Settings Page (note: PAGE, not window).
-3. Better game start logic.
+1. Settings Page (note: PAGE, not window).
+2. Better game start logic.
    i. Re-enable intro screen, style a bit better and allow transition to 'New Game' state.
    ii. In 'New Game' screen, allow character name picking & difficulty selection.
-4. Start work toward removal of enemy window.
+3. Start work toward removal of enemy window.
    i. Show monster description and image in combat window.
    note: Create instance of 'Character' window with enemy as the fighter arg and isPlayer set to true to view all hidden stats.
-5. Leveling
+4. Leveling
    i. More health from leveling. More damage after a few levels?
-6. Help Page.
-7. Proper transitions between all pages.
-8. Area Select window.
+5. Help Page.
+6. Proper transitions between all pages.
+7. Area Select window.
    i. Monster specific item drop pools.
 
 ## TODO - Medium Term:
@@ -106,3 +94,15 @@ x Create right-click menu for inv. (prio lowered)
 + 1. Smarter window logic: store window position to prevent constant resets, allow resizing windows
 + 2. Add health potion drop from monsters for healing. Add ability to consume using 'use' button (in place of equip).
 + 3. Add save/load.
+
+
++ Working on skills. 
+   + Added mana, stamina resources.
+   + Added status system.
+   + Refactor interfaces for stat blocks.
+   + Refactored items, equipment, abilities, etc. to all be distinct classes with comments.
+   + Added architectural notes relating to how 'core effects' work internally.
+   + Style skills. Create popup on hover.
+   + Move combat screen to main game area.
+   + Enemies use skills 25% of the time.
+   

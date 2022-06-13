@@ -1,16 +1,11 @@
 import React from 'react';
-import Fighter from '../../Models/Fighter/Fighter';
-import {
-    Equipment,
-    EquipmentType,
-    Item,
-    ItemType,
-} from '../../Models/Item/Item';
+import { Equipment, EquipmentType, Item, ItemType } from '../../Models/Item/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { removeElement } from '../../Models/Helper';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import './ItemPopup.css';
 import { EquipmentSlotMapping } from '../../Models/Item/EquipmentSlots';
+import { Player } from '../../Models/Fighter/Fighter';
 
 interface ItemPopupProps {
     prefix: string;
@@ -34,7 +29,7 @@ function getDiffPrefix(diff: number): JSX.Element {
     }
 }
 
-function getDiff(fighter: Fighter, item: Item, field: string) {
+function getDiff(fighter: Player, item: Item, field: string) {
     // Only allow items.
     if (item.itemType !== ItemType.EQUIPMENT) {
         return 0;
@@ -44,11 +39,9 @@ function getDiff(fighter: Fighter, item: Item, field: string) {
     let equipmentItem: Equipment | null = null;
 
     if (itemAsEquipment.equipmentType === EquipmentType.WEAPON) {
-        equipmentItem =
-            fighter.equipmentSlots.items[EquipmentSlotMapping.weapon];
+        equipmentItem = fighter.equipmentSlots.items[EquipmentSlotMapping.weapon];
     } else if (itemAsEquipment.equipmentType === EquipmentType.CHESTPLATE) {
-        equipmentItem =
-            fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate];
+        equipmentItem = fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate];
     } else {
         console.log('NO DEFINED ITEM TYPE!');
         return 0;
@@ -68,7 +61,7 @@ function getDiff(fighter: Fighter, item: Item, field: string) {
     return 0;
 }
 
-function getFieldDisplay(fighter: Fighter, item: Equipment, field: any) {
+function getFieldDisplay(fighter: Player, item: Equipment, field: any) {
     let diff = getDiff(fighter, item, field);
     let diffDisplay = null;
 
@@ -92,7 +85,7 @@ function getFieldDisplay(fighter: Fighter, item: Equipment, field: any) {
     ) : null;
 }
 
-function getDamageDisplay(fighter: Fighter, item: Equipment) {
+function getDamageDisplay(fighter: Player, item: Equipment) {
     let diff1 = getDiff(fighter, item, 'damageMin');
     let diff2 = getDiff(fighter, item, 'damageMax');
     let diffDisplay = null;
@@ -111,9 +104,7 @@ function getDamageDisplay(fighter: Fighter, item: Equipment) {
 
     let statBlock = item.statBlock;
 
-    return statBlock.damageMin !== 0 ||
-        statBlock.damageMax !== 0 ||
-        diffDisplay !== null ? (
+    return statBlock.damageMin !== 0 || statBlock.damageMax !== 0 || diffDisplay !== null ? (
         <p className="item-description">
             Bonus Damage: {statBlock.damageMin} - {statBlock.damageMax}
             {diffDisplay}
@@ -122,7 +113,7 @@ function getDamageDisplay(fighter: Fighter, item: Equipment) {
 }
 
 export default function ItemPopup(props: ItemPopupProps) {
-    let player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
+    let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
     let lootButton = null;
 
@@ -130,11 +121,13 @@ export default function ItemPopup(props: ItemPopupProps) {
         lootButton = (
             <button
                 onClick={() => {
+                    // DAR TOOO - change interfaces to make this unnecessary.
+                    if (props.item == null) {
+                        return;
+                    }
+
                     player.addItemToInventory(props.item);
-                    combatState.loot = removeElement(
-                        combatState.loot,
-                        props.item,
-                    );
+                    combatState.loot = removeElement(combatState.loot, props.item);
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >

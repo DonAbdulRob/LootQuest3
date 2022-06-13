@@ -1,5 +1,5 @@
 import React from 'react';
-import Fighter from '../../Models/Fighter/Fighter';
+import { Fighter } from '../../Models/Fighter/Fighter';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import CharacterProps from '../SharedProps/CharacterProps';
 import './Character.css';
@@ -21,7 +21,8 @@ export default function Character(props: CharacterProps): JSX.Element {
         display = (
             <div>
                 <p className="header-1">{fighter.name}</p>
-                <p className="header-2">{'Lvl. ' + fighter.level}</p>
+                <p>{'Lvl: ' + fighter.level}</p>
+                <p>Exp: {fighter.experience}</p>
                 <p>Gold: {fighter.gold}</p>
                 <p>HP: {fighter.getHealthDisplay()}</p>
                 <p>SP: {fighter.getStaminaDisplay()}</p>

@@ -1,13 +1,12 @@
 import React from 'react';
 import ItemPopup from '../../Components/Popups/ItemPopup';
-import Fighter from '../../Models/Fighter/Fighter';
 import { EquipmentType } from '../../Models/Item/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
-import CharacterProps from '../SharedProps/CharacterProps';
 import { EquipmentSlotMapping } from '../../Models/Item/EquipmentSlots';
+import { Player } from '../../Models/Fighter/Fighter';
 
-function unequip(fighter: Fighter, inventorySlot: number) {
+function unequip(fighter: Player, inventorySlot: number) {
     let invItem = fighter.equipmentSlots.items[inventorySlot];
 
     // Add equipment item to inventory.
@@ -17,12 +16,10 @@ function unequip(fighter: Fighter, inventorySlot: number) {
         // Clear out equipment slot.
         switch (invItem.equipmentType) {
             case EquipmentType.WEAPON:
-                fighter.equipmentSlots.items[EquipmentSlotMapping.weapon] =
-                    null;
+                fighter.equipmentSlots.items[EquipmentSlotMapping.weapon] = null;
                 break;
             case EquipmentType.CHESTPLATE:
-                fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate] =
-                    null;
+                fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate] = null;
                 break;
             default:
                 break;
@@ -32,7 +29,7 @@ function unequip(fighter: Fighter, inventorySlot: number) {
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function getEquipmentMap(fighter: Fighter): JSX.Element[] {
+function getEquipmentMap(fighter: Player): JSX.Element[] {
     if (fighter.equipmentSlots.items.length === 0) {
         return [<div key={0}></div>];
     }
@@ -66,26 +63,16 @@ function getEquipmentMap(fighter: Fighter): JSX.Element[] {
 
         return (
             <div className="equipment-list" key={i}>
-                <ItemPopup
-                    prefix={finalKeys[i] + ': '}
-                    item={item}
-                    addLootButton={false}
-                />
+                <ItemPopup prefix={finalKeys[i] + ': '} item={item} addLootButton={false} />
                 {button}
             </div>
         );
     });
 }
 
-export default function Equipment(props: CharacterProps): JSX.Element {
+export default function Equipment(): JSX.Element {
     const store: any = __GLOBAL_GAME_STORE((__DATA) => __DATA);
-    let fighter;
-
-    if (props.usePlayer) {
-        fighter = store.player;
-    } else {
-        fighter = store.enemy;
-    }
+    let fighter = store.player;
 
     return (
         <div className="window-core">

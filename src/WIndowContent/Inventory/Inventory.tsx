@@ -1,21 +1,15 @@
 import React from 'react';
 import ItemPopup from '../../Components/Popups/ItemPopup';
-import Fighter from '../../Models/Fighter/Fighter';
-import {
-    Item,
-    EquipmentType,
-    ItemType,
-    Equipment,
-    Consumable,
-} from '../../Models/Item/Item';
+import { Item, EquipmentType, ItemType, Equipment, Consumable } from '../../Models/Item/Item';
 import { CONSUMABLE_EFFECT_FUNCTION } from '../../Models/Item/ItemEffectToCoreEffectMapper';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { ConsoleData } from '../Console/Console';
-import CharacterProps from '../SharedProps/CharacterProps';
 import { EquipmentSlotMapping } from '../../Models/Item/EquipmentSlots';
+import { Monster, Player } from '../../Models/Fighter/Fighter';
+import CombatState from '../../Models/Shared/CombatState';
 
-function equip(fighter: Fighter, inventorySlot: number) {
+function equip(fighter: Player, inventorySlot: number) {
     let invItem: Equipment | Item = fighter.inventory.items[inventorySlot];
 
     if (!(invItem instanceof Equipment)) {
@@ -28,12 +22,10 @@ function equip(fighter: Fighter, inventorySlot: number) {
 
     switch (invItemType) {
         case EquipmentType.WEAPON:
-            equipItem =
-                fighter.equipmentSlots.items[EquipmentSlotMapping.weapon];
+            equipItem = fighter.equipmentSlots.items[EquipmentSlotMapping.weapon];
             break;
         case EquipmentType.CHESTPLATE:
-            equipItem =
-                fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate];
+            equipItem = fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate];
             break;
         default:
             break;
@@ -50,8 +42,7 @@ function equip(fighter: Fighter, inventorySlot: number) {
             fighter.equipmentSlots.items[EquipmentSlotMapping.weapon] = invItem;
             break;
         case EquipmentType.CHESTPLATE:
-            fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate] =
-                invItem;
+            fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate] = invItem;
             break;
         default:
             break;
@@ -62,13 +53,15 @@ function equip(fighter: Fighter, inventorySlot: number) {
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function drop(fighter: Fighter, inventorySlot: number) {
+function drop(fighter: Player, inventorySlot: number) {
     fighter.inventory.items.splice(inventorySlot, 1);
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
 function getInventoryMap(
-    fighter: Fighter,
+    fighter: Player,
+    enemy: Monster,
+    combatState: CombatState,
     consoleData: ConsoleData,
 ): JSX.Element[] {
     if (fighter.inventory.items.length === 0) {
@@ -83,12 +76,10 @@ function getInventoryMap(
             useButton = (
                 <button
                     onClick={() => {
-                        let func = CONSUMABLE_EFFECT_FUNCTION(
-                            (v as Consumable).useFunctionId,
-                        );
+                        let func = CONSUMABLE_EFFECT_FUNCTION((v as Consumable).useFunctionId);
 
                         if (func != null) {
-                            func(fighter, i, consoleData);
+                            func(fighter, enemy, i, combatState, consoleData);
                             __GLOBAL_REFRESH_FUNC_REF();
                         }
                     }}
@@ -112,11 +103,7 @@ function getInventoryMap(
 
         return (
             <div key={i}>
-                <ItemPopup
-                    prefix=""
-                    item={fighter.inventory.items[i]}
-                    addLootButton={false}
-                />
+                <ItemPopup prefix="" item={fighter.inventory.items[i]} addLootButton={false} />
                 {useButton}
                 {equipButton}
                 <button
@@ -131,21 +118,19 @@ function getInventoryMap(
     });
 }
 
-export default function Inventory(props: CharacterProps): JSX.Element {
-    const store: any = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+/**
+ * Show player inventory. Doesn't support the 'fighter' class objects. Only players.
+ */
+export default function Inventory(): JSX.Element {
+    let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
+    let enemy: Monster = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);
+    let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
     let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
-    let fighter;
-
-    if (props.usePlayer) {
-        fighter = store.player;
-    } else {
-        fighter = store.enemy;
-    }
 
     return (
         <div className="window-core">
             <h1>Inventory</h1>
-            {getInventoryMap(fighter, consoleData)}
+            {getInventoryMap(player, enemy, combatState, consoleData)}
         </div>
     );
 }

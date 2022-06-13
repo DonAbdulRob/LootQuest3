@@ -5,6 +5,8 @@ import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { getRandomValueUpTo } from '../../Models/Helper';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { ItemGen } from '../../Models/Item/ItemGen';
+import CombatState from '../../Models/Shared/CombatState';
+import { Player } from '../../Models/Fighter/Fighter';
 
 function generateNewLoot() {
     var loot: Array<Item> = [];
@@ -23,8 +25,23 @@ function getLootDisplay(loot: Array<Item>) {
     });
 }
 
+function endLooting(combatState: CombatState) {
+    // Clear loot in combat state.
+    combatState.loot = [];
+
+    // Advance combat to next phase (out of combat)
+    combatState.advance();
+
+    // Disable the loot lock.
+    combatState.disableLootLock();
+
+    // Refresh screen.
+    __GLOBAL_REFRESH_FUNC_REF();
+}
+
 export default function LootTransition() {
-    let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
+    let combatState: CombatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
+    let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let loot = combatState.loot;
 
     if (!combatState.generateLootLock) {
@@ -39,12 +56,25 @@ export default function LootTransition() {
             <hr />
             <button
                 onClick={() => {
-                    combatState.advance();
-                    combatState.disableLootLock();
+                    // Add all items to inventory.
+                    for (var item of loot) {
+                        player.addItemToInventory(item);
+                    }
+                    // End looting.
+                    endLooting(combatState);
+
+                    // Refresh screen.
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >
-                End Looting
+                Loot All & Exit
+            </button>
+            <button
+                onClick={() => {
+                    endLooting(combatState);
+                }}
+            >
+                Exit Looting
             </button>
         </div>
     );

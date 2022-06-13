@@ -7,7 +7,7 @@ export function getRandomValueUpTo(max: number) {
     return Math.floor(Math.random() * (max + 1));
 }
 
-export function getRandomElement(arr: Array<any>) {
+export function getRandomElement<T>(arr: Array<T>): T {
     var l = arr.length - 1;
     return arr[Math.round(Math.random() * l)];
 }

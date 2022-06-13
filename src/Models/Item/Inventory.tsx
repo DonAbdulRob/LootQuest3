@@ -46,4 +46,8 @@ export default class Inventory {
             ItemGen.getOranHerb(),
         );
     }
+
+    clear() {
+        this.items = [];
+    }
 }
