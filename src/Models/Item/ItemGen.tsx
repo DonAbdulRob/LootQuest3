@@ -9,11 +9,7 @@ export class ItemGen {
         const max = Math.round(min + getRandomValueUpTo(2));
         const mat = getRandomElement(materials);
 
-        let newItem: Equipment = new Equipment(
-            mat + ' Sword',
-            'A sword made of ' + mat,
-            EquipmentType.WEAPON,
-        );
+        let newItem: Equipment = new Equipment(mat + ' Sword', 'A sword made of ' + mat, EquipmentType.WEAPON);
 
         newItem.statBlock.damageMin = min;
         newItem.statBlock.damageMax = max;

@@ -37,12 +37,7 @@ export class Item {
             i.health = obj.health;
             i.armor = obj.armor;
         } else if (obj.itemType === ItemType.CONSUMABLE) {
-            i = new Consumable(
-                obj.name,
-                obj.description,
-                obj.useFunctionId,
-                obj.useCount,
-            );
+            i = new Consumable(obj.name, obj.description, obj.useFunctionId, obj.useCount);
         } else {
             i = new Item(obj.name, obj.description, obj.itemType);
         }
@@ -71,11 +66,7 @@ export class Equipment extends Item {
         armor: 0,
     };
 
-    constructor(
-        name: string,
-        description: string,
-        equipmentType: EquipmentType,
-    ) {
+    constructor(name: string, description: string, equipmentType: EquipmentType) {
         super(name, description, ItemType.EQUIPMENT);
         this.equipmentType = equipmentType;
     }
@@ -85,12 +76,7 @@ export class Consumable extends Item {
     useFunctionId: number;
     useCount: number = 0;
 
-    constructor(
-        name: string,
-        description: string,
-        useFunctionId: number,
-        useCount: number,
-    ) {
+    constructor(name: string, description: string, useFunctionId: number, useCount: number) {
         super(name, description, ItemType.CONSUMABLE);
         this.useFunctionId = useFunctionId;
         this.useCount = useCount;

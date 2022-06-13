@@ -17,9 +17,7 @@ export default function IntroPage(props: PageProps) {
             </div>
 
             <div className="p-5 mb-2 bg-primary text-white rounded">
-                <h1 className="mt-5 mb-5 text-center">
-                    Welcome to LootQuest 2!
-                </h1>
+                <h1 className="mt-5 mb-5 text-center">Welcome to LootQuest 2!</h1>
             </div>
 
             <div className="center">

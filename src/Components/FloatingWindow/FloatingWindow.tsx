@@ -2,9 +2,7 @@
 import React, { useEffect } from 'react';
 import './FloatingWindow.css';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
-import WindowStateManager, {
-    FloatingWindowData,
-} from '../../Models/Singles/WindowStateManager';
+import WindowStateManager, { FloatingWindowData } from '../../Models/Singles/WindowStateManager';
 
 function assignDragBehavior(
     ele: any,
@@ -185,13 +183,9 @@ interface FloatingWindowProps {
     contentElement: JSX.Element;
 }
 
-export default function FloatingWindow(
-    props: FloatingWindowProps,
-): JSX.Element {
+export default function FloatingWindow(props: FloatingWindowProps): JSX.Element {
     // Var init.
-    let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE(
-        (__DATA: any) => __DATA.windowStateManager,
-    );
+    let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
 
     const titleBarDragRef = React.useRef<HTMLDivElement>(null);
     const titleDragRef = React.useRef<HTMLDivElement>(null);
@@ -210,32 +204,15 @@ export default function FloatingWindow(
     const pos7 = React.useRef(0);
     const pos8 = React.useRef(0);
 
-    const windowData: FloatingWindowData =
-        windowStateManager.windowDataArr[props.id];
+    const windowData: FloatingWindowData = windowStateManager.windowDataArr[props.id];
 
     // After render, assign drag behavior.
     useEffect(() => {
         windowData.ref = parentEleRef;
 
-        assignDragBehavior(
-            titleDragRef.current,
-            3,
-            pos1,
-            pos2,
-            pos3,
-            pos4,
-            windowData,
-        );
+        assignDragBehavior(titleDragRef.current, 3, pos1, pos2, pos3, pos4, windowData);
 
-        assignResizeDragBehavior(
-            resizeDragRef.current,
-            2,
-            pos5,
-            pos6,
-            pos7,
-            pos8,
-            windowData,
-        );
+        assignResizeDragBehavior(resizeDragRef.current, 2, pos5, pos6, pos7, pos8, windowData);
     });
 
     return (
@@ -251,21 +228,14 @@ export default function FloatingWindow(
                 opacity: windowStateManager.opacity,
             }}
             onMouseEnter={(e: any) => {
-                if (
-                    parentEleRef === null ||
-                    parentEleRef.current === null ||
-                    windowStateManager.hasActiveHover()
-                ) {
+                if (parentEleRef === null || parentEleRef.current === null || windowStateManager.hasActiveHover()) {
                     return true;
                 }
 
                 windowStateManager.setOnTop(props.id);
             }}
         >
-            <div
-                className="floating-window-titlebar flex-container"
-                ref={titleBarDragRef}
-            >
+            <div className="floating-window-titlebar flex-container" ref={titleBarDragRef}>
                 <div className="flex-item-left">
                     <button
                         onClick={(e) => {
@@ -292,10 +262,7 @@ export default function FloatingWindow(
                 <div className="titleText">{windowData.title}</div>
             </div>
 
-            <div
-                ref={windowContentRef}
-                style={{ overflow: 'visible !important' }}
-            >
+            <div ref={windowContentRef} style={{ overflow: 'visible !important' }}>
                 {props.contentElement}
             </div>
             <div className="align-right">

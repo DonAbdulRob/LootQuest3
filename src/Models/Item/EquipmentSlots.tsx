@@ -13,9 +13,7 @@ export class EquipmentSlots {
     items: Array<Equipment | null> = [];
 
     constructor() {
-        this.items = Array(Object.keys(EquipmentSlotMapping).length / 2).fill(
-            null,
-        );
+        this.items = Array(Object.keys(EquipmentSlotMapping).length / 2).fill(null);
     }
 
     clear() {

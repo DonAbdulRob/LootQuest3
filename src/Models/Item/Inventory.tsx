@@ -38,13 +38,7 @@ export default class Inventory {
         );
         starter4.statBlock.armor = 1;
 
-        this.items.push(
-            starter1,
-            starter2,
-            starter3,
-            starter4,
-            ItemGen.getOranHerb(),
-        );
+        this.items.push(starter1, starter2, starter3, starter4, ItemGen.getOranHerb());
     }
 
     clear() {
