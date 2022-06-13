@@ -6,7 +6,7 @@ import { getRandomValueUpTo } from '../../Models/Helper';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { ItemGen } from '../../Models/Item/ItemGen';
 import CombatState from '../../Models/Shared/CombatState';
-import { Player } from '../../Models/Fighter/Fighter';
+import { Player } from '../../Models/Fighter/Player';
 
 function generateNewLoot() {
     var loot: Array<Item> = [];

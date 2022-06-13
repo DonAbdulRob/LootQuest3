@@ -2,7 +2,7 @@
  * Equipment slots are a collection of items with a fixed requirement for what type of 'EquipmentType' can go into each index.
  * EquipmentSlotMapping defines this mapping.
  */
-import { Equipment } from './Item';
+import { Equipment } from '../../Item/Item';
 
 export enum EquipmentSlotMapping {
     weapon = 0,

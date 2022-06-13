@@ -3,8 +3,8 @@ import ItemPopup from '../../Components/Popups/ItemPopup';
 import { EquipmentType } from '../../Models/Item/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
-import { EquipmentSlotMapping } from '../../Models/Item/EquipmentSlots';
-import { Player } from '../../Models/Fighter/Fighter';
+import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
+import { Player } from '../../Models/Fighter/Player';
 
 function unequip(fighter: Player, inventorySlot: number) {
     let invItem = fighter.equipmentSlots.items[inventorySlot];

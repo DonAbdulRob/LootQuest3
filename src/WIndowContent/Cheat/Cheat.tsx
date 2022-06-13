@@ -2,7 +2,7 @@ import React from 'react';
 import { Equipment, EquipmentType } from '../../Models/Item/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
-import { Player } from '../../Models/Fighter/Fighter';
+import { Player } from '../../Models/Fighter/Player';
 
 function addGodSword(fighter: Player) {
     let item = new Equipment('God Sword', 'A cheat god sword.', EquipmentType.WEAPON);

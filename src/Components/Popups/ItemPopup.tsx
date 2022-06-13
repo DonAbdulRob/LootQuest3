@@ -4,8 +4,8 @@ import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { removeElement } from '../../Models/Helper';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import './ItemPopup.css';
-import { EquipmentSlotMapping } from '../../Models/Item/EquipmentSlots';
-import { Player } from '../../Models/Fighter/Fighter';
+import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
+import { Player } from '../../Models/Fighter/Player';
 
 interface ItemPopupProps {
     prefix: string;

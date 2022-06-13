@@ -1,8 +1,8 @@
 /**
  * An Inventory is a collection of items.
  */
-import { Item, EquipmentType, Equipment } from './Item';
-import { ItemGen } from './ItemGen';
+import { Item, EquipmentType, Equipment } from '../../Item/Item';
+import { ItemGen } from '../../Item/ItemGen';
 
 export default class Inventory {
     items: Array<Item | Equipment> = [];

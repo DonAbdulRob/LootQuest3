@@ -4,7 +4,8 @@
 
 import { ConsoleData } from '../../../WIndowContent/Console/Console';
 import CombatState from '../../Shared/CombatState';
-import { Monster, Player } from '../Fighter';
+import { Player } from '../Player';
+import { Monster } from '../Monster';
 
 export interface MonsterEffectFunctionTemplate {
     (monster: Monster, player: Player, combatState: CombatState, consoleData: ConsoleData): void;
@@ -30,8 +31,10 @@ export class MonsterEffectLib {
         combatState: CombatState,
         consoleData: ConsoleData,
     ) => {
+        let abilityDamage = 2;
+
         // TODO: Move 'dealt damage' calc into fighter class, same for combat class.
-        let damage = monster.getRandomDamageValue() + 3 - player.statBlock.armor;
+        let damage = monster.getRandomDamageValue() + abilityDamage - player.statBlock.armor;
 
         if (damage < 0) {
             damage = 0;

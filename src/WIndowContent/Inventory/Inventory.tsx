@@ -5,8 +5,9 @@ import { CONSUMABLE_EFFECT_FUNCTION } from '../../Models/Item/ItemEffectToCoreEf
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { ConsoleData } from '../Console/Console';
-import { EquipmentSlotMapping } from '../../Models/Item/EquipmentSlots';
-import { Monster, Player } from '../../Models/Fighter/Fighter';
+import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
+import { Player } from '../../Models/Fighter/Player';
+import { Monster } from '../../Models/Fighter/Monster';
 import CombatState from '../../Models/Shared/CombatState';
 
 function equip(fighter: Player, inventorySlot: number) {

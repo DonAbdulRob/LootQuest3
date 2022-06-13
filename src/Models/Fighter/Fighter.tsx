@@ -2,14 +2,12 @@
  * A fighter represents players and monsters that battle each other.
  * Also, if it is ever decided to make inanimate objects into battle-able entities, this would be used too...
  */
-import { getRandomValueBetween, getRandomValueUpTo } from '../Helper';
+import { getRandomValueBetween } from '../Helper';
 import { StatBlock } from '../Shared/StatBlock';
-import Inventory from '../Item/Inventory';
+import Inventory from './Storage/Inventory';
 import { Equipment, Item } from '../Item/Item';
-import { EquipmentSlots } from '../Item/EquipmentSlots';
-import { StatusContainer } from './Status';
-import { PlayerAbilityContainer } from './Ability/PlayerAbilityContainer';
-import { MonsterAbilityContainer } from './Ability/MonsterAbilityContainer';
+import { EquipmentSlots } from './Storage/EquipmentSlots';
+import { StatusContainer } from './Status/StatusContainer';
 
 export class Fighter {
     name: string = '';
@@ -166,73 +164,5 @@ export class Fighter {
         if (this.statBlock.healthMin > this.statBlock.healthMax) {
             this.statBlock.healthMin = this.statBlock.healthMax;
         }
-    };
-}
-
-export class Player extends Fighter {
-    abilities: PlayerAbilityContainer = new PlayerAbilityContainer();
-
-    constructor() {
-        super();
-        this.generatePlayer();
-    }
-
-    generatePlayer = () => {
-        this.name = 'Joe';
-        this.level = 1;
-        this.experience = 0;
-        this.gold = 0;
-        this.statBlock.healthMin = 10;
-        this.statBlock.healthMax = 10;
-        this.statBlock.staminaMin = 5;
-        this.statBlock.staminaMax = 5;
-        this.statBlock.manaMin = 5;
-        this.statBlock.manaMax = 5;
-        this.statBlock.damageMin = 1;
-        this.statBlock.damageMax = 2;
-    };
-}
-
-export class Monster extends Fighter {
-    abilities: MonsterAbilityContainer = new MonsterAbilityContainer();
-
-    constructor() {
-        super();
-        this.generateMonster();
-    }
-
-    generateMonster = () => {
-        this.reset();
-
-        let monsterType = getRandomValueUpTo(2);
-        this.experience = -1;
-        this.gold = 2;
-
-        if (monsterType === 0) {
-            this.name = 'Adorable Rat';
-            this.level = 1;
-            this.statBlock.healthMin = 5;
-            this.statBlock.healthMax = 5;
-            this.statBlock.damageMin = 1;
-            this.statBlock.damageMax = 1;
-        } else if (monsterType === 1) {
-            this.name = 'Cute Kitten';
-            this.level = 1;
-            this.statBlock.healthMin = 3;
-            this.statBlock.healthMax = 3;
-            this.statBlock.damageMin = 1;
-            this.statBlock.damageMax = 2;
-        } else if (monsterType === 2) {
-            this.name = 'Baby Turtle';
-            this.level = 1;
-            this.statBlock.healthMin = 2;
-            this.statBlock.healthMax = 2;
-            this.statBlock.damageMin = 1;
-            this.statBlock.damageMax = 1;
-            this.statBlock.armor = 1;
-        }
-
-        // Generate abilities.
-        this.abilities = new MonsterAbilityContainer();
     };
 }

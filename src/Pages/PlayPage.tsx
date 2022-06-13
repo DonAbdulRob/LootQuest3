@@ -17,7 +17,7 @@ import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 import { getPaddedToTwoDigits, G_MONTHS_ARR } from '../Models/Helper';
 import { _GAME_IN_DEBUG_MODE } from '../App';
 import Ability from '../WIndowContent/Ability/Ability';
-import { Player } from '../Models/Fighter/Fighter';
+import { Player } from '../Models/Fighter/Player';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
 

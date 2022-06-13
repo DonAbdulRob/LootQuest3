@@ -1,6 +1,7 @@
 import React from 'react';
 import { MonsterEffectFunctionTemplate } from '../../Models/Fighter/Ability/MonsterAbilityContainer';
-import { Player, Monster } from '../../Models/Fighter/Fighter';
+import { Player } from '../../Models/Fighter/Player';
+import { Monster } from '../../Models/Fighter/Monster';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { getRandomElement, getRandomValueUpTo } from '../../Models/Helper';
 import CombatState, { CombatStateEnum } from '../../Models/Shared/CombatState';

@@ -8,8 +8,10 @@
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
 import { processCombatRound } from '../../../WIndowContent/Combat/Combat';
 import { ConsoleData } from '../../../WIndowContent/Console/Console';
-import { Player, Monster, Fighter } from '../../Fighter/Fighter';
-import { G_HIDDEN_SKIP_TURN_STATUS, Status } from '../../Fighter/Status';
+import { Fighter } from '../../Fighter/Fighter';
+import { Player } from '../../Fighter/Player';
+import { Monster } from '../../Fighter/Monster';
+import { G_HIDDEN_SKIP_TURN_STATUS, Status } from '../../Fighter/Status/Status';
 import CombatState from '../CombatState';
 import { activateHealthHealItem } from './EffectLIbHelpers';
 

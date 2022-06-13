@@ -29,7 +29,7 @@ export class Ability {
     }
 }
 
-export const G_ABILITY_LIST = {
+export const G_PLAYER_ABILITY_LIST = {
     POWER_STRIKE: new Ability(
         'Power Strike',
         'Exert yourself to attack with much a tad more force than normal.',

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ABILITY_EFFECT_FUNCTION } from '../../Models/Fighter/Ability/AbilityToCoreEffectMapper';
-import { Monster, Player } from '../../Models/Fighter/Fighter';
+import { Player } from '../../Models/Fighter/Player';
+import { Monster } from '../../Models/Fighter/Monster';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import '../../Components/Popups/ItemPopup.css';
 import { Ability } from '../../Models/Fighter/Ability/AbilityList';
