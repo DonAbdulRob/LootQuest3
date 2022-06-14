@@ -4,10 +4,11 @@
 
 import * as React from 'react';
 import { PageProps } from './SharedProps/PageBaseProps';
+import { PageEnum } from './SharedProps/PageEnum';
 
 export default function HelpPage(props: PageProps) {
-    function openMainPage() {
-        props.setPage(1);
+    function openPlayPage() {
+        props.setPage(PageEnum.Play);
     }
 
     return (
@@ -43,6 +44,7 @@ export default function HelpPage(props: PageProps) {
                 And, you can then choose to stay in the Forest Outskirts, travel to the next location, or return back to
                 the city.
             </p>
+            <hr />
             <h1>The Travel System</h1>
             <p>
                 Loot Quest utilizes a virtual map system where areas, visible within the Area Window, lead backwards and
@@ -50,9 +52,10 @@ export default function HelpPage(props: PageProps) {
                 if you are in an area five levels or lower than yourself, you may move to any area five levels or lower
                 than yourself.
             </p>
+            <hr />
             <button
                 onClick={() => {
-                    openMainPage();
+                    openPlayPage();
                 }}
             >
                 Back

@@ -14,32 +14,26 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 
 ## TODO - HIGH PRIO (Volitile scope creeping changes)
 
-- Resource bars.
-- Refactor game state.
-   - Can probably just put all game stats on a root-level class too, so I don't have to pass state into models...
-- Actually make monster level based on area level in Combat.tsx.
-   - Area should have level range capping at player level.
-- Inventory size limit.
-   - Show how full it is in title.
-   - Limit looting ability based on inventory capacity.
-   - Same with transfering items.
-- Implement Difficulty buttons in Character Select.
-- Hard code stats for monsters from levels 1-10. For higher levels, use formulas. (After area stuff)
+Empty! Everything is PLANNED!
 
 ## TODO - Short Term:
 
-1. Settings Page (note: PAGE, not window).
-3. Start work toward removal of enemy window. +
-   i. Show monster description and image in combat window.
-   note: Create instance of 'Character' window with enemy as the fighter arg and isPlayer set to true to view all hidden stats. +
-4. Leveling +
-   i. More health from leveling. More damage after a few levels?
-5. Help Page.
-6. Proper transitions between all pages.
-7. Area Select window.
-   i. Monster specific item drop pools.
-   ii. Areas aren't just 'find fight'. Should be 'explore' with outcomes based on area. Create 3 areas to start with 1 location-specific combat outcome, 1 location-specific gathering outcome and access to a non-location specific 'outcome pool'.
+1. Area Select window + Refactor of Embedded Game Window.
+   i. Monster + Area specific item drop pools.
+   ii. Areas aren't just 'find fight'. Should be 'explore' with outcomes based on area.
+      a. Create 3 areas to start with 1 location-specific combat outcome, 1 location-specific gathering outcome and access to a non-location specific 'outcome pool'.
    iii. Time of Day in area window. Traveling and 'exploring' advances time. At night, increase chance of monster outcomes.
+   - Actually make monster level based on area level in Combat.tsx.
+   - Area should have level range capping at player level.
+2. Inventory size limit.
+   - Show how full it is in title.
+   - Limit looting ability based on inventory capacity.
+   - Same with transfering items.
+3. Implement Difficulty buttons in Character Select.
+4. Show monster description and image in embedded game window during combat.
+5. Hardcode stats for monsters from levels 1-10. For higher levels, use formulas. (After area stuff)
+6. Refactor game state.
+   - Can probably just put all game stats on a root-level class too, so I don't have to pass state into models...
 
 ## TODO - Medium Term:
 
@@ -71,7 +65,21 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 - Cheat Window (should be easy now with global state
 x Create right-click menu for inv. (prio lowered)
 
-## Large older section marked done 6/10/2022:
+
+## Older Marked done 6/14/2022+:
+
+3. Start work toward removal of enemy window. +
+4. Leveling +
+   i. More health from leveling. More damage after a few levels? +
+5. Help Page. +
+6. Proper transitions between all pages. +
+1. Settings Page (note: PAGE, not window). +
+
+- note: Create instance of 'Character' window with enemy as the fighter arg and isPlayer set to true to view all hidden stats. +
+
+1. Resource bars in Character Panel.
+
+## Large older section marked done 6/10/2022+:
 
 +   Get short-term 1-3 working on a primitive level.
 

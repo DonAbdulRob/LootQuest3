@@ -34,6 +34,8 @@ export interface FloatingWindowPropsBuilder {
  * Builds and returns our array of window content to display on the page.
  */
 function getWindows(windowStateManager: WindowStateManager) {
+    let secondRowStart = 500;
+
     let windows: Array<FloatingWindowPropsBuilder> = [
         {
             title: 'Player',
@@ -44,13 +46,13 @@ function getWindows(windowStateManager: WindowStateManager) {
         {
             title: 'Console',
             contentElement: <Console />,
-            top: 450,
+            top: secondRowStart,
             left: 10,
         },
         {
             title: 'Ability',
             contentElement: <Ability />,
-            top: 450,
+            top: secondRowStart,
             left: 510,
         },
         {
@@ -78,7 +80,7 @@ function getWindows(windowStateManager: WindowStateManager) {
         windows.push({
             title: 'Enemy',
             contentElement: <Character usePlayer={false} />,
-            top: 600,
+            top: secondRowStart + 150,
             left: 510,
         });
     }

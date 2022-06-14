@@ -41,7 +41,7 @@ function canCast_CombatOnlyCheck(
     }
 
     // Check other conditions.
-    return canCast_AnywhereCheck(player, manaCost, staminaCost, consoleData);
+    return canCast_AnywhereCheck(player, staminaCost, manaCost, consoleData);
 }
 
 /**
