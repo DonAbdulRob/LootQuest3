@@ -22,7 +22,7 @@ export default function Character(props: CharacterProps): JSX.Element {
             <div>
                 <p className="header-1">{fighter.name}</p>
                 <p>{'Lvl: ' + fighter.level}</p>
-                <p>Exp: {fighter.experience}</p>
+                <p>Exp: {fighter.experience + '/' + fighter.getExpToLevel()}</p>
                 <p>Gold: {fighter.gold}</p>
                 <p>HP: {fighter.getHealthDisplay()}</p>
                 <p>SP: {fighter.getStaminaDisplay()}</p>

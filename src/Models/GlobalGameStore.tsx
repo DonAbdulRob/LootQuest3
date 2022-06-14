@@ -5,6 +5,7 @@ import { Monster } from './Fighter/Monster';
 import CombatState from './Shared/CombatState';
 import WindowStateManager from './Singles/WindowStateManager';
 import produce from 'immer';
+import GameStateManager from './Singles/GameStateManager';
 
 function getGameStore() {
     return create((set) => ({
@@ -13,6 +14,7 @@ function getGameStore() {
         combatState: new CombatState(),
         consoleData: new ConsoleData(),
         windowStateManager: new WindowStateManager(),
+        gameStateManager: new GameStateManager(),
 
         setPlayerName: (x: string) =>
             set(

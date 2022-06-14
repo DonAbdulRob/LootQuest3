@@ -12,7 +12,7 @@ import SettingsPage from './Pages/SettingsPage';
 import { PageProps } from './Pages/SharedProps/PageBaseProps';
 import { PageEnum } from './Pages/SharedProps/PageEnum';
 
-export const _GAME_IN_DEBUG_MODE = false;
+export const _GAME_IN_DEBUG_MODE = true;
 
 function getDesiredPage(currentPage: number, setPage: Function): JSX.Element {
     let data: PageProps = {

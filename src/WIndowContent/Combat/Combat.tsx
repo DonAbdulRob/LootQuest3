@@ -8,6 +8,7 @@ import CombatState, { CombatStateEnum } from '../../Models/Shared/CombatState';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { ConsoleData } from '../Console/Console';
 import LootTransition from './LootTransition';
+import GameStateManager from '../../Models/Singles/GameStateManager';
 
 export interface CustomDamageMessage {
     prefix: string;
@@ -67,6 +68,7 @@ export function processCombatRound(
     if (enemy.statBlock.healthMin <= 0) {
         consoleData.add('Enemy died.');
         player.gold += enemy.gold;
+        player.giveExperience(enemy.experience, consoleData);
         enemy.reset();
         combatState.advance();
         __GLOBAL_REFRESH_FUNC_REF();
@@ -133,6 +135,7 @@ function startFight(combatState: CombatState) {
 export default function Combat(props: {}): JSX.Element {
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let enemy: Monster = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);
+    let gameStateManager: GameStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.gameStateManager);
     let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
     let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
     let display;
@@ -144,7 +147,7 @@ export default function Combat(props: {}): JSX.Element {
                     <p>No enemy yet!</p>
                     <button
                         onClick={() => {
-                            enemy.generateMonster();
+                            enemy.generateMonster(player.level, gameStateManager.gameDifficulty);
                             consoleData.add('A monster appears: ' + enemy.name);
                             startFight(combatState);
                         }}

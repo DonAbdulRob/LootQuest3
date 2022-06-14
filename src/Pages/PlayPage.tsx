@@ -71,15 +71,15 @@ function getWindows(windowStateManager: WindowStateManager) {
         windows.push({
             title: 'Cheat',
             contentElement: <Cheat />,
-            top: 100,
-            left: 100,
+            top: 0,
+            left: 800,
         });
 
         windows.push({
             title: 'Enemy',
             contentElement: <Character usePlayer={false} />,
-            top: 100,
-            left: 100,
+            top: 600,
+            left: 510,
         });
     }
 

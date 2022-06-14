@@ -14,20 +14,25 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 
 ## TODO - HIGH PRIO (Volitile scope creeping changes)
 
-- Difficulty Implementation.
 - Resource bars.
 - Refactor game state.
+   - Can probably just put all game stats on a root-level class too, so I don't have to pass state into models...
+- Actually make monster level based on area level in Combat.tsx.
+   - Area should have level range capping at player level.
+- Inventory size limit.
+   - Show how full it is in title.
+   - Limit looting ability based on inventory capacity.
+   - Same with transfering items.
+- Implement Difficulty buttons in Character Select.
+- Hard code stats for monsters from levels 1-10. For higher levels, use formulas. (After area stuff)
 
 ## TODO - Short Term:
 
 1. Settings Page (note: PAGE, not window).
-2. Better game start logic. +
-   i. Re-enable intro screen, style a bit better and allow transition to 'New Game' state. +
-   ii. In 'New Game' screen, allow character name picking & difficulty selection. +
 3. Start work toward removal of enemy window. +
    i. Show monster description and image in combat window.
    note: Create instance of 'Character' window with enemy as the fighter arg and isPlayer set to true to view all hidden stats. +
-4. Leveling
+4. Leveling +
    i. More health from leveling. More damage after a few levels?
 5. Help Page.
 6. Proper transitions between all pages.
@@ -112,3 +117,7 @@ x Create right-click menu for inv. (prio lowered)
    + Enemies use skills 25% of the time.
 
 - Double check that all features still work as intended from most recent commit.
+
+2. Better game start logic. +
+   i. Re-enable intro screen, style a bit better and allow transition to 'New Game' state. +
+   ii. In 'New Game' screen, allow character name picking & difficulty selection. +

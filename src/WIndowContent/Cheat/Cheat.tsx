@@ -38,6 +38,16 @@ export default function Cheat(props: {}): JSX.Element {
             >
                 Set Gold High
             </button>
+            <button
+                onClick={() => {
+                    player.statBlock.healthMin = player.getHealthMax();
+                    player.statBlock.manaMin = player.getManaMax();
+                    player.statBlock.staminaMin = player.getStaminaMax();
+                    __GLOBAL_REFRESH_FUNC_REF();
+                }}
+            >
+                Heal
+            </button>
         </div>
     );
 }

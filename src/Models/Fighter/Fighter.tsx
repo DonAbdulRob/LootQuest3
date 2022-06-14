@@ -165,4 +165,8 @@ export class Fighter {
             this.statBlock.healthMin = this.statBlock.healthMax;
         }
     };
+
+    getExpToLevel = () => {
+        return this.level * 10;
+    };
 }
