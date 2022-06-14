@@ -118,10 +118,12 @@ export class PlayerAbilityEffectLib {
                 'Power Strike',
                 1,
                 () => {
+                    console.log('TEST 1');
                     player.statBlock.damageMin += damageMod;
                     player.statBlock.damageMax += damageMod;
                 },
                 () => {
+                    console.log('TEST 2');
                     player.statBlock.damageMin -= damageMod;
                     player.statBlock.damageMax -= damageMod;
                 },

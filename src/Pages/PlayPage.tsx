@@ -10,14 +10,15 @@ import Combat from '../WIndowContent/Combat/Combat';
 import { PageProps } from './SharedProps/PageBaseProps';
 import Inventory from '../WIndowContent/Inventory/Inventory';
 import Equipment from '../WIndowContent/Equipment/Equipment';
-import Console, { ConsoleData } from '../WIndowContent/Console/Console';
+import Console from '../WIndowContent/Console/Console';
 import Cheat from '../WIndowContent/Cheat/Cheat';
 import WindowStateManager from '../Models/Singles/WindowStateManager';
 import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
-import { getPaddedToTwoDigits, G_MONTHS_ARR } from '../Models/Helper';
 import { _GAME_IN_DEBUG_MODE } from '../App';
 import Ability from '../WIndowContent/Ability/Ability';
-import { Player } from '../Models/Fighter/Player';
+import { PageEnum } from './SharedProps/PageEnum';
+import { G_GO_TO_PAGE as GO_TO_PAGE } from './SharedProps/GoToPageFunc';
+import QuitButton from './Components/QuitButton';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
 
@@ -27,13 +28,6 @@ export interface FloatingWindowPropsBuilder {
     contentElement: JSX.Element;
     top?: number;
     left?: number;
-}
-
-/**
- *  Use our setPage function to change game page back to intro.
- */
-function openIntroPage(props: PageProps) {
-    props.setPage(0);
 }
 
 /**
@@ -124,91 +118,29 @@ function getDesiredContent() {
 export function PlayPage(props: PageProps) {
     // var inits
     const [refreshVar, setRefreshVar] = React.useState(0);
+    let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
     __GLOBAL_REFRESH_FUNC_REF = () => {
         forceRefresh(setRefreshVar);
     };
-    let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
-    let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
-    let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
 
     return (
         <div>
             <div>
-                <h1>Loot Quest</h1>
                 <button
                     onClick={() => {
-                        var a = document.createElement('a');
-                        a.href = window.URL.createObjectURL(
-                            new Blob([player.getJSON()], {
-                                type: 'text/plain',
-                            }),
-                        );
-
-                        let now = new Date();
-
-                        let nowStr: string =
-                            G_MONTHS_ARR[now.getMonth()] +
-                            '_' +
-                            getPaddedToTwoDigits(now.getDate()) +
-                            '_' +
-                            now.getFullYear() +
-                            '_' +
-                            getPaddedToTwoDigits(now.getHours()) +
-                            '_' +
-                            getPaddedToTwoDigits(now.getMinutes()) +
-                            '_' +
-                            getPaddedToTwoDigits(now.getSeconds());
-
-                        a.download = 'Loot_Quest_' + nowStr + '.txt';
-                        a.click();
-                        consoleData.add('Game saved.');
-                        __GLOBAL_REFRESH_FUNC_REF();
+                        GO_TO_PAGE(props, PageEnum.Help);
                     }}
                 >
-                    Save
+                    Help
                 </button>
-                Load:{' '}
-                <input
-                    type="file"
-                    onChange={(e: any) => {
-                        let file = e.target.files[0];
-                        let reader = new FileReader();
-
-                        reader.addEventListener('load', function (e1: any) {
-                            player.fromJSON(e1.target.result);
-                            consoleData.add('Game loaded.');
-                            __GLOBAL_REFRESH_FUNC_REF();
-                        });
-
-                        reader.readAsText(file);
-                    }}
-                ></input>
                 <button
                     onClick={() => {
-                        windowStateManager.resetWindows();
-                        __GLOBAL_REFRESH_FUNC_REF();
+                        GO_TO_PAGE(props, PageEnum.Settings);
                     }}
                 >
-                    Reset Windows
+                    Settings
                 </button>
-                Window Transparency
-                <input
-                    type="range"
-                    min="10"
-                    max="100"
-                    value={windowStateManager.opacity * 100}
-                    onChange={(e: any) => {
-                        windowStateManager.opacity = e.target.value * 0.01;
-                        __GLOBAL_REFRESH_FUNC_REF();
-                    }}
-                />
-                <button
-                    onClick={() => {
-                        openIntroPage(props);
-                    }}
-                >
-                    Quit
-                </button>
+                <QuitButton page={props.page} setPage={props.setPage} />
             </div>
             <div id="floating-window-container" key={refreshVar}>
                 {getWindows(windowStateManager)}

@@ -3,15 +3,15 @@
  */
 
 import * as React from 'react';
+import LoadGame from './Components/LoadGame';
+import { G_GO_TO_PAGE } from './SharedProps/GoToPageFunc';
 import { PageProps } from './SharedProps/PageBaseProps';
+import { PageEnum } from './SharedProps/PageEnum';
 
-export default function IntroPage(props: PageProps) {
-    function openMainPage() {
-        props.setPage(1);
-    }
-
+export default function MainMenuPage(props: PageProps) {
     return (
-        <div id="IntroPage" className="container">
+        <div className="container">
+            <hr />
             <div className="mb-1">
                 <br />
             </div>
@@ -19,16 +19,18 @@ export default function IntroPage(props: PageProps) {
             <div className="p-5 mb-2 bg-primary text-white rounded">
                 <h1 className="mt-5 mb-5 text-center">Welcome to LootQuest 2!</h1>
             </div>
+            <br />
+            <br />
 
             <div className="center">
                 <button
                     onClick={() => {
-                        openMainPage();
+                        G_GO_TO_PAGE(props, PageEnum.NewGame);
                     }}
                 >
-                    Start
+                    Start A New Adventure
                 </button>
-                <br />
+                <LoadGame />
             </div>
         </div>
     );

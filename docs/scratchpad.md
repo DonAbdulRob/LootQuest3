@@ -18,3 +18,35 @@ contentElement: <Equipment { ...{ fighter: player, setFighter: setPlayer }}/>
 # Prettier command:
 
 prettier --write .
+
+# Traits code
+
+
+<h1>Traits - 0/2</h1>
+<div>
+    <div>
+        <h3>
+            Strong: Gain +1 strength per level.
+            <button onClick={() => {}}>Pick</button>
+        </h3>
+    </div>
+    <div>
+        <h3>
+            Rich: Monsters carry +1 gold coin per level.
+            <button onClick={() => {}}>Pick</button>
+        </h3>
+    </div>
+    <div>
+        <h3>
+            Smart: Monsters grant +1 experience per level.
+            <button onClick={() => {}}>Pick</button>
+        </h3>
+    </div>
+    <div>
+        <h3>
+            Evasive: +10% bonus chance to successfully flee combat.
+            <button onClick={() => {}}>Pick</button>
+        </h3>
+    </div>
+</div>
+

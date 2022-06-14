@@ -2,7 +2,7 @@
 
 This document has all of the planned goals for Loot Quest's completion, iterated periodically as goals are met.
 
-## TODO - HIGH PRIO/CONTINUAL:
+## TODO - CONTINUAL:
 
 - Continue using comments and 'let' and 'const' as appropriate.
 - Polish existing features as needed.
@@ -10,26 +10,31 @@ This document has all of the planned goals for Loot Quest's completion, iterated
    - Using item in combat, equpping items = use a turn.
    - Unable to save/load while in combat, etc.
 - Keep styling game to look nice. (don't forget icons eventually instead of buttons everywhere)
+- Continue work on help page.
 
+## TODO - HIGH PRIO (Volitile scope creeping changes)
 
-- Double check that all features still work as intended from most recent commit.
-- Continue work on help page. (#5 in short-term);
+- Difficulty Implementation.
+- Resource bars.
+- Refactor game state.
 
 ## TODO - Short Term:
 
 1. Settings Page (note: PAGE, not window).
-2. Better game start logic.
-   i. Re-enable intro screen, style a bit better and allow transition to 'New Game' state.
-   ii. In 'New Game' screen, allow character name picking & difficulty selection.
-3. Start work toward removal of enemy window.
+2. Better game start logic. +
+   i. Re-enable intro screen, style a bit better and allow transition to 'New Game' state. +
+   ii. In 'New Game' screen, allow character name picking & difficulty selection. +
+3. Start work toward removal of enemy window. +
    i. Show monster description and image in combat window.
-   note: Create instance of 'Character' window with enemy as the fighter arg and isPlayer set to true to view all hidden stats.
+   note: Create instance of 'Character' window with enemy as the fighter arg and isPlayer set to true to view all hidden stats. +
 4. Leveling
    i. More health from leveling. More damage after a few levels?
 5. Help Page.
 6. Proper transitions between all pages.
 7. Area Select window.
    i. Monster specific item drop pools.
+   ii. Areas aren't just 'find fight'. Should be 'explore' with outcomes based on area. Create 3 areas to start with 1 location-specific combat outcome, 1 location-specific gathering outcome and access to a non-location specific 'outcome pool'.
+   iii. Time of Day in area window. Traveling and 'exploring' advances time. At night, increase chance of monster outcomes.
 
 ## TODO - Medium Term:
 
@@ -105,4 +110,5 @@ x Create right-click menu for inv. (prio lowered)
    + Style skills. Create popup on hover.
    + Move combat screen to main game area.
    + Enemies use skills 25% of the time.
-   
+
+- Double check that all features still work as intended from most recent commit.

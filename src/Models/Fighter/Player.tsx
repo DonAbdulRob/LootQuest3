@@ -1,7 +1,9 @@
 import { PlayerAbilityContainer } from './Ability/PlayerAbilityContainer';
 import { Fighter } from './Fighter';
+import { immerable } from 'immer';
 
 export class Player extends Fighter {
+    [immerable] = true;
     abilities: PlayerAbilityContainer = new PlayerAbilityContainer();
 
     constructor() {

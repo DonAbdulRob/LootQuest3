@@ -4,9 +4,13 @@
  */
 
 import * as React from 'react';
-import IntroPage from './Pages/IntroPage';
+import HelpPage from './Pages/HelpPage';
+import MainMenuPage from './Pages/MainMenu';
+import NewGamePage from './Pages/NewGamePage';
 import { PlayPage } from './Pages/PlayPage';
+import SettingsPage from './Pages/SettingsPage';
 import { PageProps } from './Pages/SharedProps/PageBaseProps';
+import { PageEnum } from './Pages/SharedProps/PageEnum';
 
 export const _GAME_IN_DEBUG_MODE = false;
 
@@ -17,18 +21,29 @@ function getDesiredPage(currentPage: number, setPage: Function): JSX.Element {
     };
 
     switch (currentPage) {
-        case 0:
-            return <IntroPage {...data} />;
-        case 1:
+        case PageEnum.MainMenu:
+            return <MainMenuPage {...data} />;
+        case PageEnum.NewGame:
+            return <NewGamePage {...data} />;
+        case PageEnum.Play:
             return <PlayPage {...data} />;
+        case PageEnum.Settings:
+            return <SettingsPage {...data} />;
+        case PageEnum.Help:
+            return <HelpPage {...data} />;
         default:
-            return <IntroPage {...data} />;
+            return <MainMenuPage {...data} />;
     }
 }
 
 export default function App(): JSX.Element {
-    // 0 = intro, 1 = main game page
-    const [page, setPage] = React.useState(1);
+    // Page Enum tracks game page.
+    const [page, setPage] = React.useState(PageEnum.Play);
 
-    return <div className="app">{getDesiredPage(page, setPage)}</div>;
+    return (
+        <div className="app">
+            <h1>Loot Quest</h1>
+            {getDesiredPage(page, setPage)}
+        </div>
+    );
 }

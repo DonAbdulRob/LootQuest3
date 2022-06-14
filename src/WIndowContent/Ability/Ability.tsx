@@ -14,7 +14,7 @@ export default function Abilities() {
 
     let display = player.abilities.abilityArray.map((v: Ability, i: number) => {
         return (
-            <div>
+            <div key={i}>
                 <div className="tooltip">
                     <p>{v.name}</p>
                     <span className="tooltiptext">

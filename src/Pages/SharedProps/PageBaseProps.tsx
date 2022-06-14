@@ -1,4 +1,6 @@
+import { PageEnum } from './PageEnum';
+
 export interface PageProps {
-    page: number;
+    page: PageEnum;
     setPage: Function;
 }

@@ -45,8 +45,8 @@ export class StatusContainer {
         }
 
         // Run new statuses func.
-        if (newStatus.endFunc !== null) {
-            newStatus.endFunc();
+        if (newStatus.doFunc !== null) {
+            newStatus.doFunc();
         }
 
         this.statusArr.push(newStatus);
