@@ -5,11 +5,13 @@ import { Monster } from '../../Models/Fighter/Monster';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import '../../Components/Popups/ItemPopup.css';
 import { Ability } from '../../Models/Fighter/Ability/AbilityList';
+import GameStateManager from '../../Models/Singles/GameStateManager';
 
-export default function Abilities() {
+export default function AbilityComponent() {
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let enemy: Monster = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);
     let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
+    let gameStateManager: GameStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.gameStateManager);
     let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
 
     let display = player.abilities.abilityArray.map((v: Ability, i: number) => {
@@ -27,7 +29,13 @@ export default function Abilities() {
                     onClick={() => {
                         let abilityEffectRef = v.effectFunctionReference;
 
-                        ABILITY_EFFECT_FUNCTION(abilityEffectRef)(player, enemy, combatState, consoleData);
+                        ABILITY_EFFECT_FUNCTION(abilityEffectRef)(
+                            player,
+                            enemy,
+                            combatState,
+                            gameStateManager,
+                            consoleData,
+                        );
                     }}
                 >
                     Use

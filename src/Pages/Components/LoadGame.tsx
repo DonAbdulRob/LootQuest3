@@ -4,7 +4,7 @@
 import React from 'react';
 import { Player } from '../../Models/Fighter/Player';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
-import { ConsoleData } from '../../WIndowContent/Console/Console';
+import { ConsoleData } from '../../WIndowContent/Console/ConsoleComponent';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../PlayPage';
 import './LoadGame.css';
 

@@ -7,7 +7,7 @@ import { Player } from '../Models/Fighter/Player';
 import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 import { G_MONTHS_ARR, getPaddedToTwoDigits } from '../Models/Helper';
 import WindowStateManager from '../Models/Singles/WindowStateManager';
-import { ConsoleData } from '../WIndowContent/Console/Console';
+import { ConsoleData } from '../WIndowContent/Console/ConsoleComponent';
 import LoadGame from './Components/LoadGame';
 import QuitButton from './Components/QuitButton';
 import { __GLOBAL_REFRESH_FUNC_REF } from './PlayPage';

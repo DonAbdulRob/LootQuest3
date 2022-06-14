@@ -1,34 +1,35 @@
+import { getRandomValueUpTo } from '../Helper';
 import { Item } from '../Item/Item';
-
-export enum CombatStateEnum {
-    OUT_OF_COMBAT,
-    IN_COMBAT,
-    LOOTING,
-}
+import { ItemGen } from '../Item/ItemGen';
 
 export default class CombatState {
     round: number = 0;
-    combatState: number = 0;
     loot: Array<Item> = [];
     generateLootLock: boolean = false;
 
-    advance = () => {
-        this.combatState = (this.combatState + 1) % 3;
-    };
+    generateNewLoot() {
+        this.loot = [];
+        let lootRolls = getRandomValueUpTo(100);
+        let lootAmount = 0;
 
-    reset = () => {
-        this.combatState = 0;
-    };
+        if (lootRolls >= 50) {
+            lootAmount = 1;
+        } else if (lootRolls >= 75) {
+            lootRolls = 2;
+        } else if (lootRolls >= 90) {
+            lootRolls = 3;
+        }
 
-    enableLootLock = () => {
-        this.generateLootLock = true;
-    };
+        let type;
 
-    disableLootLock = () => {
-        this.generateLootLock = false;
-    };
+        for (var i = 0; i < lootAmount; i++) {
+            type = getRandomValueUpTo(1);
 
-    inCombat = () => {
-        return this.combatState === CombatStateEnum.IN_COMBAT;
-    };
+            if (type === 0) {
+                this.loot.push(ItemGen.getRandomSword());
+            } else if (type === 1) {
+                this.loot.push(ItemGen.getOranHerb());
+            }
+        }
+    }
 }

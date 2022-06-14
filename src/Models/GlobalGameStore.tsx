@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { ConsoleData } from '../WIndowContent/Console/Console';
+import { ConsoleData } from '../WIndowContent/Console/ConsoleComponent';
 import { Player } from './Fighter/Player';
 import { Monster } from './Fighter/Monster';
 import CombatState from './Shared/CombatState';

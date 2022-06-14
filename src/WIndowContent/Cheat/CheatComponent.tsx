@@ -18,7 +18,7 @@ function addGodSword(fighter: Player) {
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-export default function Cheat(props: {}): JSX.Element {
+export default function CheatComponent(props: {}): JSX.Element {
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
 
     return (

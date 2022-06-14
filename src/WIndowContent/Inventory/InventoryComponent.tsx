@@ -4,11 +4,12 @@ import { Item, EquipmentType, ItemType, Equipment, Consumable } from '../../Mode
 import { CONSUMABLE_EFFECT_FUNCTION } from '../../Models/Item/ItemEffectToCoreEffectMapper';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
-import { ConsoleData } from '../Console/Console';
+import { ConsoleData } from '../Console/ConsoleComponent';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
 import { Player } from '../../Models/Fighter/Player';
 import { Monster } from '../../Models/Fighter/Monster';
 import CombatState from '../../Models/Shared/CombatState';
+import GameStateManager from '../../Models/Singles/GameStateManager';
 
 function equip(fighter: Player, inventorySlot: number) {
     let invItem: Equipment | Item = fighter.inventory.items[inventorySlot];
@@ -63,6 +64,7 @@ function getInventoryMap(
     fighter: Player,
     enemy: Monster,
     combatState: CombatState,
+    gameStateManager: GameStateManager,
     consoleData: ConsoleData,
 ): JSX.Element[] {
     if (fighter.inventory.items.length === 0) {
@@ -80,7 +82,7 @@ function getInventoryMap(
                         let func = CONSUMABLE_EFFECT_FUNCTION((v as Consumable).useFunctionId);
 
                         if (func != null) {
-                            func(fighter, enemy, i, combatState, consoleData);
+                            func(fighter, enemy, i, combatState, gameStateManager, consoleData);
                             __GLOBAL_REFRESH_FUNC_REF();
                         }
                     }}
@@ -122,16 +124,17 @@ function getInventoryMap(
 /**
  * Show player inventory. Doesn't support the 'fighter' class objects. Only players.
  */
-export default function Inventory(): JSX.Element {
+export default function InventoryComponent(): JSX.Element {
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let enemy: Monster = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);
-    let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
-    let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
+    let combatState: CombatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
+    let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
+    let gameStateManager: GameStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.gameStateManager);
 
     return (
         <div className="window-core">
             <h1>Inventory</h1>
-            {getInventoryMap(player, enemy, combatState, consoleData)}
+            {getInventoryMap(player, enemy, combatState, gameStateManager, consoleData)}
         </div>
     );
 }

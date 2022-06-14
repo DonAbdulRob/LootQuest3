@@ -1,5 +1,5 @@
 import { getRandomValueUpTo, getRandomElement } from '../Helper';
-import { Item, Equipment, EquipmentType, Consumable } from './Item';
+import { Item, Equipment, EquipmentType, Consumable, ItemType } from './Item';
 import * as ItemEffects from './ItemEffectToCoreEffectMapper';
 
 export class ItemGen {
@@ -15,6 +15,15 @@ export class ItemGen {
         newItem.statBlock.damageMax = max;
         return newItem;
     }
+
+    static getWood(): Item {
+        const materials = ['Oak', 'Willow', 'Redwood'];
+        const mat = getRandomElement(materials);
+
+        let newItem: Item = new Item(mat + ' Log', 'A log made of ' + mat, ItemType.RESOURCE);
+        return newItem;
+    }
+
     static getOranHerb(): Item {
         let newItem = new Consumable(
             'Oran Herb',

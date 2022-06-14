@@ -53,6 +53,14 @@ export default function HelpPage(props: PageProps) {
                 than yourself.
             </p>
             <hr />
+            <h1>Combat</h1>
+            <p>
+                Loot Quest is a turn-based game, meaning that you take your turn and then the enemy takes theirs. Use
+                options on the combat screen to manage encounters. And, feel free to make use of abilities within the
+                Ability window to have an edge over foes. Being reduced to zero health or lower means death. And, as an
+                additional note, monsters substantially weaker than you will award reduced experience.
+            </p>
+            <hr />
             <button
                 onClick={() => {
                     openPlayPage();

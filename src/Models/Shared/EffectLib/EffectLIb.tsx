@@ -6,24 +6,38 @@
  * Note: Don't do percentage increases/decreases for now because we don't have seperate 'buffStatBlock' to uncalculate % buffs yet.
  */
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
-import { processCombatRound } from '../../../WIndowContent/Combat/Combat';
-import { ConsoleData } from '../../../WIndowContent/Console/Console';
+import { processCombatRound } from '../../../WIndowContent/EmbeddedWindow/Combat/CombatComponent';
+import { ConsoleData } from '../../../WIndowContent/Console/ConsoleComponent';
 import { Fighter } from '../../Fighter/Fighter';
 import { Player } from '../../Fighter/Player';
 import { Monster } from '../../Fighter/Monster';
 import { G_HIDDEN_SKIP_TURN_STATUS, Status } from '../../Fighter/Status/Status';
 import CombatState from '../CombatState';
 import { activateHealthHealItem } from './EffectLIbHelpers';
+import GameStateManager from '../../Singles/GameStateManager';
 
 const STR_COMBAT_ONLY = 'This ability can only be used in combat.';
 const STR_NOT_ENOUGH_RESOURCE = `You can't afford to use this ability.`;
 
 export interface PlayerItemEffectFunctionTemplate {
-    (player: Player, enemy: Monster, index: number, combatState: CombatState, consoleData: ConsoleData): void;
+    (
+        player: Player,
+        enemy: Monster,
+        index: number,
+        combatState: CombatState,
+        gameStateManager: GameStateManager,
+        consoleData: ConsoleData,
+    ): void;
 }
 
 export interface AbilityEffectFunctionTemplate {
-    (player: Player, enemy: Monster, combatState: CombatState, consoleData: ConsoleData): void;
+    (
+        player: Player,
+        enemy: Monster,
+        combatState: CombatState,
+        gameStateManager: GameStateManager,
+        consoleData: ConsoleData,
+    ): void;
 }
 
 function canCast_CombatOnlyCheck(
@@ -34,7 +48,7 @@ function canCast_CombatOnlyCheck(
     consoleData: ConsoleData,
 ): boolean {
     // Prevent use of ability outside of combat.
-    if (!combatState.inCombat()) {
+    if (!player.isFighting()) {
         consoleData.add(STR_COMBAT_ONLY);
         __GLOBAL_REFRESH_FUNC_REF();
         return false;
@@ -89,6 +103,7 @@ export class PlayerItemEffectLib {
         enemy: Monster,
         index: number,
         combatState: CombatState,
+        gameStateManager: GameStateManager,
         consoleData: ConsoleData,
     ) => {
         // Handle oran herb core effect.
@@ -103,6 +118,7 @@ export class PlayerAbilityEffectLib {
         player: Player,
         enemy: Monster,
         combatState: CombatState,
+        gameStateManager: GameStateManager,
         consoleData: ConsoleData,
     ) => {
         // Check that player can cast via standard check function.
@@ -132,7 +148,7 @@ export class PlayerAbilityEffectLib {
         );
 
         // Perform an attack with a custom damage message format.
-        processCombatRound(player, enemy, combatState, consoleData, {
+        processCombatRound(player, enemy, combatState, consoleData, gameStateManager, {
             prefix: 'You activate Power Strike and attack for ',
             suffix: ' damage!',
         });
@@ -142,6 +158,7 @@ export class PlayerAbilityEffectLib {
         player: Player,
         enemy: Monster,
         combatState: CombatState,
+        gameStateManager: GameStateManager,
         consoleData: ConsoleData,
     ) => {
         // Check that player can cast via standard check function.
@@ -159,8 +176,8 @@ export class PlayerAbilityEffectLib {
         player.statusContainer.addStatus(new Status(G_HIDDEN_SKIP_TURN_STATUS, 1, null, null, false));
 
         // If in combat, perfrom a combat turn.
-        if (combatState.inCombat()) {
-            processCombatRound(player, enemy, combatState, consoleData);
+        if (player.isFighting()) {
+            processCombatRound(player, enemy, combatState, consoleData, gameStateManager);
         } else {
             __GLOBAL_REFRESH_FUNC_REF();
         }

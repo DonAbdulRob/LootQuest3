@@ -3,9 +3,9 @@ import ResourceBar, { ResourceBarProps } from '../../Components/ResourceBar/Reso
 import { Fighter } from '../../Models/Fighter/Fighter';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import CharacterProps from '../SharedProps/CharacterProps';
-import './Character.css';
+import './CharacterComponent.css';
 
-export default function Character(props: CharacterProps): JSX.Element {
+export default function CharacterComponent(props: CharacterProps): JSX.Element {
     let fighter: Fighter = props.usePlayer
         ? __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player)
         : __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);

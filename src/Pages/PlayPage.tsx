@@ -5,20 +5,20 @@
 
 import React from 'react';
 import FloatingWindow from '../Components/FloatingWindow/FloatingWindow';
-import Character from '../WIndowContent/Character/Character';
-import Combat from '../WIndowContent/Combat/Combat';
+import CharacterComponent from '../WIndowContent/Character/CharacterComponent';
 import { PageProps } from './SharedProps/PageBaseProps';
-import Inventory from '../WIndowContent/Inventory/Inventory';
-import Equipment from '../WIndowContent/Equipment/Equipment';
-import Console from '../WIndowContent/Console/Console';
-import Cheat from '../WIndowContent/Cheat/Cheat';
+import InventoryComponent from '../WIndowContent/Inventory/InventoryComponent';
+import EquipmentComponent from '../WIndowContent/Equipment/EquipmentComponent';
+import ConsoleComponent from '../WIndowContent/Console/ConsoleComponent';
+import CheatComponent from '../WIndowContent/Cheat/CheatComponent';
 import WindowStateManager from '../Models/Singles/WindowStateManager';
 import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 import { _GAME_IN_DEBUG_MODE } from '../App';
-import Ability from '../WIndowContent/Ability/Ability';
+import Ability from '../WIndowContent/Ability/AbilityComponent';
 import { PageEnum } from './SharedProps/PageEnum';
 import { G_GO_TO_PAGE as GO_TO_PAGE } from './SharedProps/GoToPageFunc';
 import QuitButton from './Components/QuitButton';
+import EmbeddedWindowComponent from '../WIndowContent/EmbeddedWindow/EmbeddedWindowComponent';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
 
@@ -39,13 +39,13 @@ function getWindows(windowStateManager: WindowStateManager) {
     let windows: Array<FloatingWindowPropsBuilder> = [
         {
             title: 'Player',
-            contentElement: <Character usePlayer={true} />,
+            contentElement: <CharacterComponent usePlayer={true} />,
             top: 110,
             left: 10,
         },
         {
             title: 'Console',
-            contentElement: <Console />,
+            contentElement: <ConsoleComponent />,
             top: secondRowStart,
             left: 10,
         },
@@ -57,13 +57,13 @@ function getWindows(windowStateManager: WindowStateManager) {
         },
         {
             title: 'Equipment',
-            contentElement: <Equipment />,
+            contentElement: <EquipmentComponent />,
             top: 110,
             left: 1200,
         },
         {
             title: 'Inventory',
-            contentElement: <Inventory />,
+            contentElement: <InventoryComponent />,
             top: 350,
             left: 1200,
         },
@@ -72,14 +72,14 @@ function getWindows(windowStateManager: WindowStateManager) {
     if (_GAME_IN_DEBUG_MODE) {
         windows.push({
             title: 'Cheat',
-            contentElement: <Cheat />,
+            contentElement: <CheatComponent />,
             top: 0,
             left: 800,
         });
 
         windows.push({
             title: 'Enemy',
-            contentElement: <Character usePlayer={false} />,
+            contentElement: <CharacterComponent usePlayer={false} />,
             top: secondRowStart + 150,
             left: 510,
         });
@@ -111,10 +111,6 @@ function getWindows(windowStateManager: WindowStateManager) {
 
 function forceRefresh(setRefreshVar: Function) {
     setRefreshVar((v: number) => v + 1);
-}
-
-function getDesiredContent() {
-    return <Combat />;
 }
 
 export function PlayPage(props: PageProps) {
@@ -149,7 +145,7 @@ export function PlayPage(props: PageProps) {
             </div>
 
             <hr />
-            {getDesiredContent()}
+            {<EmbeddedWindowComponent />}
         </div>
     );
 }

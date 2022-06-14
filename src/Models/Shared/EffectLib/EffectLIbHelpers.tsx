@@ -2,7 +2,7 @@
  * This file contains all of the helper functions for EffectFunctions.tsx
  */
 
-import { ConsoleData } from '../../../WIndowContent/Console/Console';
+import { ConsoleData } from '../../../WIndowContent/Console/ConsoleComponent';
 import { Fighter } from '../../Fighter/Fighter';
 
 export function activateHealthHealItem(

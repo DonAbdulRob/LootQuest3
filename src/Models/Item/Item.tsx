@@ -1,5 +1,3 @@
-import { StatBlock } from '../Shared/StatBlock';
-
 /**
  * This file contains the base definition for items.
  * Items are objects that the player can own that have any number of uses.
@@ -8,6 +6,7 @@ import { StatBlock } from '../Shared/StatBlock';
 export enum ItemType {
     EQUIPMENT,
     CONSUMABLE,
+    RESOURCE,
 }
 
 export enum EquipmentType {
@@ -19,6 +18,7 @@ export class Item {
     name: string = '';
     description: string = '';
     itemType: ItemType = 0;
+    weight: number = 0;
 
     constructor(name: string, description: string, itemType: ItemType) {
         this.name = name;

@@ -57,13 +57,14 @@ p {
     flex-direction: 'row';
 }
 
-.combat-window {
-    position: absolute;
-    top: 110px;
-    left: 440px;
-    height: 295px;
-    width: 735px;
-    background-color: rgb(228, 237, 245);
-    border: 3px solid rgb(186, 201, 230);
-    padding: 5px;
+.big-button {
+    padding: 32px;
+    font-size: 32px;
+}
+
+button:active {
+    transform: scale(0.95);
+    /* Scaling button to 0.98 to its original size */
+    box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.24);
+    /* Lowering the shadow */
 }

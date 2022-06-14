@@ -1,23 +1,10 @@
 import React from 'react';
-import ItemPopup from '../../Components/Popups/ItemPopup';
-import { Item } from '../../Models/Item/Item';
-import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
-import { getRandomValueUpTo } from '../../Models/Helper';
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
-import { ItemGen } from '../../Models/Item/ItemGen';
-import CombatState from '../../Models/Shared/CombatState';
-import { Player } from '../../Models/Fighter/Player';
-
-function generateNewLoot() {
-    var loot: Array<Item> = [];
-    let lootAmount = getRandomValueUpTo(2) + 1;
-
-    for (var i = 0; i < lootAmount; i++) {
-        loot.push(ItemGen.getRandomSword());
-    }
-
-    return loot;
-}
+import ItemPopup from '../../../Components/Popups/ItemPopup';
+import { Item } from '../../../Models/Item/Item';
+import { __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
+import CombatState from '../../../Models/Shared/CombatState';
+import { Player } from '../../../Models/Fighter/Player';
 
 function getLootDisplay(loot: Array<Item>) {
     return loot.map((v: Item, i: number) => {
@@ -25,29 +12,21 @@ function getLootDisplay(loot: Array<Item>) {
     });
 }
 
-function endLooting(combatState: CombatState) {
+function endLooting(player: Player, combatState: CombatState) {
     // Clear loot in combat state.
     combatState.loot = [];
 
     // Advance combat to next phase (out of combat)
-    combatState.advance();
-
-    // Disable the loot lock.
-    combatState.disableLootLock();
+    player.setCombatOver();
 
     // Refresh screen.
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-export default function LootTransition() {
+export default function LootTransitionComponent() {
     let combatState: CombatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let loot = combatState.loot;
-
-    if (!combatState.generateLootLock) {
-        combatState.loot = generateNewLoot();
-        combatState.enableLootLock();
-    }
 
     return (
         <div>
@@ -61,7 +40,7 @@ export default function LootTransition() {
                         player.addItemToInventory(item);
                     }
                     // End looting.
-                    endLooting(combatState);
+                    endLooting(player, combatState);
 
                     // Refresh screen.
                     __GLOBAL_REFRESH_FUNC_REF();
@@ -71,7 +50,7 @@ export default function LootTransition() {
             </button>
             <button
                 onClick={() => {
-                    endLooting(combatState);
+                    endLooting(player, combatState);
                 }}
             >
                 Exit Looting

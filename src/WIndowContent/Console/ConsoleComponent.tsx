@@ -50,7 +50,7 @@ export class ConsoleData {
     }
 }
 
-export default function Console() {
+export default function ConsoleComponent() {
     let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
 
     return (

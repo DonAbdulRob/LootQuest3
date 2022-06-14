@@ -1,14 +1,14 @@
 import React from 'react';
-import { MonsterEffectFunctionTemplate } from '../../Models/Fighter/Ability/MonsterAbilityContainer';
-import { Player } from '../../Models/Fighter/Player';
-import { Monster } from '../../Models/Fighter/Monster';
-import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
-import { getRandomElement, getRandomValueUpTo } from '../../Models/Helper';
-import CombatState, { CombatStateEnum } from '../../Models/Shared/CombatState';
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
-import { ConsoleData } from '../Console/Console';
-import LootTransition from './LootTransition';
-import GameStateManager from '../../Models/Singles/GameStateManager';
+import { MonsterEffectFunctionTemplate } from '../../../Models/Fighter/Ability/MonsterAbilityContainer';
+import { Player, PlayerActivity } from '../../../Models/Fighter/Player';
+import { Monster } from '../../../Models/Fighter/Monster';
+import { __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
+import { getRandomElement, getRandomValueUpTo } from '../../../Models/Helper';
+import CombatState from '../../../Models/Shared/CombatState';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
+import { ConsoleData } from '../../Console/ConsoleComponent';
+import LootTransitionComponent from './LootTransitionComponent';
+import GameStateManager from '../../../Models/Singles/GameStateManager';
 
 export interface CustomDamageMessage {
     prefix: string;
@@ -24,6 +24,7 @@ export function processCombatRound(
     enemy: Monster,
     combatState: CombatState,
     consoleData: ConsoleData,
+    gameStateManager: GameStateManager,
     customDamageMessage?: CustomDamageMessage | null,
 ) {
     // var init
@@ -68,9 +69,19 @@ export function processCombatRound(
     if (enemy.statBlock.healthMin <= 0) {
         consoleData.add('Enemy died.');
         player.gold += enemy.gold;
-        player.giveExperience(enemy.experience, consoleData);
-        enemy.reset();
-        combatState.advance();
+        player.giveExperience(enemy, consoleData);
+        player.setLooting();
+
+        // Generate loot.
+        combatState.generateNewLoot();
+
+        // End combat if no loot, else show loot screen.
+        if (combatState.loot.length === 0) {
+            player.setCombatOver();
+        } else {
+            player.setLooting();
+        }
+
         __GLOBAL_REFRESH_FUNC_REF();
         return;
     }
@@ -85,7 +96,7 @@ export function processCombatRound(
     let usedAbility = false;
 
     if (enemyAbilities.length > 0) {
-        let abilityUseChance = getRandomValueUpTo(4);
+        let abilityUseChance = getRandomValueUpTo(4); // 20% chance.
 
         if (abilityUseChance === 0) {
             usedAbility = true;
@@ -115,7 +126,7 @@ export function processCombatRound(
         player.statusContainer.clear();
 
         // Reset combat state.
-        combatState.reset();
+        player.setCombatOver();
         __GLOBAL_REFRESH_FUNC_REF();
         return;
     }
@@ -125,39 +136,16 @@ export function processCombatRound(
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function startFight(combatState: CombatState) {
-    if (combatState.combatState === CombatStateEnum.OUT_OF_COMBAT) {
-        combatState.advance();
-        __GLOBAL_REFRESH_FUNC_REF();
-    }
-}
-
-export default function Combat(props: {}): JSX.Element {
+export default function CombatComponent(): JSX.Element {
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let enemy: Monster = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);
-    let gameStateManager: GameStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.gameStateManager);
-    let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
-    let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
+    let combatState: CombatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
+    let gameStateManager: GameStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.gameState);
+    let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
     let display;
 
-    switch (combatState.combatState) {
-        case CombatStateEnum.OUT_OF_COMBAT:
-            display = (
-                <div>
-                    <p>No enemy yet!</p>
-                    <button
-                        onClick={() => {
-                            enemy.generateMonster(player.level, gameStateManager.gameDifficulty);
-                            consoleData.add('A monster appears: ' + enemy.name);
-                            startFight(combatState);
-                        }}
-                    >
-                        Find Fight
-                    </button>
-                </div>
-            );
-            break;
-        case CombatStateEnum.IN_COMBAT:
+    switch (player.activity) {
+        case PlayerActivity.IN_COMBAT_FIGHTING:
             display = (
                 <div>
                     <h1>
@@ -168,18 +156,40 @@ export default function Combat(props: {}): JSX.Element {
                     </p>
                     <button
                         onClick={() => {
-                            processCombatRound(player, enemy, combatState, consoleData);
+                            processCombatRound(player, enemy, combatState, consoleData, gameStateManager);
                         }}
                     >
                         Attack
                     </button>
-                    <button>Defend (Take 50% Damage)</button>
-                    <button>Flee</button>
+                    <button
+                        onClick={() => {
+                            // Give player +2 bonus armor.
+
+                            // Give player skip_turn status.
+
+                            // Process combat round.
+                            processCombatRound(player, enemy, combatState, consoleData, gameStateManager);
+                        }}
+                    >
+                        Defend
+                    </button>
+                    <button
+                        onClick={() => {
+                            // Attempt to flee. On success, return, else, continue combat.
+
+                            // Give player skip_turn status.
+
+                            // Process combat round.
+                            processCombatRound(player, enemy, combatState, consoleData, gameStateManager);
+                        }}
+                    >
+                        Flee
+                    </button>
                 </div>
             );
             break;
-        case CombatStateEnum.LOOTING:
-            display = <LootTransition />;
+        case PlayerActivity.IN_COMBAT_LOOTING:
+            display = <LootTransitionComponent />;
             break;
         default:
             display = <div></div>;

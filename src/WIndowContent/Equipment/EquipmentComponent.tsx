@@ -70,7 +70,7 @@ function getEquipmentMap(fighter: Player): JSX.Element[] {
     });
 }
 
-export default function Equipment(): JSX.Element {
+export default function EquipmentComponent(): JSX.Element {
     const store: any = __GLOBAL_GAME_STORE((__DATA) => __DATA);
     let fighter = store.player;
 

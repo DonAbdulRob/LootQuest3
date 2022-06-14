@@ -16,23 +16,20 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 
 Empty! Everything is PLANNED!
 
+- When leveling, make sure to heal stats to full, and don't overcap.
+- Defend/Flee (commented, implementation soon)
+
 ## TODO - Short Term:
 
-1. Area Select window + Refactor of Embedded Game Window.
-   i. Monster + Area specific item drop pools.
-   ii. Areas aren't just 'find fight'. Should be 'explore' with outcomes based on area.
-      a. Create 3 areas to start with 1 location-specific combat outcome, 1 location-specific gathering outcome and access to a non-location specific 'outcome pool'.
-   iii. Time of Day in area window. Traveling and 'exploring' advances time. At night, increase chance of monster outcomes.
-   - Actually make monster level based on area level in Combat.tsx.
-   - Area should have level range capping at player level.
-2. Inventory size limit.
+1. Inventory size limit.
    - Show how full it is in title.
    - Limit looting ability based on inventory capacity.
    - Same with transfering items.
-3. Implement Difficulty buttons in Character Select.
-4. Show monster description and image in embedded game window during combat.
-5. Hardcode stats for monsters from levels 1-10. For higher levels, use formulas. (After area stuff)
-6. Refactor game state.
+   - Item weights?
+2. Implement Difficulty buttons in Character Select.
+3. Show monster description and image in embedded game window during combat.
+4. Hardcode stats for monsters from levels 1-5. For higher levels, use formulas. (After area stuff)
+5. Refactor game state.
    - Can probably just put all game stats on a root-level class too, so I don't have to pass state into models...
 
 ## TODO - Medium Term:
@@ -78,6 +75,15 @@ x Create right-click menu for inv. (prio lowered)
 - note: Create instance of 'Character' window with enemy as the fighter arg and isPlayer set to true to view all hidden stats. +
 
 1. Resource bars in Character Panel.
+
+
+1. Area Select window + Refactor of Embedded Game Window.
+   i. Monster + Area specific item drop pools. x (denied, will worry about later)
+   ii. Areas aren't just 'find fight'. Should be 'explore' with outcomes based on area. +
+      a. Create 3 areas to start with 1 location-specific combat outcome, 1 location-specific gathering outcome and access to a non-location specific 'outcome pool'. x (partially complete, will add more later. framework is in place)
+   iii. Time of Day in area window. Traveling and 'exploring' advances time. At night, increase chance of monster outcomes. x (denied, will reconsider later)
+   - Actually make monster level based on area level in Combat.tsx. +
+   - Area should have level range capping at player level. + (area level influences monster level. Area levels are not based on player at all.)
 
 ## Large older section marked done 6/10/2022+:
 

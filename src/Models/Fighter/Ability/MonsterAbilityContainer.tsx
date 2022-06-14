@@ -2,7 +2,7 @@
  * Monster ability container can hold direct function references since it doesn't need serialized.
  */
 
-import { ConsoleData } from '../../../WIndowContent/Console/Console';
+import { ConsoleData } from '../../../WIndowContent/Console/ConsoleComponent';
 import CombatState from '../../Shared/CombatState';
 import { Player } from '../Player';
 import { Monster } from '../Monster';

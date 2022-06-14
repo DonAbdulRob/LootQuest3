@@ -1,8 +1,9 @@
+// returns between min and max, max is include. (1-2 returns 1 or 2)
 export function getRandomValueBetween(min: number, max: number) {
     return Math.round(Math.random() * (max - min) + min);
 }
 
-// 3 will return 0-2 as results.
+// 3 will return 0, 1, 2 or 3 as a result.
 export function getRandomValueUpTo(max: number) {
     return Math.floor(Math.random() * (max + 1));
 }
