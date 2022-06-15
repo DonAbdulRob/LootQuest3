@@ -15,6 +15,7 @@ import { G_HIDDEN_SKIP_TURN_STATUS, Status } from '../../Fighter/Status/Status';
 import CombatState from '../CombatState';
 import { activateHealthHealItem } from './EffectLIbHelpers';
 import GameStateManager from '../../Singles/GameStateManager';
+import { getRandomValueUpTo } from '../../Helper';
 
 const STR_COMBAT_ONLY = 'This ability can only be used in combat.';
 const STR_NOT_ENOUGH_RESOURCE = `You can't afford to use this ability.`;
@@ -114,6 +115,73 @@ export class PlayerItemEffectLib {
 }
 
 export class PlayerAbilityEffectLib {
+    static addSkipTurnStatusToPlayer = (player: Player) => {
+        player.statusContainer.addStatus(new Status(G_HIDDEN_SKIP_TURN_STATUS, 1, null, null, false));
+    };
+
+    static flee: AbilityEffectFunctionTemplate = (
+        player: Player,
+        enemy: Monster,
+        combatState: CombatState,
+        gameStateManager: GameStateManager,
+        consoleData: ConsoleData,
+    ) => {
+        // Attempt to flee. On success, return, else, continue combat. (25%)
+        let fleeRes = getRandomValueUpTo(3);
+
+        if (fleeRes === 0) {
+            consoleData.add('You successfully flee from combat.');
+            player.setCombatOver();
+            __GLOBAL_REFRESH_FUNC_REF();
+            return;
+        }
+
+        // Give player skip_turn status.
+        PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(player);
+
+        // Process combat round.
+        processCombatRound(player, enemy, combatState, consoleData, gameStateManager, {
+            insertDamage: false,
+            str1: 'Your attempt to flee fails.',
+        });
+    };
+
+    static defend: AbilityEffectFunctionTemplate = (
+        player: Player,
+        enemy: Monster,
+        combatState: CombatState,
+        gameStateManager: GameStateManager,
+        consoleData: ConsoleData,
+    ) => {
+        // Player can always defend.
+
+        // Add defense buff status to player.
+        let armorMod = 2;
+
+        player.statusContainer.addStatus(
+            new Status(
+                'Defend',
+                1,
+                () => {
+                    player.statBlock.armor += armorMod;
+                },
+                () => {
+                    player.statBlock.armor -= armorMod;
+                },
+                true,
+            ),
+        );
+
+        // Add skip turn status.
+        PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(player);
+
+        // Perform an attack with a custom damage message format.
+        processCombatRound(player, enemy, combatState, consoleData, gameStateManager, {
+            insertDamage: false,
+            str1: 'You take a defensive stance and gain +2 armor for the round.',
+        });
+    };
+
     static power_strike: AbilityEffectFunctionTemplate = (
         player: Player,
         enemy: Monster,
@@ -134,12 +202,10 @@ export class PlayerAbilityEffectLib {
                 'Power Strike',
                 1,
                 () => {
-                    console.log('TEST 1');
                     player.statBlock.damageMin += damageMod;
                     player.statBlock.damageMax += damageMod;
                 },
                 () => {
-                    console.log('TEST 2');
                     player.statBlock.damageMin -= damageMod;
                     player.statBlock.damageMax -= damageMod;
                 },
@@ -149,8 +215,9 @@ export class PlayerAbilityEffectLib {
 
         // Perform an attack with a custom damage message format.
         processCombatRound(player, enemy, combatState, consoleData, gameStateManager, {
-            prefix: 'You activate Power Strike and attack for ',
-            suffix: ' damage!',
+            insertDamage: true,
+            str1: 'You activate Power Strike and attack for ',
+            str2: ' damage!',
         });
     };
 
@@ -166,19 +233,23 @@ export class PlayerAbilityEffectLib {
             return;
         }
 
+        // Message str..
+        let str = 'You cast Lesser Heal. (+1 Health)';
+
         // Heal player.
         player.healHealth(1);
 
-        // Messaging.
-        consoleData.add('You cast Lesser Heal. (+1 Health)');
-
         // Add skip turn status to player.
-        player.statusContainer.addStatus(new Status(G_HIDDEN_SKIP_TURN_STATUS, 1, null, null, false));
+        PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(player);
 
         // If in combat, perfrom a combat turn.
         if (player.isFighting()) {
-            processCombatRound(player, enemy, combatState, consoleData, gameStateManager);
+            processCombatRound(player, enemy, combatState, consoleData, gameStateManager, {
+                insertDamage: false,
+                str1: str,
+            });
         } else {
+            consoleData.add(str);
             __GLOBAL_REFRESH_FUNC_REF();
         }
     };

@@ -7,8 +7,7 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 - Continue using comments and 'let' and 'const' as appropriate.
 - Polish existing features as needed.
 - Play and identify what is needed to make things 'work' and put in list format here for later task delegation.
-   - Using item in combat, equpping items = use a turn.
-   - Unable to save/load while in combat, etc.
+   - Empty!
 - Keep styling game to look nice. (don't forget icons eventually instead of buttons everywhere)
 - Continue work on help page.
 
@@ -16,52 +15,30 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 
 Empty! Everything is PLANNED!
 
-- When leveling, make sure to heal stats to full, and don't overcap.
-- Defend/Flee (commented, implementation soon)
-
 ## TODO - Short Term:
 
-1. Inventory size limit.
-   - Show how full it is in title.
-   - Limit looting ability based on inventory capacity.
-   - Same with transfering items.
-   - Item weights?
-2. Implement Difficulty buttons in Character Select.
-3. Show monster description and image in embedded game window during combat.
-4. Hardcode stats for monsters from levels 1-5. For higher levels, use formulas. (After area stuff)
+
+1. Using item in combat, equpping items = use a combat turn.
+2. Show monster description and image in embedded game window during combat.
+3. Hardcode stats for monsters from levels 1-5. For higher levels, use formulas.
+4. Fill the 'show town stuff' section with town stuff. (Inn to heal, Shop, etc.).
 5. Refactor game state.
    - Can probably just put all game stats on a root-level class too, so I don't have to pass state into models...
+6. Flesh out systems to have content for implemented systems up to level 5.
 
 ## TODO - Medium Term:
 
 1. Explore addition of other features to add to short-term.
-   - Shop
-   - Item Rarity
-   - Console Input (?)
-   - More Skills
-2. Settings menu? 
-
-## TODO: Long Term:
-
-1. Flesh out systems to have content for implemented systems up to level 10.
+   - Item Rarity ?
+   - Console Input ?
+   - More Skills ?
 2. Multiple enemies?
 3. Co-Op? Multiplayer?
 4. Item identification system?
 
-# Already Done.
+# Done List
 
-1. Implement ability to display content dynamically into the Floating Window components. (Pass entire components into them? Sure, why not)
-2. Implement 'fighter' data structures.
-3. Integrate player data structures into a floating window.
-4. Create a combat floating window to find new foes to fight and handle combat transitions.
-5. Create a floating window for enemies that display their stats too.
-6. Implement actual combat mechanisms. (turn-based hits to the death)
-
-- Independent Console Window has been added.
-- Finish loot display component.
-- Cheat Window (should be easy now with global state
-x Create right-click menu for inv. (prio lowered)
-
+For things that are done!
 
 ## Older Marked done 6/14/2022+:
 
@@ -84,6 +61,19 @@ x Create right-click menu for inv. (prio lowered)
    iii. Time of Day in area window. Traveling and 'exploring' advances time. At night, increase chance of monster outcomes. x (denied, will reconsider later)
    - Actually make monster level based on area level in Combat.tsx. +
    - Area should have level range capping at player level. + (area level influences monster level. Area levels are not based on player at all.)
+
+1. Inventory size limit.
+   - Show how full it is in title. +
+   - Limit looting ability based on inventory capacity. +
+   - Same with transfering items. +
+   - Item weights? x (deferred)
+
+- When leveling, make sure to heal stats to full, and don't overcap.
+- Defend/Flee (commented, implementation soon)
+
+2. Settings menu? +
+
+1. Restrict save/load feature while in combat, etc. x (denied)
 
 ## Large older section marked done 6/10/2022+:
 
@@ -135,3 +125,18 @@ x Create right-click menu for inv. (prio lowered)
 2. Better game start logic. +
    i. Re-enable intro screen, style a bit better and allow transition to 'New Game' state. +
    ii. In 'New Game' screen, allow character name picking & difficulty selection. +
+
+## Large older section marked done (pre - 6/10/2022):
+
+1. Implement ability to display content dynamically into the Floating Window components. (Pass entire components into them? Sure, why not)
+2. Implement 'fighter' data structures.
+3. Integrate player data structures into a floating window.
+4. Create a combat floating window to find new foes to fight and handle combat transitions.
+5. Create a floating window for enemies that display their stats too.
+6. Implement actual combat mechanisms. (turn-based hits to the death)
+
+- Independent Console Window has been added.
+- Finish loot display component.
+- Cheat Window (should be easy now with global state
+x Create right-click menu for inv. (prio lowered)
+

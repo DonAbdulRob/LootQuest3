@@ -4,10 +4,51 @@
 import { Item, EquipmentType, Equipment } from '../../Item/Item';
 import { ItemGen } from '../../Item/ItemGen';
 
+export const G_MAX_INV_SIZE = 20;
+
 export default class Inventory {
     items: Array<Item | Equipment> = [];
 
     constructor() {
+        this.addStarterItems();
+    }
+
+    addItem(item: Item): boolean {
+        if (this.isFull()) {
+            return false;
+        }
+
+        this.items.push(item);
+        return true;
+    }
+
+    addItems(items: Item[]): boolean {
+        let numberOfItems = items.length;
+
+        if (!this.canFit(numberOfItems)) {
+            return false;
+        }
+
+        for (var item of items) {
+            this.items.push(item);
+        }
+
+        return true;
+    }
+
+    isFull() {
+        return this.items.length >= G_MAX_INV_SIZE; // for 20, slots 0-19, so need >= sign
+    }
+
+    canFit(numberOfItems: number) {
+        return this.items.length + numberOfItems <= G_MAX_INV_SIZE;
+    }
+
+    clear() {
+        this.items = [];
+    }
+
+    addStarterItems() {
         let starter1 = new Equipment(
             'Moldy Sword',
             'An old and moldy sword. Is that wood beneath the mold? Or, something else? Who knows...',
@@ -39,9 +80,5 @@ export default class Inventory {
         starter4.statBlock.armor = 1;
 
         this.items.push(starter1, starter2, starter3, starter4, ItemGen.getOranHerb());
-    }
-
-    clear() {
-        this.items = [];
     }
 }

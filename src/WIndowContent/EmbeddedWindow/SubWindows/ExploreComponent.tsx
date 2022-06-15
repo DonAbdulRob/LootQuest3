@@ -42,7 +42,7 @@ function explore(
     else if (res <= 95) {
         str = 'You chop woods for a while and find some logs.';
         consoleData.add(str);
-        player.addItemToInventory(ItemGen.getWood());
+        player.inventory.addItem(ItemGen.getWood());
         gameStateManager.exploreOutput = str;
         __GLOBAL_REFRESH_FUNC_REF();
     }

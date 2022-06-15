@@ -34,7 +34,7 @@ export class MonsterEffectLib {
         let abilityDamage = 2;
 
         // TODO: Move 'dealt damage' calc into fighter class, same for combat class.
-        let damage = monster.getRandomDamageValue() + abilityDamage - player.statBlock.armor;
+        let damage = monster.getRandomDamageValue() + abilityDamage - player.getArmor();
 
         if (damage < 0) {
             damage = 0;

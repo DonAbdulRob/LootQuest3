@@ -5,13 +5,20 @@ import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
 import { Player } from '../../Models/Fighter/Player';
+import { ConsoleData } from '../Console/ConsoleComponent';
 
-function unequip(fighter: Player, inventorySlot: number) {
+function unequip(fighter: Player, inventorySlot: number, consoleData: ConsoleData) {
     let invItem = fighter.equipmentSlots.items[inventorySlot];
 
     // Add equipment item to inventory.
     if (invItem !== null) {
-        fighter.inventory.items.push(invItem);
+        let res = fighter.inventory.addItem(invItem);
+
+        if (!res) {
+            consoleData.add('Unable to unequip item. Not enough inventory space.');
+            __GLOBAL_REFRESH_FUNC_REF();
+            return;
+        }
 
         // Clear out equipment slot.
         switch (invItem.equipmentType) {
@@ -29,7 +36,7 @@ function unequip(fighter: Player, inventorySlot: number) {
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function getEquipmentMap(fighter: Player): JSX.Element[] {
+function getEquipmentMap(fighter: Player, consoleData: ConsoleData): JSX.Element[] {
     if (fighter.equipmentSlots.items.length === 0) {
         return [<div key={0}></div>];
     }
@@ -51,7 +58,7 @@ function getEquipmentMap(fighter: Player): JSX.Element[] {
             button = (
                 <button
                     onClick={() => {
-                        unequip(fighter, i);
+                        unequip(fighter, i, consoleData);
                     }}
                 >
                     Unequip
@@ -73,11 +80,12 @@ function getEquipmentMap(fighter: Player): JSX.Element[] {
 export default function EquipmentComponent(): JSX.Element {
     const store: any = __GLOBAL_GAME_STORE((__DATA) => __DATA);
     let fighter = store.player;
+    let consoleData: ConsoleData = store.consoleData;
 
     return (
         <div className="window-core">
             <h1>Equipment</h1>
-            {getEquipmentMap(fighter)}
+            {getEquipmentMap(fighter, consoleData)}
         </div>
     );
 }

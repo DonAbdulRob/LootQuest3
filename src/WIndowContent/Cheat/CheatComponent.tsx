@@ -14,7 +14,7 @@ function addGodSword(fighter: Player) {
     item.statBlock.mana = 99;
     item.statBlock.armor = 99;
 
-    fighter.addItemToInventory(item);
+    fighter.inventory.addItem(item);
     __GLOBAL_REFRESH_FUNC_REF();
 }
 

@@ -10,6 +10,7 @@ import { Player } from '../../Models/Fighter/Player';
 import { Monster } from '../../Models/Fighter/Monster';
 import CombatState from '../../Models/Shared/CombatState';
 import GameStateManager from '../../Models/Singles/GameStateManager';
+import { G_MAX_INV_SIZE } from '../../Models/Fighter/Storage/Inventory';
 
 function equip(fighter: Player, inventorySlot: number) {
     let invItem: Equipment | Item = fighter.inventory.items[inventorySlot];
@@ -133,7 +134,7 @@ export default function InventoryComponent(): JSX.Element {
 
     return (
         <div className="window-core">
-            <h1>Inventory</h1>
+            <h1>Inventory - {player.inventory.items.length + '/' + G_MAX_INV_SIZE}</h1>
             {getInventoryMap(player, enemy, combatState, gameStateManager, consoleData)}
         </div>
     );

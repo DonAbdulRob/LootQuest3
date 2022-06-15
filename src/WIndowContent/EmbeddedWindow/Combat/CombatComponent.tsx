@@ -9,14 +9,32 @@ import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
 import { ConsoleData } from '../../Console/ConsoleComponent';
 import LootTransitionComponent from './LootTransitionComponent';
 import GameStateManager from '../../../Models/Singles/GameStateManager';
+import { PlayerAbilityEffectLib } from '../../../Models/Shared/EffectLib/EffectLIb';
 
 export interface CustomDamageMessage {
-    prefix: string;
-    suffix: string;
+    insertDamage: boolean;
+    str1: string;
+    str2?: string;
 }
 
 function getCustomDamageMessage(customDamageMessage: CustomDamageMessage, damage: number) {
-    return customDamageMessage.prefix + damage + customDamageMessage.suffix;
+    return customDamageMessage.str1 + damage + customDamageMessage.str2;
+}
+
+function displayMessage(damage: number, consoleData: ConsoleData, customMessage?: CustomDamageMessage | null) {
+    if (customMessage !== undefined && customMessage !== null) {
+        let finalMsg = '';
+
+        if (customMessage.insertDamage) {
+            finalMsg = getCustomDamageMessage(customMessage, damage);
+        } else {
+            finalMsg = customMessage.str1;
+        }
+
+        consoleData.add(finalMsg);
+    } else {
+        consoleData.add('You perform a basic attack for ' + damage + ' damage.');
+    }
 }
 
 export function processCombatRound(
@@ -25,9 +43,11 @@ export function processCombatRound(
     combatState: CombatState,
     consoleData: ConsoleData,
     gameStateManager: GameStateManager,
-    customDamageMessage?: CustomDamageMessage | null,
+    customMessage?: CustomDamageMessage | null,
 ) {
     // var init
+    let playerDead = false;
+    let enemyDead = false;
     let playerArmor = player.getArmor();
     let enemyArmor = enemy.getArmor();
 
@@ -54,19 +74,13 @@ export function processCombatRound(
     // If player has skip turn status, skip over damage portion entirely.
     if (!player.statusContainer.hasSkipTurnStatus()) {
         enemy.statBlock.healthMin -= playerDamage;
-
-        if (customDamageMessage !== undefined && customDamageMessage !== null) {
-            consoleData.add(getCustomDamageMessage(customDamageMessage, playerDamage));
-        } else {
-            consoleData.add('You perform a basic attack for ' + playerDamage + ' damage.');
-        }
     }
 
-    // Always reduce status turns for the player.
-    player.statusContainer.reduceStatusTurns();
+    displayMessage(playerDamage, consoleData, customMessage);
 
     // If enemy died, then handle enemy death.
     if (enemy.statBlock.healthMin <= 0) {
+        enemyDead = true;
         consoleData.add('Enemy died.');
         player.gold += enemy.gold;
         player.giveExperience(enemy, consoleData);
@@ -81,44 +95,38 @@ export function processCombatRound(
         } else {
             player.setLooting();
         }
-
-        __GLOBAL_REFRESH_FUNC_REF();
-        return;
     }
-    // Else, continue combat.
 
-    /**
-     * Execute Monster attack.
-     */
+    // If the enemy isn't dead, handle monster attack.
+    if (!enemyDead) {
+        // If there are any abilities, roll 25% chance to use it.
+        let enemyAbilities: Array<MonsterEffectFunctionTemplate> = enemy.abilities.abilityArray;
+        let usedAbility = false;
 
-    // If there are any abilities, roll 25% chance to use it.
-    let enemyAbilities: Array<MonsterEffectFunctionTemplate> = enemy.abilities.abilityArray;
-    let usedAbility = false;
+        if (enemyAbilities.length > 0) {
+            let abilityUseChance = getRandomValueUpTo(4); // 20% chance.
 
-    if (enemyAbilities.length > 0) {
-        let abilityUseChance = getRandomValueUpTo(4); // 20% chance.
+            if (abilityUseChance === 0) {
+                usedAbility = true;
 
-        if (abilityUseChance === 0) {
-            usedAbility = true;
+                let doAbility: MonsterEffectFunctionTemplate = getRandomElement(enemyAbilities);
 
-            let doAbility: MonsterEffectFunctionTemplate = getRandomElement(enemyAbilities);
+                // Do the ability.
+                doAbility(enemy, player, combatState, consoleData);
+            }
+        }
 
-            // Do the ability.
-            doAbility(enemy, player, combatState, consoleData);
+        // Otherwise, do basic attack.
+        if (!usedAbility) {
+            player.statBlock.healthMin -= enemyDamage;
+            consoleData.add(enemy.name + ' hits you for ' + enemyDamage + ' damage.');
         }
     }
 
-    // Otherwise, do basic attack.
-    if (!usedAbility) {
-        player.statBlock.healthMin -= enemyDamage;
-        consoleData.add(enemy.name + ' hits you for ' + enemyDamage + ' damage.');
-    }
-
-    // Reduce enemy status effect turns.
-    enemy.statusContainer.reduceStatusTurns();
-
     // If Player died, handle player death.
     if (player.statBlock.healthMin <= 0) {
+        playerDead = true;
+
         consoleData.add('You died, but a passing Cleric revived you at full life. (Nice!)');
 
         // Heal and clear statuses.
@@ -127,10 +135,16 @@ export function processCombatRound(
 
         // Reset combat state.
         player.setCombatOver();
-        __GLOBAL_REFRESH_FUNC_REF();
-        return;
     }
-    // Else, continue combat.
+
+    // Process status effects.
+    if (!playerDead) {
+        player.statusContainer.reduceStatusTurns();
+    }
+
+    if (!enemyDead) {
+        enemy.statusContainer.reduceStatusTurns();
+    }
 
     // Refresh!
     __GLOBAL_REFRESH_FUNC_REF();
@@ -163,24 +177,15 @@ export default function CombatComponent(): JSX.Element {
                     </button>
                     <button
                         onClick={() => {
-                            // Give player +2 bonus armor.
-
-                            // Give player skip_turn status.
-
-                            // Process combat round.
-                            processCombatRound(player, enemy, combatState, consoleData, gameStateManager);
+                            // Use 'defense ability'.
+                            PlayerAbilityEffectLib.defend(player, enemy, combatState, gameStateManager, consoleData);
                         }}
                     >
                         Defend
                     </button>
                     <button
                         onClick={() => {
-                            // Attempt to flee. On success, return, else, continue combat.
-
-                            // Give player skip_turn status.
-
-                            // Process combat round.
-                            processCombatRound(player, enemy, combatState, consoleData, gameStateManager);
+                            PlayerAbilityEffectLib.flee(player, enemy, combatState, gameStateManager, consoleData);
                         }}
                     >
                         Flee

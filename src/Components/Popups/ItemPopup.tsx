@@ -6,6 +6,7 @@ import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import './ItemPopup.css';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
 import { Player } from '../../Models/Fighter/Player';
+import { ConsoleData } from '../../WIndowContent/Console/ConsoleComponent';
 
 interface ItemPopupProps {
     prefix: string;
@@ -115,19 +116,26 @@ function getDamageDisplay(fighter: Player, item: Equipment) {
 export default function ItemPopup(props: ItemPopupProps) {
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
+    let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
     let lootButton = null;
 
     if (props.addLootButton) {
         lootButton = (
             <button
                 onClick={() => {
-                    // DAR TOOO - change interfaces to make this unnecessary.
+                    // TOOO - change interfaces to make this unnecessary.
                     if (props.item == null) {
                         return;
                     }
 
-                    player.addItemToInventory(props.item);
-                    combatState.loot = removeElement(combatState.loot, props.item);
+                    let res = player.inventory.addItem(props.item);
+
+                    if (res) {
+                        combatState.loot = removeElement(combatState.loot, props.item);
+                    } else {
+                        consoleData.add('Unable to loot. Not enough inventory space.');
+                    }
+
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >

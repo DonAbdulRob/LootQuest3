@@ -154,10 +154,6 @@ export class Fighter {
         return manaMax;
     };
 
-    addItemToInventory = (item: Item) => {
-        this.inventory.items.push(item);
-    };
-
     healHealth = (x: number) => {
         this.statBlock.healthMin += x;
 
@@ -168,5 +164,11 @@ export class Fighter {
 
     getExpToLevel = () => {
         return this.level * 10;
+    };
+
+    fullHeal = () => {
+        this.statBlock.healthMin = this.getHealthMax();
+        this.statBlock.manaMin = this.getManaMax();
+        this.statBlock.staminaMin = this.getStaminaMax();
     };
 }

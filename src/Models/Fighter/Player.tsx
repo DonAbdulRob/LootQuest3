@@ -66,9 +66,7 @@ export class Player extends Fighter {
             this.statBlock.staminaMax += 1;
 
             // Heal.
-            this.statBlock.healthMin = this.statBlock.healthMax;
-            this.statBlock.manaMin = this.statBlock.manaMax;
-            this.statBlock.staminaMin = this.statBlock.staminaMax;
+            this.fullHeal();
 
             // Every 2 levels gain 1 armor and +1/1 damage. (Start at level 1, so check at 3, 5, 7, etc.).
             if (this.level % 3 === 0 || (this.level > 3 && this.level % 2 === 1)) {
