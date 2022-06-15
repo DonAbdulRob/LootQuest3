@@ -17,9 +17,8 @@ Empty! Everything is PLANNED!
 
 ## TODO - Short Term:
 
-
 1. Using item in combat, equpping items = use a combat turn.
-2. Show monster description and image in embedded game window during combat.
+2. Show monster description in embedded game window during combat.
 3. Hardcode stats for monsters from levels 1-5. For higher levels, use formulas.
 4. Fill the 'show town stuff' section with town stuff. (Inn to heal, Shop, etc.).
 5. Refactor game state.
@@ -74,6 +73,8 @@ For things that are done!
 2. Settings menu? +
 
 1. Restrict save/load feature while in combat, etc. x (denied)
+
+- Difficulty buttons in New Game screen implemented.
 
 ## Large older section marked done 6/10/2022+:
 

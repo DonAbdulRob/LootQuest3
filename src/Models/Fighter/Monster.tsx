@@ -15,7 +15,7 @@ export class Monster extends Fighter {
         let level = areaLevel;
 
         // Factor in difficulty.
-        level = level * gameDifficulty.getDifficultyMultiplier().monsterLevelMultiplier;
+        level = level * gameDifficulty.getDifficultyData().monsterLevelMultiplier;
 
         // Factor in monster level deviation
         let levelDiff = (getRandomValueUpTo(20) + 1) * 0.01; // +-20% (* 0.2 or * -0.2)

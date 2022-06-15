@@ -12,7 +12,7 @@ import SettingsPage from './Pages/SettingsPage';
 import { PageProps } from './Pages/SharedProps/PageBaseProps';
 import { PageEnum } from './Pages/SharedProps/PageEnum';
 
-export const _GAME_IN_DEBUG_MODE = true;
+export const _GAME_IN_DEBUG_MODE = false;
 
 function getDesiredPage(currentPage: number, setPage: Function): JSX.Element {
     let data: PageProps = {
@@ -37,8 +37,14 @@ function getDesiredPage(currentPage: number, setPage: Function): JSX.Element {
 }
 
 export default function App(): JSX.Element {
+    let startPage = PageEnum.MainMenu;
+
+    if (_GAME_IN_DEBUG_MODE) {
+        startPage = PageEnum.Play;
+    }
+
     // Page Enum tracks game page.
-    const [page, setPage] = React.useState(PageEnum.Play);
+    const [page, setPage] = React.useState(startPage);
 
     return (
         <div className="app">
