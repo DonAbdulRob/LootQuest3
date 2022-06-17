@@ -2,14 +2,10 @@ import React from 'react';
 import ItemPopup from '../../Components/Popups/ItemPopup';
 import { Item, EquipmentType, ItemType, Equipment, Consumable } from '../../Models/Item/Item';
 import { CONSUMABLE_EFFECT_FUNCTION } from '../../Models/Item/ItemEffectToCoreEffectMapper';
-import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
+import { GlobalGameStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
-import { ConsoleData } from '../Console/ConsoleComponent';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
 import { Player } from '../../Models/Fighter/Player';
-import { Monster } from '../../Models/Fighter/Monster';
-import CombatState from '../../Models/Shared/CombatState';
-import GameStateManager from '../../Models/Singles/GameStateManager';
 import { G_MAX_INV_SIZE } from '../../Models/Fighter/Storage/Inventory';
 
 function equip(fighter: Player, inventorySlot: number) {
@@ -61,13 +57,9 @@ function drop(fighter: Player, inventorySlot: number) {
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function getInventoryMap(
-    fighter: Player,
-    enemy: Monster,
-    combatState: CombatState,
-    gameStateManager: GameStateManager,
-    consoleData: ConsoleData,
-): JSX.Element[] {
+function getInventoryMap(store: GlobalGameStore): JSX.Element[] {
+    let fighter = store.player;
+
     if (fighter.inventory.items.length === 0) {
         return [<div key={0}></div>];
     }
@@ -83,7 +75,7 @@ function getInventoryMap(
                         let func = CONSUMABLE_EFFECT_FUNCTION((v as Consumable).useFunctionId);
 
                         if (func != null) {
-                            func(fighter, enemy, i, combatState, gameStateManager, consoleData);
+                            func(store, i);
                             __GLOBAL_REFRESH_FUNC_REF();
                         }
                     }}
@@ -126,16 +118,12 @@ function getInventoryMap(
  * Show player inventory. Doesn't support the 'fighter' class objects. Only players.
  */
 export default function InventoryComponent(): JSX.Element {
-    let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
-    let enemy: Monster = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);
-    let combatState: CombatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
-    let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
-    let gameStateManager: GameStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.gameStateManager);
+    let store: GlobalGameStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
 
     return (
         <div className="window-core">
-            <h1>Inventory - {player.inventory.items.length + '/' + G_MAX_INV_SIZE}</h1>
-            {getInventoryMap(player, enemy, combatState, gameStateManager, consoleData)}
+            <h1>Inventory - {store.player.inventory.items.length + '/' + G_MAX_INV_SIZE}</h1>
+            {getInventoryMap(store)}
         </div>
     );
 }

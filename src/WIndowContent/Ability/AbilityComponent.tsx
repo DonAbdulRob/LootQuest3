@@ -1,18 +1,12 @@
 import React from 'react';
 import { ABILITY_EFFECT_FUNCTION } from '../../Models/Fighter/Ability/AbilityToCoreEffectMapper';
-import { Player } from '../../Models/Fighter/Player';
-import { Monster } from '../../Models/Fighter/Monster';
-import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
+import { GlobalGameStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import '../../Components/Popups/ItemPopup.css';
 import { Ability } from '../../Models/Fighter/Ability/AbilityList';
-import GameStateManager from '../../Models/Singles/GameStateManager';
 
 export default function AbilityComponent() {
-    let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
-    let enemy: Monster = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);
-    let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
-    let gameStateManager: GameStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.gameStateManager);
-    let consoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
+    let store: GlobalGameStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let player = store.player;
 
     let display = player.abilities.abilityArray.map((v: Ability, i: number) => {
         return (
@@ -29,13 +23,7 @@ export default function AbilityComponent() {
                     onClick={() => {
                         let abilityEffectRef = v.effectFunctionReference;
 
-                        ABILITY_EFFECT_FUNCTION(abilityEffectRef)(
-                            player,
-                            enemy,
-                            combatState,
-                            gameStateManager,
-                            consoleData,
-                        );
+                        ABILITY_EFFECT_FUNCTION(abilityEffectRef)(store);
                     }}
                 >
                     Use

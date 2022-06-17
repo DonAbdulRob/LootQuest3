@@ -10,64 +10,36 @@ import { processCombatRound } from '../../../WIndowContent/EmbeddedWindow/Combat
 import { ConsoleData } from '../../../WIndowContent/Console/ConsoleComponent';
 import { Fighter } from '../../Fighter/Fighter';
 import { Player } from '../../Fighter/Player';
-import { Monster } from '../../Fighter/Monster';
 import { G_HIDDEN_SKIP_TURN_STATUS, Status } from '../../Fighter/Status/Status';
-import CombatState from '../CombatState';
 import { activateHealthHealItem } from './EffectLIbHelpers';
-import GameStateManager from '../../Singles/GameStateManager';
 import { getRandomValueUpTo } from '../../Helper';
+import { GlobalGameStore } from '../../GlobalGameStore';
 
 const STR_COMBAT_ONLY = 'This ability can only be used in combat.';
 const STR_NOT_ENOUGH_RESOURCE = `You can't afford to use this ability.`;
 
 export interface PlayerItemEffectFunctionTemplate {
-    (
-        player: Player,
-        enemy: Monster,
-        index: number,
-        combatState: CombatState,
-        gameStateManager: GameStateManager,
-        consoleData: ConsoleData,
-    ): void;
+    (store: GlobalGameStore, index: number): void;
 }
 
 export interface AbilityEffectFunctionTemplate {
-    (
-        player: Player,
-        enemy: Monster,
-        combatState: CombatState,
-        gameStateManager: GameStateManager,
-        consoleData: ConsoleData,
-    ): void;
+    (store: GlobalGameStore): void;
 }
 
 export interface NonCombatActionTemplate {
-    (
-        player: Player,
-        enemy: Monster,
-        combatState: CombatState,
-        gameStateManager: GameStateManager,
-        consoleData: ConsoleData,
-        message: string,
-    ): void;
+    (store: GlobalGameStore, message: string): void;
 }
 
-function canCast_CombatOnlyCheck(
-    player: Player,
-    staminaCost: number,
-    manaCost: number,
-    combatState: CombatState,
-    consoleData: ConsoleData,
-): boolean {
+function canCast_CombatOnlyCheck(store: GlobalGameStore, staminaCost: number, manaCost: number): boolean {
     // Prevent use of ability outside of combat.
-    if (!player.isFighting()) {
-        consoleData.add(STR_COMBAT_ONLY);
+    if (!store.player.isFighting()) {
+        store.consoleData.add(STR_COMBAT_ONLY);
         __GLOBAL_REFRESH_FUNC_REF();
         return false;
     }
 
     // Check other conditions.
-    return canCast_AnywhereCheck(player, staminaCost, manaCost, consoleData);
+    return canCast_AnywhereCheck(store.player, staminaCost, manaCost, store.consoleData);
 }
 
 /**
@@ -110,16 +82,9 @@ export class CoreEffects {
 
 // Items can be used by players or monsters (WIP). This is for players.
 export class PlayerItemEffectLib {
-    static oran_herb: PlayerItemEffectFunctionTemplate = (
-        itemUser: Player,
-        enemy: Monster,
-        index: number,
-        combatState: CombatState,
-        gameStateManager: GameStateManager,
-        consoleData: ConsoleData,
-    ) => {
+    static oran_herb: PlayerItemEffectFunctionTemplate = (store: GlobalGameStore, index: number) => {
         // Handle oran herb core effect.
-        CoreEffects.oran_herb(itemUser, index, consoleData);
+        CoreEffects.oran_herb(store.player, index, store.consoleData);
 
         // Todo, if in combat, add skip turn status and continue combat.
     };
@@ -130,59 +95,41 @@ export class PlayerAbilityEffectLib {
         player.statusContainer.addStatus(new Status(G_HIDDEN_SKIP_TURN_STATUS, 1, null, null, false));
     };
 
-    static doNonCombatAction: NonCombatActionTemplate = (
-        player: Player,
-        enemy: Monster,
-        combatState: CombatState,
-        gameStateManager: GameStateManager,
-        consoleData: ConsoleData,
-        actionMessage: string,
-    ) => {
+    static doNonCombatAction: NonCombatActionTemplate = (store: GlobalGameStore, actionMessage: string) => {
         // Give player skip_turn status.
-        PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(player);
+        PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(store.player);
 
         // Process combat round.
-        processCombatRound(player, enemy, combatState, consoleData, gameStateManager, {
+        processCombatRound(store, {
             insertDamage: false,
             str1: actionMessage,
         });
     };
 
-    static flee: AbilityEffectFunctionTemplate = (
-        player: Player,
-        enemy: Monster,
-        combatState: CombatState,
-        gameStateManager: GameStateManager,
-        consoleData: ConsoleData,
-    ) => {
+    static flee: AbilityEffectFunctionTemplate = (store: GlobalGameStore) => {
         // Attempt to flee. On success, return, else, continue combat. (25%)
         let fleeRes = getRandomValueUpTo(3);
 
         if (fleeRes === 0) {
-            consoleData.add('You successfully flee from combat.');
-            player.setCombatOver();
+            store.consoleData.add('You successfully flee from combat.');
+            store.player.setCombatOver();
             __GLOBAL_REFRESH_FUNC_REF();
             return;
         }
 
         // Give player skip_turn status.
-        PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(player);
+        PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(store.player);
 
         // Process combat round.
-        processCombatRound(player, enemy, combatState, consoleData, gameStateManager, {
+        processCombatRound(store, {
             insertDamage: false,
             str1: 'Your attempt to flee fails.',
         });
     };
 
-    static defend: AbilityEffectFunctionTemplate = (
-        player: Player,
-        enemy: Monster,
-        combatState: CombatState,
-        gameStateManager: GameStateManager,
-        consoleData: ConsoleData,
-    ) => {
+    static defend: AbilityEffectFunctionTemplate = (store: GlobalGameStore) => {
         // Player can always defend.
+        let player = store.player;
 
         // Add defense buff status to player.
         let armorMod = 2;
@@ -205,21 +152,17 @@ export class PlayerAbilityEffectLib {
         PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(player);
 
         // Perform an attack with a custom damage message format.
-        processCombatRound(player, enemy, combatState, consoleData, gameStateManager, {
+        processCombatRound(store, {
             insertDamage: false,
             str1: 'You take a defensive stance and gain +2 armor for the round.',
         });
     };
 
-    static power_strike: AbilityEffectFunctionTemplate = (
-        player: Player,
-        enemy: Monster,
-        combatState: CombatState,
-        gameStateManager: GameStateManager,
-        consoleData: ConsoleData,
-    ) => {
+    static power_strike: AbilityEffectFunctionTemplate = (store: GlobalGameStore) => {
+        let player = store.player;
+
         // Check that player can cast via standard check function.
-        if (!canCast_CombatOnlyCheck(player, 1, 0, combatState, consoleData)) {
+        if (!canCast_CombatOnlyCheck(store, 1, 0)) {
             return;
         }
 
@@ -243,20 +186,17 @@ export class PlayerAbilityEffectLib {
         );
 
         // Perform an attack with a custom damage message format.
-        processCombatRound(player, enemy, combatState, consoleData, gameStateManager, {
+        processCombatRound(store, {
             insertDamage: true,
             str1: 'You activate Power Strike and attack for ',
             str2: ' damage!',
         });
     };
 
-    static lesser_heal: AbilityEffectFunctionTemplate = (
-        player: Player,
-        enemy: Monster,
-        combatState: CombatState,
-        gameStateManager: GameStateManager,
-        consoleData: ConsoleData,
-    ) => {
+    static lesser_heal: AbilityEffectFunctionTemplate = (store: GlobalGameStore) => {
+        let player = store.player;
+        let consoleData = store.consoleData;
+
         // Check that player can cast via standard check function.
         if (!canCast_AnywhereCheck(player, 0, 5, consoleData)) {
             return;
@@ -273,7 +213,7 @@ export class PlayerAbilityEffectLib {
 
         // If in combat, perfrom a combat turn.
         if (player.isFighting()) {
-            processCombatRound(player, enemy, combatState, consoleData, gameStateManager, {
+            processCombatRound(store, {
                 insertDamage: false,
                 str1: str,
             });

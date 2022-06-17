@@ -1,14 +1,12 @@
 import React from 'react';
 import Area from '../../../Models/Area/Area';
-import { Player } from '../../../Models/Fighter/Player';
-import { __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
-import GameStateManager from '../../../Models/Singles/GameStateManager';
+import { GlobalGameStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
 import './AreaComponent.css';
 
 export default function AreaComponent() {
-    let gameStateManager: GameStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.gameStateManager);
-    let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
+    let store: GlobalGameStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let player = store.player;
 
     return (
         <div className="area-parent-container">
@@ -16,9 +14,9 @@ export default function AreaComponent() {
             <h2>{player.currentArea.getLevelDisplay()}</h2>
             <p>Travel To:</p>
             <div className="area-container">
-                {gameStateManager.areaContainer.getAreaList(player).map((v: Area) => {
+                {store.gameStateManager.areaContainer.getAreaList(player).map((v: Area, i: number) => {
                     return (
-                        <span className="area-item">
+                        <span className="area-item" key={i}>
                             {v.name}
                             <br />
                             {v.getLevelDisplay()}

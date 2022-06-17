@@ -7,8 +7,17 @@ import WindowStateManager from './Singles/WindowStateManager';
 import produce from 'immer';
 import GameStateManager from './Singles/GameStateManager';
 
+export interface GlobalGameStore {
+    player: Player;
+    enemy: Monster;
+    combatState: CombatState;
+    consoleData: ConsoleData;
+    windowStateManager: WindowStateManager;
+    gameStateManager: GameStateManager;
+}
+
 function getGameStore() {
-    return create((set) => ({
+    return create<GlobalGameStore>((set) => ({
         player: new Player(),
         enemy: new Monster(),
         combatState: new CombatState(),

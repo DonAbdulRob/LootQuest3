@@ -1,14 +1,11 @@
 import React from 'react';
 import { MonsterEffectFunctionTemplate } from '../../../Models/Fighter/Ability/MonsterAbilityContainer';
-import { Player, PlayerActivity } from '../../../Models/Fighter/Player';
-import { Monster } from '../../../Models/Fighter/Monster';
-import { __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
+import { PlayerActivity } from '../../../Models/Fighter/Player';
+import { GlobalGameStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
 import { getRandomElement, getRandomValueUpTo } from '../../../Models/Helper';
-import CombatState from '../../../Models/Shared/CombatState';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
 import { ConsoleData } from '../../Console/ConsoleComponent';
 import LootTransitionComponent from './LootTransitionComponent';
-import GameStateManager from '../../../Models/Singles/GameStateManager';
 import { PlayerAbilityEffectLib } from '../../../Models/Shared/EffectLib/PlayerAbilityEffectLib';
 
 export interface CustomDamageMessage {
@@ -37,14 +34,12 @@ function displayMessage(damage: number, consoleData: ConsoleData, customMessage?
     }
 }
 
-export function processCombatRound(
-    player: Player,
-    enemy: Monster,
-    combatState: CombatState,
-    consoleData: ConsoleData,
-    gameStateManager: GameStateManager,
-    customMessage?: CustomDamageMessage | null,
-) {
+export function processCombatRound(store: GlobalGameStore, customMessage?: CustomDamageMessage | null) {
+    let player = store.player;
+    let enemy = store.enemy;
+    let consoleData = store.consoleData;
+    let combatState = store.combatState;
+
     // var init
     let playerDead = false;
     let enemyDead = false;
@@ -150,11 +145,9 @@ export function processCombatRound(
 }
 
 export default function CombatComponent(): JSX.Element {
-    let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
-    let enemy: Monster = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.enemy);
-    let combatState: CombatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
-    let gameStateManager: GameStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.gameState);
-    let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
+    let store: GlobalGameStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let player = store.player;
+    let enemy = store.enemy;
     let display;
 
     switch (player.activity) {
@@ -169,7 +162,7 @@ export default function CombatComponent(): JSX.Element {
                     </p>
                     <button
                         onClick={() => {
-                            processCombatRound(player, enemy, combatState, consoleData, gameStateManager);
+                            processCombatRound(store);
                         }}
                     >
                         Attack
@@ -177,14 +170,14 @@ export default function CombatComponent(): JSX.Element {
                     <button
                         onClick={() => {
                             // Use 'defense ability'.
-                            PlayerAbilityEffectLib.defend(player, enemy, combatState, gameStateManager, consoleData);
+                            PlayerAbilityEffectLib.defend(store);
                         }}
                     >
                         Defend
                     </button>
                     <button
                         onClick={() => {
-                            PlayerAbilityEffectLib.flee(player, enemy, combatState, gameStateManager, consoleData);
+                            PlayerAbilityEffectLib.flee(store);
                         }}
                     >
                         Flee

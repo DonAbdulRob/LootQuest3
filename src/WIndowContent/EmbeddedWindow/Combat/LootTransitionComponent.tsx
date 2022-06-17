@@ -1,11 +1,8 @@
 import React from 'react';
 import ItemPopup from '../../../Components/Popups/ItemPopup';
 import { Item } from '../../../Models/Item/Item';
-import { __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
+import { GlobalGameStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
-import CombatState from '../../../Models/Shared/CombatState';
-import { Player } from '../../../Models/Fighter/Player';
-import { ConsoleData } from '../../Console/ConsoleComponent';
 
 function getLootDisplay(loot: Array<Item>) {
     return loot.map((v: Item, i: number) => {
@@ -13,21 +10,23 @@ function getLootDisplay(loot: Array<Item>) {
     });
 }
 
-function endLooting(player: Player, combatState: CombatState) {
+function endLooting(store: GlobalGameStore) {
     // Clear loot in combat state.
-    combatState.loot = [];
+    store.combatState.loot = [];
 
     // Advance combat to next phase (out of combat)
-    player.setCombatOver();
+    store.player.setCombatOver();
 
     // Refresh screen.
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
 export default function LootTransitionComponent() {
-    let combatState: CombatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
-    let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
-    let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
+    let store: GlobalGameStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let player = store.player;
+    let consoleData = store.consoleData;
+    let combatState = store.combatState;
+
     let loot = combatState.loot;
 
     return (
@@ -41,7 +40,7 @@ export default function LootTransitionComponent() {
                     let res = player.inventory.addItems(loot);
 
                     if (res) {
-                        endLooting(player, combatState);
+                        endLooting(store);
                     } else {
                         consoleData.add('Unable to loot all. Not enough inventory space.');
                     }
@@ -54,7 +53,7 @@ export default function LootTransitionComponent() {
             </button>
             <button
                 onClick={() => {
-                    endLooting(player, combatState);
+                    endLooting(store);
                 }}
             >
                 Exit Looting
