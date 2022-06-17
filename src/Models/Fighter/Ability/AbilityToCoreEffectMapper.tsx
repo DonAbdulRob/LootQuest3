@@ -2,7 +2,7 @@
  * This file maps 'Ability Effects' to 'Core Effects'.
  */
 
-import { PlayerAbilityEffectLib } from '../../Shared/EffectLib/EffectLIb';
+import { PlayerAbilityEffectLib } from '../../Shared/EffectLib/PlayerAbilityEffectLib';
 
 export const ABILITY_ID_POWER_STRIKE = 0;
 export const ABILITY_ID_LESSER_HEAL = 1;

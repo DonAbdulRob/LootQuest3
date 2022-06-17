@@ -41,6 +41,17 @@ export interface AbilityEffectFunctionTemplate {
     ): void;
 }
 
+export interface NonCombatActionTemplate {
+    (
+        player: Player,
+        enemy: Monster,
+        combatState: CombatState,
+        gameStateManager: GameStateManager,
+        consoleData: ConsoleData,
+        message: string,
+    ): void;
+}
+
 function canCast_CombatOnlyCheck(
     player: Player,
     staminaCost: number,
@@ -117,6 +128,24 @@ export class PlayerItemEffectLib {
 export class PlayerAbilityEffectLib {
     static addSkipTurnStatusToPlayer = (player: Player) => {
         player.statusContainer.addStatus(new Status(G_HIDDEN_SKIP_TURN_STATUS, 1, null, null, false));
+    };
+
+    static doNonCombatAction: NonCombatActionTemplate = (
+        player: Player,
+        enemy: Monster,
+        combatState: CombatState,
+        gameStateManager: GameStateManager,
+        consoleData: ConsoleData,
+        actionMessage: string,
+    ) => {
+        // Give player skip_turn status.
+        PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(player);
+
+        // Process combat round.
+        processCombatRound(player, enemy, combatState, consoleData, gameStateManager, {
+            insertDamage: false,
+            str1: actionMessage,
+        });
     };
 
     static flee: AbilityEffectFunctionTemplate = (

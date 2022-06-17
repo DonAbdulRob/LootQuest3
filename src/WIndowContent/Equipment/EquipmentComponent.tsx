@@ -6,6 +6,7 @@ import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
 import { Player } from '../../Models/Fighter/Player';
 import { ConsoleData } from '../Console/ConsoleComponent';
+// import { PlayerAbilityEffectLib } from '../../Models/Shared/EffectLib/PlayerAbilityEffectLib';
 
 function unequip(fighter: Player, inventorySlot: number, consoleData: ConsoleData) {
     let invItem = fighter.equipmentSlots.items[inventorySlot];
@@ -30,6 +31,21 @@ function unequip(fighter: Player, inventorySlot: number, consoleData: ConsoleDat
                 break;
             default:
                 break;
+        }
+
+        // Pass turn if in combat.
+        if (fighter.inCombat()) {
+            /**
+             * DAR TODO
+            PlayerAbilityEffectLib.doNonCombatAction(
+                player,
+                enemy,
+                combatState,
+                gameStateManager,
+                consoleData,
+                'You spend some time equipping an item.',
+            );
+             */
         }
     }
 

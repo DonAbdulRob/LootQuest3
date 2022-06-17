@@ -9,7 +9,7 @@ import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
 import { ConsoleData } from '../../Console/ConsoleComponent';
 import LootTransitionComponent from './LootTransitionComponent';
 import GameStateManager from '../../../Models/Singles/GameStateManager';
-import { PlayerAbilityEffectLib } from '../../../Models/Shared/EffectLib/EffectLIb';
+import { PlayerAbilityEffectLib } from '../../../Models/Shared/EffectLib/PlayerAbilityEffectLib';
 
 export interface CustomDamageMessage {
     insertDamage: boolean;
@@ -108,7 +108,6 @@ export function processCombatRound(
 
             if (abilityUseChance === 0) {
                 usedAbility = true;
-
                 let doAbility: MonsterEffectFunctionTemplate = getRandomElement(enemyAbilities);
 
                 // Do the ability.

@@ -15,6 +15,10 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 
 Empty! Everything is PLANNED!
 
+
+item stacks and weight
+
+
 ## TODO - Short Term:
 
 1. Using item in combat, equpping items = use a combat turn.
