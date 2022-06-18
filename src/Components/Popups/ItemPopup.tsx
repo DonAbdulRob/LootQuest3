@@ -8,7 +8,7 @@ import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlot
 import { Player } from '../../Models/Fighter/Player';
 import { ConsoleData } from '../../WIndowContent/Console/ConsoleComponent';
 
-interface ItemPopupProps {
+interface IItemPopupProps {
     prefix: string;
     item: Item | null;
     addLootButton: boolean;
@@ -113,7 +113,7 @@ function getDamageDisplay(fighter: Player, item: Equipment) {
     ) : null;
 }
 
-export default function ItemPopup(props: ItemPopupProps) {
+export default function ItemPopup(props: IItemPopupProps) {
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
     let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);

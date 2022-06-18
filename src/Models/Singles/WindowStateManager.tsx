@@ -1,4 +1,4 @@
-import { FloatingWindowPropsBuilder } from '../../Pages/PlayPage';
+import { IFloatingWindowPropsBuilder } from '../../Pages/PlayPage';
 
 export class FloatingWindowData {
     id: number;
@@ -29,7 +29,7 @@ export default class WindowStateManager {
         return this.windowDataArr.length <= id;
     }
 
-    subscribe(id: number, win: FloatingWindowPropsBuilder) {
+    subscribe(id: number, win: IFloatingWindowPropsBuilder) {
         // Add.
         let fwd = new FloatingWindowData(id);
         fwd.title = win.title;

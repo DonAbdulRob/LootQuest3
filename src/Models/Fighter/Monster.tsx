@@ -1,9 +1,9 @@
 /* eslint-disable no-fallthrough */ // < we WANT fall-through for names.
 import { getRandomValueBetween, getRandomValueUpTo } from '../Helper';
-import { StatBlock } from '../Shared/StatBlock';
+import { IStatBlock } from '../Shared/IStatBlock';
 import { GameDifficulty } from '../Singles/GameDifficulty';
 import { MonsterAbilityContainer } from './Ability/MonsterAbilityContainer';
-import { Fighter } from './Fighter';
+import Fighter from './Fighter';
 
 export class Monster extends Fighter {
     areaLevel: number = 0;
@@ -85,10 +85,10 @@ export class Monster extends Fighter {
 
 class MonsterTypeContainer {
     level: number;
-    statBlock: StatBlock;
+    statBlock: IStatBlock;
     name: string;
 
-    constructor(level: number, statBlock: StatBlock) {
+    constructor(level: number, statBlock: IStatBlock) {
         this.level = level;
         this.statBlock = statBlock;
         this.name = '';

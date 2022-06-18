@@ -46,7 +46,7 @@ export class Item {
     }
 }
 
-export interface EquipmentStatBlock {
+export interface IEquipmentStatBlock {
     health: number;
     stamina: number;
     mana: number;
@@ -57,7 +57,7 @@ export interface EquipmentStatBlock {
 
 export class Equipment extends Item {
     equipmentType: EquipmentType = EquipmentType.WEAPON;
-    statBlock: EquipmentStatBlock = {
+    statBlock: IEquipmentStatBlock = {
         health: 0,
         stamina: 0,
         mana: 0,

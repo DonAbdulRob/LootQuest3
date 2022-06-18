@@ -8,7 +8,7 @@ export enum DifficultyEnum {
     Insane,
 }
 
-export interface DifficultyMultiplierInterface {
+export interface IDifficultyMultiplier {
     description: string;
     monsterLevelMultiplier: number;
     playerHealingMultiplier: number;
@@ -18,7 +18,7 @@ export class GameDifficulty {
     difficulty: DifficultyEnum = DifficultyEnum.Normal; // Normal by default.
 
     /** Returns multipliers based on difficulty */
-    getDifficultyData(): DifficultyMultiplierInterface {
+    getDifficultyData(): IDifficultyMultiplier {
         switch (this.difficulty) {
             case DifficultyEnum.Normal:
                 return {

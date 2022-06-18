@@ -1,4 +1,4 @@
-export interface StatBlock {
+export interface IStatBlock {
     healthMin: number;
     healthMax: number;
     staminaMin: number;

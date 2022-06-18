@@ -8,17 +8,16 @@ import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 import { G_MONTHS_ARR, getPaddedToTwoDigits } from '../Models/Helper';
 import WindowStateManager from '../Models/Singles/WindowStateManager';
 import { ConsoleData } from '../WIndowContent/Console/ConsoleComponent';
-import LoadGame from './Components/LoadGame';
-import QuitButton from './Components/QuitButton';
+import QuitButtonComponent from './Components/QuitButtonComponent';
 import { __GLOBAL_REFRESH_FUNC_REF } from './PlayPage';
-import { G_GO_TO_PAGE } from './SharedProps/GoToPageFunc';
-import { PageProps } from './SharedProps/PageBaseProps';
-import { PageEnum } from './SharedProps/PageEnum';
+import IPageEnum from './Enums/IPageEnum';
+import LoadGameComponent from './Components/LoadGame/LoadGameComponent';
 
-export default function SettingsPage(props: PageProps) {
+export default function SettingsPage() {
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
+    let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
 
     return (
         <div>
@@ -60,7 +59,7 @@ export default function SettingsPage(props: PageProps) {
             </button>
             <br />
             <br />
-            <LoadGame />
+            <LoadGameComponent />
             <br />
             <button
                 onClick={() => {
@@ -85,13 +84,13 @@ export default function SettingsPage(props: PageProps) {
             <br />
             <button
                 onClick={() => {
-                    G_GO_TO_PAGE(props, PageEnum.Play);
+                    setPage(IPageEnum.Play);
                 }}
             >
                 Back to Game
             </button>
             <br />
-            <QuitButton page={props.page} setPage={props.setPage} />
+            <QuitButtonComponent />
         </div>
     );
 }

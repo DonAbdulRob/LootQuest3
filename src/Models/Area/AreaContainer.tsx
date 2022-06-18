@@ -3,9 +3,10 @@
  */
 
 import { Player } from '../Fighter/Player';
-import Area, { AreaType } from './Area';
+import Area from './Area';
+import EAreaType from './EAreaType';
 
-export const G_AREA_GREENVALE = new Area('Greenvale', 'A cool town.', AreaType.TOWN, 1, 1);
+export const G_AREA_GREENVALE = new Area('Greenvale', 'A cool town.', EAreaType.TOWN, 1, 1);
 
 export default class AreaContainer {
     globalAreaList: Area[] = [];
@@ -58,42 +59,42 @@ export default class AreaContainer {
         const greenvaleOutskirts = new Area(
             'Greenvale Outskirts',
             'A small town located within the wilderness of the Elora Continent.',
-            AreaType.TOWN,
+            EAreaType.TOWN,
             1,
             2,
         );
         const greenvaleForest = new Area(
             'Greenvale Forest',
             'A sparse forest lush with flora and fauna.',
-            AreaType.WILD,
+            EAreaType.WILD,
             3,
             4,
         );
         const greenvaleMine = new Area(
             'Greenvale Mine',
             'A local & active mine near Greenvale full of stone and ores.',
-            AreaType.WILD,
+            EAreaType.WILD,
             3,
             4,
         );
         const westAstonRoad = new Area(
             'West Aston Road',
             'A dirt-road between Greenvale and Aston that passes through deep woods.',
-            AreaType.WILD,
+            EAreaType.WILD,
             5,
             6,
         );
         const astonRoadDeepWoods = new Area(
             'Deep Woods',
             `Dense forest that branches off from the West Aston Road.`,
-            AreaType.WILD,
+            EAreaType.WILD,
             7,
             10,
         );
         const aston = new Area(
             'Aston',
             'A moderate-sized city in the Western Region of the Elora Continent.',
-            AreaType.TOWN,
+            EAreaType.TOWN,
             7,
             7,
         );
@@ -102,7 +103,7 @@ export default class AreaContainer {
         const melodon = new Area(
             'Melodon',
             `The capital city of the Melodon Empire dominating over Elora's Western Region.`,
-            AreaType.TOWN,
+            EAreaType.TOWN,
             13,
             13,
         );
@@ -110,7 +111,7 @@ export default class AreaContainer {
         const voidSpace = new Area(
             'Void Space',
             `A strange region of void space wtih mysteries defying comprehension.`,
-            AreaType.TOWN,
+            EAreaType.TOWN,
             20,
             20,
         );

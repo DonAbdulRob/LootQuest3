@@ -3,13 +3,11 @@
  */
 
 import * as React from 'react';
-import { PageProps } from './SharedProps/PageBaseProps';
-import { PageEnum } from './SharedProps/PageEnum';
+import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
+import IPageEnum from './Enums/IPageEnum';
 
-export default function HelpPage(props: PageProps) {
-    function openPlayPage() {
-        props.setPage(PageEnum.Play);
-    }
+export default function HelpPage() {
+    let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
 
     return (
         <div id="HelpPage" className="container">
@@ -63,7 +61,7 @@ export default function HelpPage(props: PageProps) {
             <hr />
             <button
                 onClick={() => {
-                    openPlayPage();
+                    setPage(IPageEnum.Play);
                 }}
             >
                 Back

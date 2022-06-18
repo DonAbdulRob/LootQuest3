@@ -7,20 +7,19 @@ import { Player } from '../Models/Fighter/Player';
 import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 import { DifficultyEnum } from '../Models/Singles/GameDifficulty';
 import GameStateManager from '../Models/Singles/GameStateManager';
-import { G_GO_TO_PAGE } from './SharedProps/GoToPageFunc';
-import { PageProps } from './SharedProps/PageBaseProps';
-import { PageEnum } from './SharedProps/PageEnum';
+import IPageEnum from './Enums/IPageEnum';
 
 function forceRefresh(setRefreshVar: Function) {
     setRefreshVar((v: number) => v + 1);
 }
 
-export default function NewGamePage(props: PageProps) {
+export default function NewGamePage() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [refreshVar, setRefreshVar] = React.useState(0);
     let fighter: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let setPlayerName: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPlayerName);
     let gameStateManager: GameStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.gameStateManager);
+    let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
 
     let keys = Object.keys(DifficultyEnum);
     let difficulty = gameStateManager.gameDifficulty.difficulty;
@@ -72,7 +71,7 @@ export default function NewGamePage(props: PageProps) {
             <br />
             <button
                 onClick={() => {
-                    G_GO_TO_PAGE(props, PageEnum.Play);
+                    setPage(IPageEnum.Play);
                 }}
             >
                 Finish

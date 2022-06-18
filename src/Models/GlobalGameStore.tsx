@@ -1,14 +1,14 @@
-import create from 'zustand';
+import create, { GetState, SetState } from 'zustand';
 import { ConsoleData } from '../WIndowContent/Console/ConsoleComponent';
-import { Player } from './Fighter/Player';
 import { Monster } from './Fighter/Monster';
 import CombatState from './Shared/CombatState';
 import WindowStateManager from './Singles/WindowStateManager';
-import produce from 'immer';
 import GameStateManager from './Singles/GameStateManager';
+import { createPlayerSlice, IPlayerSlice } from './Slices/PlayerSlice';
+import { StoreSlice } from './Slices/StoreSlice';
+import { IPageSlice, createPageSlice } from './Slices/PageSlice';
 
-export interface GlobalGameStore {
-    player: Player;
+export interface IGlobals {
     enemy: Monster;
     combatState: CombatState;
     consoleData: ConsoleData;
@@ -16,26 +16,24 @@ export interface GlobalGameStore {
     gameStateManager: GameStateManager;
 }
 
-function getGameStore() {
-    return create<GlobalGameStore>((set) => ({
-        player: new Player(),
-        enemy: new Monster(),
-        combatState: new CombatState(),
-        consoleData: new ConsoleData(),
-        windowStateManager: new WindowStateManager(),
-        gameStateManager: new GameStateManager(),
+const createGlobalSlice: StoreSlice<IGlobals> = (set, get) => ({
+    enemy: new Monster(),
+    combatState: new CombatState(),
+    consoleData: new ConsoleData(),
+    windowStateManager: new WindowStateManager(),
+    gameStateManager: new GameStateManager(),
+});
 
-        setPlayerName: (x: string) =>
-            set(
-                produce((state: any) => {
-                    state.player.name = x;
-                }),
-            ),
-    }));
-}
+export interface IRootStore extends IGlobals, IPlayerSlice, IPageSlice {}
+
+const createRootSlice = (set: SetState<any>, get: GetState<any>) => ({
+    ...createGlobalSlice(set, get),
+    ...createPlayerSlice(set, get),
+    ...createPageSlice(set, get),
+});
 
 export function G_RESET_GAME_STORE() {
-    __GLOBAL_GAME_STORE = getGameStore();
+    __GLOBAL_GAME_STORE = create(createRootSlice);
 }
 
-export let __GLOBAL_GAME_STORE = getGameStore();
+export let __GLOBAL_GAME_STORE = create(createRootSlice);

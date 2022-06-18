@@ -1,21 +1,19 @@
-/**
- * A fighter represents players and monsters that battle each other.
- * Also, if it is ever decided to make inanimate objects into battle-able entities, this would be used too...
- */
 import { getRandomValueBetween } from '../Helper';
-import { StatBlock } from '../Shared/StatBlock';
-import Inventory from './Storage/Inventory';
-import { Equipment, Item } from '../Item/Item';
-import { EquipmentSlots } from './Storage/EquipmentSlots';
+import { Item, Equipment } from '../Item/Item';
+import { IStatBlock } from '../Shared/IStatBlock';
 import { StatusContainer } from './Status/StatusContainer';
+import { EquipmentSlots } from './Storage/EquipmentSlots';
+import Inventory from './Storage/Inventory';
+import { immerable } from 'immer';
 
-export class Fighter {
+export default class Fighter {
+    [immerable] = true;
     name: string = '';
     level: number = 0;
     experience: number = 0;
     gold: number = 0;
 
-    statBlock: StatBlock = {
+    statBlock: IStatBlock = {
         healthMin: 0,
         healthMax: 0,
         staminaMin: 0,

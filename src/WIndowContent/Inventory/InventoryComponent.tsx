@@ -2,7 +2,7 @@ import React from 'react';
 import ItemPopup from '../../Components/Popups/ItemPopup';
 import { Item, EquipmentType, ItemType, Equipment, Consumable } from '../../Models/Item/Item';
 import { CONSUMABLE_EFFECT_FUNCTION } from '../../Models/Item/ItemEffectToCoreEffectMapper';
-import { GlobalGameStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
+import { IRootStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
 import { Player } from '../../Models/Fighter/Player';
@@ -57,7 +57,7 @@ function drop(fighter: Player, inventorySlot: number) {
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function getInventoryMap(store: GlobalGameStore): JSX.Element[] {
+function getInventoryMap(store: IRootStore): JSX.Element[] {
     let fighter = store.player;
 
     if (fighter.inventory.items.length === 0) {
@@ -118,7 +118,7 @@ function getInventoryMap(store: GlobalGameStore): JSX.Element[] {
  * Show player inventory. Doesn't support the 'fighter' class objects. Only players.
  */
 export default function InventoryComponent(): JSX.Element {
-    let store: GlobalGameStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let store: IRootStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
 
     return (
         <div className="window-core">

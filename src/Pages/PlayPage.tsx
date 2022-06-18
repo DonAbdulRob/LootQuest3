@@ -6,7 +6,6 @@
 import React from 'react';
 import FloatingWindow from '../Components/FloatingWindow/FloatingWindow';
 import CharacterComponent from '../WIndowContent/Character/CharacterComponent';
-import { PageProps } from './SharedProps/PageBaseProps';
 import InventoryComponent from '../WIndowContent/Inventory/InventoryComponent';
 import EquipmentComponent from '../WIndowContent/Equipment/EquipmentComponent';
 import ConsoleComponent from '../WIndowContent/Console/ConsoleComponent';
@@ -15,14 +14,13 @@ import WindowStateManager from '../Models/Singles/WindowStateManager';
 import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 import { _GAME_IN_DEBUG_MODE } from '../App';
 import Ability from '../WIndowContent/Ability/AbilityComponent';
-import { PageEnum } from './SharedProps/PageEnum';
-import { G_GO_TO_PAGE as GO_TO_PAGE } from './SharedProps/GoToPageFunc';
-import QuitButton from './Components/QuitButton';
+import IPageEnum from './Enums/IPageEnum';
+import QuitButtonComponent from './Components/QuitButtonComponent';
 import EmbeddedWindowComponent from '../WIndowContent/EmbeddedWindow/EmbeddedWindowComponent';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
 
-export interface FloatingWindowPropsBuilder {
+export interface IFloatingWindowPropsBuilder {
     id?: number;
     title: string;
     contentElement: JSX.Element;
@@ -36,7 +34,7 @@ export interface FloatingWindowPropsBuilder {
 function getWindows(windowStateManager: WindowStateManager) {
     let secondRowStart = 500;
 
-    let windows: Array<FloatingWindowPropsBuilder> = [
+    let windows: Array<IFloatingWindowPropsBuilder> = [
         {
             title: 'Player',
             contentElement: <CharacterComponent usePlayer={true} />,
@@ -100,7 +98,7 @@ function getWindows(windowStateManager: WindowStateManager) {
 
     // Create list of windows to display on page.
     // Flex our skills a bit by using the 'as' keyword to convert our windows object to correct type.
-    return windows.map((v: FloatingWindowPropsBuilder, i: number) => {
+    return windows.map((v: IFloatingWindowPropsBuilder, i: number) => {
         return (
             <div key={i}>
                 <FloatingWindow id={i} contentElement={v.contentElement} />
@@ -113,32 +111,33 @@ function forceRefresh(setRefreshVar: Function) {
     setRefreshVar((v: number) => v + 1);
 }
 
-export function PlayPage(props: PageProps) {
+export function PlayPage() {
     // var inits
     const [refreshVar, setRefreshVar] = React.useState(0);
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
     __GLOBAL_REFRESH_FUNC_REF = () => {
         forceRefresh(setRefreshVar);
     };
+    let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
 
     return (
         <div>
             <div>
                 <button
                     onClick={() => {
-                        GO_TO_PAGE(props, PageEnum.Help);
+                        setPage(IPageEnum.Help);
                     }}
                 >
                     Help
                 </button>
                 <button
                     onClick={() => {
-                        GO_TO_PAGE(props, PageEnum.Settings);
+                        setPage(IPageEnum.Settings);
                     }}
                 >
                     Settings
                 </button>
-                <QuitButton page={props.page} setPage={props.setPage} />
+                <QuitButtonComponent />
             </div>
             <div id="floating-window-container" key={refreshVar}>
                 {getWindows(windowStateManager)}

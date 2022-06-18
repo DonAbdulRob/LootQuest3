@@ -7,12 +7,12 @@ import CombatState from '../../Shared/CombatState';
 import { Player } from '../Player';
 import { Monster } from '../Monster';
 
-export interface MonsterEffectFunctionTemplate {
+export interface IMonsterEffectFunction {
     (monster: Monster, player: Player, combatState: CombatState, consoleData: ConsoleData): void;
 }
 
 export class MonsterAbilityContainer {
-    abilityArray: Array<MonsterEffectFunctionTemplate> = [];
+    abilityArray: Array<IMonsterEffectFunction> = [];
 
     constructor() {
         this.abilityArray.push(MonsterEffectLib.power_strike);
@@ -25,7 +25,7 @@ export class MonsterAbilityContainer {
 
 // Monster specific effects.
 export class MonsterEffectLib {
-    static power_strike: MonsterEffectFunctionTemplate = (
+    static power_strike: IMonsterEffectFunction = (
         monster: Monster,
         player: Player,
         combatState: CombatState,

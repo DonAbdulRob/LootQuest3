@@ -12,59 +12,48 @@
 
 # Design Considerations
 
-To demonstrate mastery with the React framework itself, I use as few 3rd party tools as possible. This is why there are no 3rd party statement-management library, routing library, etc.
+To demonstrate as much mastery with React as possible, I minimize my use of 3rd party tools, like routers, GUI tools, etc. The only one that I really use is Zustand for state management. But, even that is only purely for convenience, rather than as a necessity.
 
-Also, it's 2022... most of them are no longer necessary anyway.... (controversial, I know)
+The reasons for this is because I use many 3rd party tools at my professional work, so having this project serves as a different representation of my skills.
 
-# Why execute Force Refresh? The 'startFight' example. (95821)
+Also, it's 2022... most 3rd party libraries aren't necessary anyway... (controversial, I know)
 
-Problem:
+# Big-Brained Programmer Moments
 
-React really sucks at triggering re-renders for nested objects, because useState() only looks for changes to the root element's pointer.
-Primitives are easy to deal with, but complex objects are a pain for this reason.
-For instance, in startFight, calling advance() changes the combatState, but isn't picked up by React by default when using setState()
+1. I originally included the EPlayerAcitivity inside of the Player.tsx class. However, doing this was actually causing the Player class to be unable to find the Fighter class. I figured this out by looking at the stack trace and scanning the webpack-bundled js code to determine a solution, something that requires peak-tier programming skills to achieve. (At least imo).
 
-Alternative Solution:
+# Why execute Force Refresh everywhere? (95821)
 
-An alternative solution that I considered was to use the spread operator on class to create a clone and change properties like that, similar to what I do in other areas.
-However, react fails to pick up the changed state for future iterations of startFight() AFTER the first use.
+In short, I use Force Refresh because it reduces total code, code complexity, is easy to implement and is quite fast.
 
-Example:
+From a developer's point of view, Loot Quest has a lot of data points. Take the Player class for instance. It has numerous root-level properties, like 'name', and sub-level properties, like StatBlock's and Inventory's properties. Modifying these through state management functions would require hundreds of methods to be made, ranging from SetName() to setArmor() to addInventoryItem(). And, that's just for now. As these classes expand in scale, which is typical of games, very many more methods will be needed to support trivial data changes.
 
-combatState.advance();
-setCombatState(() => {
-return combatState;
-});
+So, why do that? With the Force Refresh anti-pattern, I entirely avoid that layer of work.
 
-This codes increments combatState as expected. This code (that attempts to change combatReference internal pointer) works once, then fails after:
+'But, you're modifing state directly!'
 
-combatState.advance();
-setCombatState(() => {
-combatState = {...combatState};
-return combatState;
-});
+Yup! So what? The app works great and I don't need state history or any of that jazz for any reason.
 
-So, yeah, after like 3 hours, I decided to just go with manual refreshes from now on whenever there is nested state change that react is failing to pick up.
-Doing this avoids the hassle of dealing with setState not detecting changes or trying to reconfigure the object in such a way that react will pick up a state change.
+'But, performance!'
 
-# Why Zustand? Why Refresh Components manually with Zustand?
+Definitely not. One thing that is SUPER easy to forget is that modern technology is ridiculously powerful and efficient; even on the low-end. Don't believe me? Go ahead and hit the 'Autoplay 10,000' button in the Cheat window. Doing this will execute 10,000 combat rounds. And, for my system, I get INSTANT feedback. Actually, I don't even notice the slightest big of lag on my system until putting it at 100,000 records. And, I'm able to process a million records, albeit with some lag (you're welcome to try the Autoplay 1,000,000 button at your own risk, my system is pretty good and it takes about 4 seconds to complete).
 
-I use Zustand SPECIFICALLY for the global state support that it provides because global data is pretty much essential for projects because passing data through props is clunky and cumbersome.
+Now, to be fair, I know that the DOM isn't getting refreshed 10,000 times or even 1,000,000 times. But, that's the beauty of state-management, right? Changes get queued up and then run efficiently. And, that's part of why performance isn't a concern.
 
-Zuckland's other features are not a good fit for this project's goals.
+Now, I know that most will consider this an anti-pattern, because it is, so I did try some alternatives. But, they have their own unique issue:
 
-## Why Refresh Components manually when I have Zustand?
+Alternative: Convert classes and their methods into interfaces and independent functions that can take the class object as an argument and modify it.
+Issue: Lose all OOP goodness. Even the basic premise of 'implementing constructor method logic' becomes overhead. And, who wants to pass objects into every single function?
 
-I actually tried out Pure React, Recoil, Zustand and RX.JS libraries for state management. But, unfortunately, they are all bad fits for this project when it comes to watching for state changes. This is because:
+Alternative: Create a single 'modifyState' method within the store that sets state to an immer produced state. Then, whenever state values change, change them through that method.
+Issue: Immer winds up freezing data seemingly at random. And, disabling Immer's freezing reveals infinite recursion calls. This shows that this implementation causes side-effects, even though it really shouldn't. (Except, for instance, when I am changing window state data... which does cause side effects and would need an entire rewrite)
 
-a. Loot Quest uses a lot of objects wtih different data types.
-b. These data models/objects are all massively dependendent on each other (Character Window <=> Player + Enemy <=> Combat <=> Inventory, etc.)
-c. These data models are all non-trivial with multiple nested objects in some cases (Player > Statblock > health).
-d. Setting up things 'the ideal way' is too time-expensive at the moment.
+Alternative: Create the 100s of methods necessary to support changes to the model classes and be 'right'!
+Issue: No thanks. If this were an enterprise app for work, sure. But, here, nah.
 
-The big killers are points c & d, where Pure React, Zustand, Recoil, or whatever you're using do not perform deep checking of objects for state changes. React pros know this; it's a pain to setup a bunch of useState() calls to bind non-flat objects and recommendations are to flatten objects, then bind the object attributes individually that we're going to watch change to useState (or whatever library your using's) calls.
+Hence, none of the alternatives stuck. With that said this app is meant to demonstrate mastery over state, so I did go ahead and arbitrarily added some state logic into the application 'the right way'. The slice folder under models coupled with GlobalGameStore demonstrate some slicing ability, which is really about as complex as Zustand ever gets. I do also add some methods for operations that actually do get called a lot (for convenience reasons to not have to call the page refresh method everywhere, like the console adding function). But, I don't add slice methods to achieve 100% class coverage for state variables as a hard requirement.
 
-For a high-budget enterprise app with thousands of planned manhours, sure, I can go the hard route and set all of these models up and maintain them. No problem. However, for Loot Quest, we'll take the completely unnoticeable performance hit by calling refresh operations after events happen that change state attributes. The genius of this decision will become more evident as the project becomes larger and the sheer number of data-bound attributes entering existance becomes massive.
+Also, ironically, all of the time I spent trying to implement alternative state management solutions would probably have been enough time to add a 'proper' slicing infrastructure. Well, at least I learned why trying to deviate from state specifications is bad / doesn't work!
 
 ## Class Function References
 

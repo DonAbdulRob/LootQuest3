@@ -3,10 +3,7 @@
  * It has lore, a level range, area connections and encounters.
  */
 
-export enum AreaType {
-    TOWN,
-    WILD,
-}
+import EAreaType from './EAreaType';
 
 export default class Area {
     name: string;
@@ -14,9 +11,9 @@ export default class Area {
     levelMin: number;
     levelMax: number;
     connectedAreas: Area[];
-    type: AreaType = AreaType.TOWN;
+    type: EAreaType = EAreaType.TOWN;
 
-    constructor(name: string, description: string, type: AreaType, levelMin: number, levelMax: number) {
+    constructor(name: string, description: string, type: EAreaType, levelMin: number, levelMax: number) {
         this.name = name;
         this.description = description;
         this.levelMin = levelMin;

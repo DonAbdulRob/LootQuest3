@@ -1,11 +1,11 @@
 import React from 'react';
 import Area from '../../../Models/Area/Area';
-import { GlobalGameStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
+import { IRootStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
 import './AreaComponent.css';
 
 export default function AreaComponent() {
-    let store: GlobalGameStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let store: IRootStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
     let player = store.player;
 
     return (

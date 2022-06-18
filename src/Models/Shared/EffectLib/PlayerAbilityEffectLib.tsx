@@ -6,31 +6,30 @@
  * Note: Don't do percentage increases/decreases for now because we don't have seperate 'buffStatBlock' to uncalculate % buffs yet.
  */
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
-import { processCombatRound } from '../../../WIndowContent/EmbeddedWindow/Combat/CombatComponent';
 import { ConsoleData } from '../../../WIndowContent/Console/ConsoleComponent';
-import { Fighter } from '../../Fighter/Fighter';
 import { Player } from '../../Fighter/Player';
+import Fighter from '../../Fighter/Fighter';
 import { G_HIDDEN_SKIP_TURN_STATUS, Status } from '../../Fighter/Status/Status';
 import { activateHealthHealItem } from './EffectLIbHelpers';
 import { getRandomValueUpTo } from '../../Helper';
-import { GlobalGameStore } from '../../GlobalGameStore';
+import { IRootStore } from '../../GlobalGameStore';
 
 const STR_COMBAT_ONLY = 'This ability can only be used in combat.';
 const STR_NOT_ENOUGH_RESOURCE = `You can't afford to use this ability.`;
 
-export interface PlayerItemEffectFunctionTemplate {
-    (store: GlobalGameStore, index: number): void;
+export interface IPlayerItemEffectFunction {
+    (store: IRootStore, index: number): void;
 }
 
-export interface AbilityEffectFunctionTemplate {
-    (store: GlobalGameStore): void;
+export interface IAbilityEffectFunction {
+    (store: IRootStore): void;
 }
 
-export interface NonCombatActionTemplate {
-    (store: GlobalGameStore, message: string): void;
+export interface INonCombatAction {
+    (store: IRootStore, message: string): void;
 }
 
-function canCast_CombatOnlyCheck(store: GlobalGameStore, staminaCost: number, manaCost: number): boolean {
+function canCast_CombatOnlyCheck(store: IRootStore, staminaCost: number, manaCost: number): boolean {
     // Prevent use of ability outside of combat.
     if (!store.player.isFighting()) {
         store.consoleData.add(STR_COMBAT_ONLY);
@@ -82,7 +81,7 @@ export class CoreEffects {
 
 // Items can be used by players or monsters (WIP). This is for players.
 export class PlayerItemEffectLib {
-    static oran_herb: PlayerItemEffectFunctionTemplate = (store: GlobalGameStore, index: number) => {
+    static oran_herb: IPlayerItemEffectFunction = (store: IRootStore, index: number) => {
         // Handle oran herb core effect.
         CoreEffects.oran_herb(store.player, index, store.consoleData);
 
@@ -95,18 +94,18 @@ export class PlayerAbilityEffectLib {
         player.statusContainer.addStatus(new Status(G_HIDDEN_SKIP_TURN_STATUS, 1, null, null, false));
     };
 
-    static doNonCombatAction: NonCombatActionTemplate = (store: GlobalGameStore, actionMessage: string) => {
+    static doNonCombatAction: INonCombatAction = (store: IRootStore, actionMessage: string) => {
         // Give player skip_turn status.
         PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(store.player);
 
         // Process combat round.
-        processCombatRound(store, {
+        store.combatState.processCombatRound(store, {
             insertDamage: false,
             str1: actionMessage,
         });
     };
 
-    static flee: AbilityEffectFunctionTemplate = (store: GlobalGameStore) => {
+    static flee: IAbilityEffectFunction = (store: IRootStore) => {
         // Attempt to flee. On success, return, else, continue combat. (25%)
         let fleeRes = getRandomValueUpTo(3);
 
@@ -121,13 +120,13 @@ export class PlayerAbilityEffectLib {
         PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(store.player);
 
         // Process combat round.
-        processCombatRound(store, {
+        store.combatState.processCombatRound(store, {
             insertDamage: false,
             str1: 'Your attempt to flee fails.',
         });
     };
 
-    static defend: AbilityEffectFunctionTemplate = (store: GlobalGameStore) => {
+    static defend: IAbilityEffectFunction = (store: IRootStore) => {
         // Player can always defend.
         let player = store.player;
 
@@ -152,13 +151,13 @@ export class PlayerAbilityEffectLib {
         PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(player);
 
         // Perform an attack with a custom damage message format.
-        processCombatRound(store, {
+        store.combatState.processCombatRound(store, {
             insertDamage: false,
             str1: 'You take a defensive stance and gain +2 armor for the round.',
         });
     };
 
-    static power_strike: AbilityEffectFunctionTemplate = (store: GlobalGameStore) => {
+    static power_strike: IAbilityEffectFunction = (store: IRootStore) => {
         let player = store.player;
 
         // Check that player can cast via standard check function.
@@ -186,14 +185,14 @@ export class PlayerAbilityEffectLib {
         );
 
         // Perform an attack with a custom damage message format.
-        processCombatRound(store, {
+        store.combatState.processCombatRound(store, {
             insertDamage: true,
             str1: 'You activate Power Strike and attack for ',
             str2: ' damage!',
         });
     };
 
-    static lesser_heal: AbilityEffectFunctionTemplate = (store: GlobalGameStore) => {
+    static lesser_heal: IAbilityEffectFunction = (store: IRootStore) => {
         let player = store.player;
         let consoleData = store.consoleData;
 
@@ -213,7 +212,7 @@ export class PlayerAbilityEffectLib {
 
         // If in combat, perfrom a combat turn.
         if (player.isFighting()) {
-            processCombatRound(store, {
+            store.combatState.processCombatRound(store, {
                 insertDamage: false,
                 str1: str,
             });

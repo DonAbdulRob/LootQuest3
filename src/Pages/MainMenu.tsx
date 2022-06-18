@@ -3,12 +3,13 @@
  */
 
 import * as React from 'react';
-import LoadGame from './Components/LoadGame';
-import { G_GO_TO_PAGE } from './SharedProps/GoToPageFunc';
-import { PageProps } from './SharedProps/PageBaseProps';
-import { PageEnum } from './SharedProps/PageEnum';
+import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
+import LoadGameComponent from './Components/LoadGame/LoadGameComponent';
+import IPageEnum from './Enums/IPageEnum';
 
-export default function MainMenuPage(props: PageProps) {
+export default function MainMenuPage() {
+    let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
+
     return (
         <div className="container">
             <hr />
@@ -25,12 +26,12 @@ export default function MainMenuPage(props: PageProps) {
             <div className="center">
                 <button
                     onClick={() => {
-                        G_GO_TO_PAGE(props, PageEnum.NewGame);
+                        setPage(IPageEnum.NewGame);
                     }}
                 >
                     Start A New Adventure
                 </button>
-                <LoadGame />
+                <LoadGameComponent />
             </div>
         </div>
     );

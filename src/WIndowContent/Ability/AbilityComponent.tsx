@@ -1,11 +1,11 @@
 import React from 'react';
 import { ABILITY_EFFECT_FUNCTION } from '../../Models/Fighter/Ability/AbilityToCoreEffectMapper';
-import { GlobalGameStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
+import { IRootStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import '../../Components/Popups/ItemPopup.css';
 import { Ability } from '../../Models/Fighter/Ability/AbilityList';
 
 export default function AbilityComponent() {
-    let store: GlobalGameStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let store: IRootStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
     let player = store.player;
 
     let display = player.abilities.abilityArray.map((v: Ability, i: number) => {

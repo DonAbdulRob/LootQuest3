@@ -1,17 +1,35 @@
-import { PlayerAbilityContainer } from './Ability/PlayerAbilityContainer';
-import { immerable } from 'immer';
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
-import Area from '../Area/Area';
-import { G_AREA_GREENVALE } from '../Area/AreaContainer';
-import { IRootStore } from '../GlobalGameStore';
-import Fighter from './Fighter';
-import EPlayerActivity from './EPlayerActivity';
+import produce from 'immer';
+import { StoreSlice } from './StoreSlice';
+import { Player } from '../Fighter/Player';
 
+export interface IPlayerSlice {
+    player: Player;
+    generatePlayer: () => void;
+    setPlayerName: (s: string) => void;
+}
+
+export const createPlayerSlice: StoreSlice<IPlayerSlice> = (set, get) => ({
+    player: new Player(),
+    generatePlayer: () =>
+        set((prev: IPlayerSlice) => {
+            prev.generatePlayer();
+            return prev;
+        }),
+
+    setPlayerName: (x: string) =>
+        set(
+            produce((state: any) => {
+                state.player.name = x;
+            }),
+        ),
+});
+
+/**
 export class Player extends Fighter {
     [immerable] = true;
     abilities: PlayerAbilityContainer = new PlayerAbilityContainer();
     currentArea: Area = G_AREA_GREENVALE;
-    activity: EPlayerActivity = EPlayerActivity.IDLE;
+    activity: PlayerActivity = PlayerActivity.IDLE;
 
     constructor() {
         super();
@@ -33,10 +51,10 @@ export class Player extends Fighter {
         this.statBlock.damageMax = 2;
     };
 
-    giveExperience = (state: IRootStore) => {
+    giveExperience = (enemy: Monster, consoleData: ConsoleData) => {
         // Calculate experience to aware. If the enemy is 4 levels weaker than the player, grant -25% experience per level lower it is.
-        let awardExp = state.enemy.experience;
-        let levelDiff = this.level - state.enemy.level;
+        let awardExp = enemy.experience;
+        let levelDiff = this.level - enemy.level;
 
         if (levelDiff > 3) {
             awardExp *= 1 - (levelDiff - 2) * 0.25;
@@ -68,41 +86,33 @@ export class Player extends Fighter {
                 this.statBlock.damageMax += 1;
             }
 
-            state.consoleData.add('You have leveled up to ' + this.level + '!');
+            consoleData.add('You have leveled up to ' + this.level + '!');
             __GLOBAL_REFRESH_FUNC_REF();
         }
     };
 
     /**
      * Activity related section.
-     */
     setCombatStart = () => {
-        this.activity = EPlayerActivity.IN_COMBAT_FIGHTING;
+        this.activity = PlayerActivity.IN_COMBAT_FIGHTING;
     };
 
     setLooting = () => {
-        this.activity = EPlayerActivity.IN_COMBAT_LOOTING;
+        this.activity = PlayerActivity.IN_COMBAT_LOOTING;
     };
 
     setCombatOver = () => {
-        this.activity = EPlayerActivity.IDLE;
+        this.activity = PlayerActivity.IDLE;
     };
 
     isFighting = () => {
-        return this.activity === EPlayerActivity.IN_COMBAT_FIGHTING;
-    };
-
-    isIdle = () => {
-        return this.activity === EPlayerActivity.IDLE;
-    };
-
-    isLooting = () => {
-        return this.activity === EPlayerActivity.IN_COMBAT_LOOTING;
+        return this.activity === PlayerActivity.IN_COMBAT_FIGHTING;
     };
 
     inCombat = () => {
         return (
-            this.activity === EPlayerActivity.IN_COMBAT_FIGHTING || this.activity === EPlayerActivity.IN_COMBAT_LOOTING
+            this.activity === PlayerActivity.IN_COMBAT_FIGHTING || this.activity === PlayerActivity.IN_COMBAT_LOOTING
         );
     };
 }
+*/

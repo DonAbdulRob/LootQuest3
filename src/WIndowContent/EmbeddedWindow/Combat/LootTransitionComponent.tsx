@@ -1,7 +1,7 @@
 import React from 'react';
 import ItemPopup from '../../../Components/Popups/ItemPopup';
 import { Item } from '../../../Models/Item/Item';
-import { GlobalGameStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
+import { IRootStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
 
 function getLootDisplay(loot: Array<Item>) {
@@ -10,7 +10,7 @@ function getLootDisplay(loot: Array<Item>) {
     });
 }
 
-function endLooting(store: GlobalGameStore) {
+function endLooting(store: IRootStore) {
     // Clear loot in combat state.
     store.combatState.loot = [];
 
@@ -22,7 +22,7 @@ function endLooting(store: GlobalGameStore) {
 }
 
 export default function LootTransitionComponent() {
-    let store: GlobalGameStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let store: IRootStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
     let player = store.player;
     let consoleData = store.consoleData;
     let combatState = store.combatState;

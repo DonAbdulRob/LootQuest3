@@ -3,7 +3,7 @@
  */
 
 import { ConsoleData } from '../../../WIndowContent/Console/ConsoleComponent';
-import { Fighter } from '../../Fighter/Fighter';
+import Fighter from '../../Fighter/Fighter';
 
 export function activateHealthHealItem(
     fighter: Fighter,

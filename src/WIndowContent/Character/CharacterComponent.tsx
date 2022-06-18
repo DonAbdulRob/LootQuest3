@@ -1,6 +1,6 @@
 import React from 'react';
 import ResourceBar, { ResourceBarProps } from '../../Components/ResourceBar/ResourceBar';
-import { Fighter } from '../../Models/Fighter/Fighter';
+import Fighter from '../../Models/Fighter/Fighter';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import CharacterProps from '../SharedProps/CharacterProps';
 import './CharacterComponent.css';

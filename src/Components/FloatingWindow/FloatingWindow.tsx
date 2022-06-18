@@ -178,12 +178,12 @@ function maximizeClick(e: any, windowContentRef: any) {
     windowContentRef.current.hidden = false;
 }
 
-interface FloatingWindowProps {
+interface IFloatingWindowProps {
     id: number;
     contentElement: JSX.Element;
 }
 
-export default function FloatingWindow(props: FloatingWindowProps): JSX.Element {
+export default function FloatingWindow(props: IFloatingWindowProps): JSX.Element {
     // Var init.
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
 
