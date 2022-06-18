@@ -7,9 +7,11 @@ import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
 import { Player } from '../../Models/Fighter/Player';
 import { G_MAX_INV_SIZE } from '../../Models/Fighter/Storage/Inventory';
+import { PlayerAbilityEffectLib } from '../../Models/Shared/EffectLib/PlayerAbilityEffectLib';
 
-function equip(fighter: Player, inventorySlot: number) {
-    let invItem: Equipment | Item = fighter.inventory.items[inventorySlot];
+function equip(store: IRootStore, inventorySlot: number) {
+    let player = store.player;
+    let invItem: Equipment | Item = player.inventory.items[inventorySlot];
 
     if (!(invItem instanceof Equipment)) {
         console.log('Dev error. Trying to equip non-equip: ' + invItem.name);
@@ -21,10 +23,10 @@ function equip(fighter: Player, inventorySlot: number) {
 
     switch (invItemType) {
         case EquipmentType.WEAPON:
-            equipItem = fighter.equipmentSlots.items[EquipmentSlotMapping.weapon];
+            equipItem = player.equipmentSlots.items[EquipmentSlotMapping.weapon];
             break;
         case EquipmentType.CHESTPLATE:
-            equipItem = fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate];
+            equipItem = player.equipmentSlots.items[EquipmentSlotMapping.chestplate];
             break;
         default:
             break;
@@ -32,39 +34,48 @@ function equip(fighter: Player, inventorySlot: number) {
 
     // If there is an item, move equipment to inventory
     if (equipItem !== null) {
-        fighter.inventory.items.push(equipItem);
+        player.inventory.items.push(equipItem);
     }
 
     // Move inventory item to our equipment slots.
     switch (invItemType) {
         case EquipmentType.WEAPON:
-            fighter.equipmentSlots.items[EquipmentSlotMapping.weapon] = invItem;
+            player.equipmentSlots.items[EquipmentSlotMapping.weapon] = invItem;
             break;
         case EquipmentType.CHESTPLATE:
-            fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate] = invItem;
+            player.equipmentSlots.items[EquipmentSlotMapping.chestplate] = invItem;
             break;
         default:
             break;
     }
 
     // Remove inventory item from inventory.
-    fighter.inventory.items.splice(inventorySlot, 1);
+    player.inventory.items.splice(inventorySlot, 1);
+
+    // Do equip effect.
+    PlayerAbilityEffectLib.equip(store);
+
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function drop(fighter: Player, inventorySlot: number) {
+function drop(store: IRootStore, inventorySlot: number) {
+    let fighter: Player = store.player;
     fighter.inventory.items.splice(inventorySlot, 1);
+
+    // Do drop effect.
+    PlayerAbilityEffectLib.drop(store);
+
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
 function getInventoryMap(store: IRootStore): JSX.Element[] {
-    let fighter = store.player;
+    let player = store.player;
 
-    if (fighter.inventory.items.length === 0) {
+    if (player.inventory.items.length === 0) {
         return [<div key={0}></div>];
     }
 
-    return fighter.inventory.items.map((v, i) => {
+    return player.inventory.items.map((v, i) => {
         let useButton = null;
         let equipButton = null;
 
@@ -89,7 +100,7 @@ function getInventoryMap(store: IRootStore): JSX.Element[] {
             equipButton = (
                 <button
                     onClick={() => {
-                        equip(fighter, i);
+                        equip(store, i);
                     }}
                 >
                     Equip
@@ -99,12 +110,12 @@ function getInventoryMap(store: IRootStore): JSX.Element[] {
 
         return (
             <div key={i}>
-                <ItemPopup prefix="" item={fighter.inventory.items[i]} addLootButton={false} />
+                <ItemPopup prefix="" item={player.inventory.items[i]} addLootButton={false} />
                 {useButton}
                 {equipButton}
                 <button
                     onClick={() => {
-                        drop(fighter, i);
+                        drop(store, i);
                     }}
                 >
                     Drop
@@ -119,10 +130,21 @@ function getInventoryMap(store: IRootStore): JSX.Element[] {
  */
 export default function InventoryComponent(): JSX.Element {
     let store: IRootStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let inv = store.player.inventory;
 
     return (
         <div className="window-core">
-            <h1>Inventory - {store.player.inventory.items.length + '/' + G_MAX_INV_SIZE}</h1>
+            <h1>Inventory</h1>
+            <h2>
+                {inv.items.length +
+                    '/' +
+                    G_MAX_INV_SIZE +
+                    ' Slots, ' +
+                    store.player.getTotalWeight() +
+                    ' / ' +
+                    store.player.weightMax +
+                    ' lb'}
+            </h2>
             {getInventoryMap(store)}
         </div>
     );

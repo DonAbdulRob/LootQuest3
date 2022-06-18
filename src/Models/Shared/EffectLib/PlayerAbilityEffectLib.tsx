@@ -6,7 +6,7 @@
  * Note: Don't do percentage increases/decreases for now because we don't have seperate 'buffStatBlock' to uncalculate % buffs yet.
  */
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
-import { ConsoleData } from '../../../WIndowContent/Console/ConsoleComponent';
+import { RpgConsole } from '../../Singles/RpgConsole';
 import { Player } from '../../Fighter/Player';
 import Fighter from '../../Fighter/Fighter';
 import { G_HIDDEN_SKIP_TURN_STATUS, Status } from '../../Fighter/Status/Status';
@@ -32,25 +32,20 @@ export interface INonCombatAction {
 function canCast_CombatOnlyCheck(store: IRootStore, staminaCost: number, manaCost: number): boolean {
     // Prevent use of ability outside of combat.
     if (!store.player.isFighting()) {
-        store.consoleData.add(STR_COMBAT_ONLY);
+        store.rpgConsole.add(STR_COMBAT_ONLY);
         __GLOBAL_REFRESH_FUNC_REF();
         return false;
     }
 
     // Check other conditions.
-    return canCast_AnywhereCheck(store.player, staminaCost, manaCost, store.consoleData);
+    return canCast_AnywhereCheck(store.player, staminaCost, manaCost, store.rpgConsole);
 }
 
 /**
  * Is used to check required fields to be able to use abilities.
  * For instance, ability cost and, for the future, status checks (like silence).
  */
-function canCast_AnywhereCheck(
-    player: Player,
-    staminaCost: number,
-    manaCost: number,
-    consoleData: ConsoleData,
-): boolean {
+function canCast_AnywhereCheck(player: Player, staminaCost: number, manaCost: number, rpgConsole: RpgConsole): boolean {
     // Make sure player can pay skill cost.
     let canAfford = player.statBlock.staminaMin >= staminaCost && player.statBlock.manaMin >= manaCost;
 
@@ -58,7 +53,7 @@ function canCast_AnywhereCheck(
         player.statBlock.staminaMin -= staminaCost;
         player.statBlock.manaMin -= manaCost;
     } else {
-        consoleData.add(STR_NOT_ENOUGH_RESOURCE);
+        rpgConsole.add(STR_NOT_ENOUGH_RESOURCE);
         __GLOBAL_REFRESH_FUNC_REF();
         return false;
     }
@@ -68,11 +63,11 @@ function canCast_AnywhereCheck(
 
 // Core effects can be used by either players or monsters.
 export class CoreEffects {
-    static oran_herb = (user: Fighter, index: number, consoleData: ConsoleData) => {
+    static oran_herb = (user: Fighter, index: number, rpgConsole: RpgConsole) => {
         activateHealthHealItem(
             user,
             index,
-            consoleData,
+            rpgConsole,
             1,
             'You apply the Oran Herb and feel a bit healthier. (+1 Healing).',
         );
@@ -82,10 +77,16 @@ export class CoreEffects {
 // Items can be used by players or monsters (WIP). This is for players.
 export class PlayerItemEffectLib {
     static oran_herb: IPlayerItemEffectFunction = (store: IRootStore, index: number) => {
-        // Handle oran herb core effect.
-        CoreEffects.oran_herb(store.player, index, store.consoleData);
+        let player = store.player;
 
-        // Todo, if in combat, add skip turn status and continue combat.
+        // Handle oran herb core effect.
+        CoreEffects.oran_herb(player, index, store.rpgConsole);
+
+        // If fighting, add skip turn status and handle combat round.
+        if (player.isFighting()) {
+            PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(player);
+            store.combatState.processCombatRound(store);
+        }
     };
 }
 
@@ -110,7 +111,7 @@ export class PlayerAbilityEffectLib {
         let fleeRes = getRandomValueUpTo(3);
 
         if (fleeRes === 0) {
-            store.consoleData.add('You successfully flee from combat.');
+            store.rpgConsole.add('You successfully flee from combat.');
             store.player.setCombatOver();
             __GLOBAL_REFRESH_FUNC_REF();
             return;
@@ -157,6 +158,36 @@ export class PlayerAbilityEffectLib {
         });
     };
 
+    static equip: IAbilityEffectFunction = (store: IRootStore) => {
+        let player = store.player;
+
+        if (player.isFighting()) {
+            // Add skip turn status.
+            PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(player);
+
+            // Perform an attack with a custom damage message format.
+            store.combatState.processCombatRound(store, {
+                insertDamage: false,
+                str1: 'You spend some time switching your equipment.',
+            });
+        }
+    };
+
+    static drop: IAbilityEffectFunction = (store: IRootStore) => {
+        let player = store.player;
+
+        if (player.isFighting()) {
+            // Add skip turn status.
+            PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(player);
+
+            // Perform an attack with a custom damage message format.
+            store.combatState.processCombatRound(store, {
+                insertDamage: false,
+                str1: 'You spend some time dropping an item.',
+            });
+        }
+    };
+
     static power_strike: IAbilityEffectFunction = (store: IRootStore) => {
         let player = store.player;
 
@@ -194,10 +225,10 @@ export class PlayerAbilityEffectLib {
 
     static lesser_heal: IAbilityEffectFunction = (store: IRootStore) => {
         let player = store.player;
-        let consoleData = store.consoleData;
+        let rpgConsole = store.rpgConsole;
 
         // Check that player can cast via standard check function.
-        if (!canCast_AnywhereCheck(player, 0, 5, consoleData)) {
+        if (!canCast_AnywhereCheck(player, 0, 5, rpgConsole)) {
             return;
         }
 
@@ -217,7 +248,7 @@ export class PlayerAbilityEffectLib {
                 str1: str,
             });
         } else {
-            consoleData.add(str);
+            rpgConsole.add(str);
             __GLOBAL_REFRESH_FUNC_REF();
         }
     };

@@ -2,19 +2,19 @@
  * This file contains all of the helper functions for EffectFunctions.tsx
  */
 
-import { ConsoleData } from '../../../WIndowContent/Console/ConsoleComponent';
+import { RpgConsole } from '../../Singles/RpgConsole';
 import Fighter from '../../Fighter/Fighter';
 
 export function activateHealthHealItem(
     fighter: Fighter,
     inventoryIndex: number,
-    consoleData: ConsoleData,
+    rpgConsole: RpgConsole,
     healAmount: number,
     message: string,
 ) {
     fighter.healHealth(healAmount);
     removeItem(fighter, inventoryIndex);
-    consoleData.add(message);
+    rpgConsole.add(message);
 }
 
 export function removeItem(fighter: Fighter, i: number) {

@@ -3,6 +3,7 @@
  */
 import { Item, EquipmentType, Equipment } from '../../Item/Item';
 import { ItemGen } from '../../Item/ItemGen';
+import { Player } from '../Player';
 
 export const G_MAX_INV_SIZE = 20;
 
@@ -13,8 +14,12 @@ export default class Inventory {
         this.addStarterItems();
     }
 
-    addItem(item: Item): boolean {
-        if (this.isFull()) {
+    addItem(player: Player, item: Item): boolean {
+        if (!this.canFit(1)) {
+            return false;
+        }
+
+        if (!player.canCarry(item.weight)) {
             return false;
         }
 
@@ -22,10 +27,14 @@ export default class Inventory {
         return true;
     }
 
-    addItems(items: Item[]): boolean {
+    addItems(player: Player, items: Item[]): boolean {
         let numberOfItems = items.length;
 
         if (!this.canFit(numberOfItems)) {
+            return false;
+        }
+
+        if (!player.canCarryAll(items)) {
             return false;
         }
 
@@ -36,11 +45,7 @@ export default class Inventory {
         return true;
     }
 
-    isFull() {
-        return this.items.length >= G_MAX_INV_SIZE; // for 20, slots 0-19, so need >= sign
-    }
-
-    canFit(numberOfItems: number) {
+    private canFit(numberOfItems: number) {
         return this.items.length + numberOfItems <= G_MAX_INV_SIZE;
     }
 
@@ -53,6 +58,7 @@ export default class Inventory {
             'Moldy Sword',
             'An old and moldy sword. Is that wood beneath the mold? Or, something else? Who knows...',
             EquipmentType.WEAPON,
+            1,
         );
         starter1.statBlock.damageMin = 1;
         starter1.statBlock.damageMax = 1;
@@ -61,6 +67,7 @@ export default class Inventory {
             'Rusty Sword',
             `A rusted sword. Seems a bit better than the moldy sword, but is it really?`,
             EquipmentType.WEAPON,
+            1.5,
         );
         starter2.statBlock.damageMin = 1;
         starter2.statBlock.damageMax = 2;
@@ -69,6 +76,7 @@ export default class Inventory {
             'Paper Chestplate',
             `A chestplate made from discarded nespaper. It might have been useful if crafted into thick layers by a skilled artison. Unfortunately, it wasn't. Pray that it doesn't rain.`,
             EquipmentType.CHESTPLATE,
+            3,
         );
         starter3.statBlock.health = 3;
 
@@ -76,6 +84,7 @@ export default class Inventory {
             'Cardboard Chestplate',
             `A chestplate made from torn cardboard boxes. Does offer 'some' protection, but makes you uncomfortable, stiff and a bit itchy. You also smell... urine?`,
             EquipmentType.CHESTPLATE,
+            5,
         );
         starter4.statBlock.armor = 1;
 

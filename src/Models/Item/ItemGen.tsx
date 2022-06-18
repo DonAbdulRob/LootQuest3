@@ -9,7 +9,7 @@ export class ItemGen {
         const max = Math.round(min + getRandomValueUpTo(2));
         const mat = getRandomElement(materials);
 
-        let newItem: Equipment = new Equipment(mat + ' Sword', 'A sword made of ' + mat, EquipmentType.WEAPON);
+        let newItem: Equipment = new Equipment(mat + ' Sword', 'A sword made of ' + mat, EquipmentType.WEAPON, 4);
 
         newItem.statBlock.damageMin = min;
         newItem.statBlock.damageMax = max;
@@ -20,7 +20,7 @@ export class ItemGen {
         const materials = ['Oak', 'Willow', 'Redwood'];
         const mat = getRandomElement(materials);
 
-        let newItem: Item = new Item(mat + ' Log', 'A log made of ' + mat, ItemType.RESOURCE);
+        let newItem: Item = new Item(mat + ' Log', 'A log made of ' + mat, ItemType.RESOURCE, 10);
         return newItem;
     }
 
@@ -28,8 +28,9 @@ export class ItemGen {
         let newItem = new Consumable(
             'Oran Herb',
             `A common herb known for its light healing properties. You won't win any fights with it, but outside of combat, it can be a great aid.`,
+            0.1,
             ItemEffects.EFFECT_ID_ORAN_HERB,
-            1,
+            2,
         );
         return newItem;
     }

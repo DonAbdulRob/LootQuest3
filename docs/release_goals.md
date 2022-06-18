@@ -15,19 +15,13 @@ This document has all of the planned goals for Loot Quest's completion, iterated
 
 Empty! Everything is PLANNED!
 
-
-item stacks and weight
-
-
 ## TODO - Short Term:
 
-1. Using item in combat, equpping items = use a combat turn.
-2. Show monster description in embedded game window during combat.
-3. Hardcode stats for monsters from levels 1-5. For higher levels, use formulas.
-4. Fill the 'show town stuff' section with town stuff. (Inn to heal, Shop, etc.).
-5. Refactor game state.
-   - Can probably just put all game stats on a root-level class too, so I don't have to pass state into models...
-6. Flesh out systems to have content for implemented systems up to level 5.
+1. Show monster description in embedded game window during combat.
+2. Hardcode stats for monsters from levels 1-5. For higher levels, use formulas.
+3. Fill the 'show town stuff' section with town stuff. (Inn to heal, Shop, etc.).
+4. Flesh out systems to have content for implemented systems up to level 5.
+5. Add at least one 'special' encounter, like meeting the 'Wise Wizard Merlin' and having a dialog or something that could lead to a fight or item reward, etc.
 
 ## TODO - Medium Term:
 
@@ -42,6 +36,14 @@ item stacks and weight
 # Done List
 
 For things that are done!
+
+## Older Marked Done 6/18/2022+:
+
+item weight has been added (stacks have been deferred for now)
+
+1. Using item in combat, equpping items = use a combat turn.
+5. Refactor game state.
+   - Can probably just put all game stats on a root-level class too, so I don't have to pass state into models...
 
 ## Older Marked done 6/14/2022+:
 

@@ -1,5 +1,5 @@
 import create, { GetState, SetState } from 'zustand';
-import { ConsoleData } from '../WIndowContent/Console/ConsoleComponent';
+import { RpgConsole } from './Singles/RpgConsole';
 import { Monster } from './Fighter/Monster';
 import CombatState from './Shared/CombatState';
 import WindowStateManager from './Singles/WindowStateManager';
@@ -11,7 +11,7 @@ import { IPageSlice, createPageSlice } from './Slices/PageSlice';
 export interface IGlobals {
     enemy: Monster;
     combatState: CombatState;
-    consoleData: ConsoleData;
+    rpgConsole: RpgConsole;
     windowStateManager: WindowStateManager;
     gameStateManager: GameStateManager;
 }
@@ -19,7 +19,7 @@ export interface IGlobals {
 const createGlobalSlice: StoreSlice<IGlobals> = (set, get) => ({
     enemy: new Monster(),
     combatState: new CombatState(),
-    consoleData: new ConsoleData(),
+    rpgConsole: new RpgConsole(),
     windowStateManager: new WindowStateManager(),
     gameStateManager: new GameStateManager(),
 });

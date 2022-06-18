@@ -6,6 +6,7 @@ import { G_AREA_GREENVALE } from '../Area/AreaContainer';
 import { IRootStore } from '../GlobalGameStore';
 import Fighter from './Fighter';
 import EPlayerActivity from './EPlayerActivity';
+import { Item } from '../Item/Item';
 
 export class Player extends Fighter {
     [immerable] = true;
@@ -68,10 +69,49 @@ export class Player extends Fighter {
                 this.statBlock.damageMax += 1;
             }
 
-            state.consoleData.add('You have leveled up to ' + this.level + '!');
+            state.rpgConsole.add('You have leveled up to ' + this.level + '!');
             __GLOBAL_REFRESH_FUNC_REF();
         }
     };
+
+    /**
+     * Weight management functions.
+     */
+
+    weightMax: number = 120;
+
+    /**
+     *
+     * @param newWeight Takes a new weight to calculate based off of.
+     * @returns {boolean} true/false
+     */
+    canCarry(newWeight: number): boolean {
+        return this.getTotalWeight() + newWeight <= this.weightMax;
+    }
+
+    /**
+     * Checks to see if inventory can support the weight of several item weights at once.
+     * We reduce the weights to get a total weight value, then call canCarry to see if the inventory can support the weight.
+     */
+    canCarryAll(itemArr: Item[]): boolean {
+        return this.canCarry(itemArr.map((v) => v.weight).reduce((a, b) => a + b));
+    }
+
+    getTotalWeight(): number {
+        let finalWeight = 0;
+
+        for (let x of this.inventory.items) {
+            finalWeight += x.weight;
+        }
+
+        for (let x of this.equipmentSlots.items) {
+            if (x !== null) {
+                finalWeight += x.weight;
+            }
+        }
+
+        return finalWeight;
+    }
 
     /**
      * Activity related section.

@@ -24,7 +24,7 @@ function endLooting(store: IRootStore) {
 export default function LootTransitionComponent() {
     let store: IRootStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
     let player = store.player;
-    let consoleData = store.consoleData;
+    let rpgConsole = store.rpgConsole;
     let combatState = store.combatState;
 
     let loot = combatState.loot;
@@ -37,12 +37,12 @@ export default function LootTransitionComponent() {
             <button
                 onClick={() => {
                     // Add all items to inventory.
-                    let res = player.inventory.addItems(loot);
+                    let res = player.inventory.addItems(player, loot);
 
                     if (res) {
                         endLooting(store);
                     } else {
-                        consoleData.add('Unable to loot all. Not enough inventory space.');
+                        rpgConsole.add('Unable to loot all. Not enough inventory space.');
                     }
 
                     // Refresh screen.

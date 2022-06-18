@@ -4,13 +4,13 @@
 import React from 'react';
 import { Player } from '../../../Models/Fighter/Player';
 import { __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
-import { ConsoleData } from '../../../WIndowContent/Console/ConsoleComponent';
+import { RpgConsole } from '../../../Models/Singles/RpgConsole';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../PlayPage';
 import './LoadGame.css';
 
 export default function LoadGameComponent() {
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
-    let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
+    let rpgConsole: RpgConsole = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.rpgConsole);
 
     function changeFunc(e: any) {
         let file = e.target.files[0];
@@ -18,7 +18,7 @@ export default function LoadGameComponent() {
 
         reader.addEventListener('load', function (e1: any) {
             player.fromJSON(e1.target.result);
-            consoleData.add('Game loaded.');
+            rpgConsole.add('Game loaded.');
             __GLOBAL_REFRESH_FUNC_REF();
         });
 

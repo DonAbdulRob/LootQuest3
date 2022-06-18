@@ -2,13 +2,13 @@
  * Monster ability container can hold direct function references since it doesn't need serialized.
  */
 
-import { ConsoleData } from '../../../WIndowContent/Console/ConsoleComponent';
+import { RpgConsole } from '../../Singles/RpgConsole';
 import CombatState from '../../Shared/CombatState';
 import { Player } from '../Player';
 import { Monster } from '../Monster';
 
 export interface IMonsterEffectFunction {
-    (monster: Monster, player: Player, combatState: CombatState, consoleData: ConsoleData): void;
+    (monster: Monster, player: Player, combatState: CombatState, rpgConsole: RpgConsole): void;
 }
 
 export class MonsterAbilityContainer {
@@ -29,7 +29,7 @@ export class MonsterEffectLib {
         monster: Monster,
         player: Player,
         combatState: CombatState,
-        consoleData: ConsoleData,
+        rpgConsole: RpgConsole,
     ) => {
         let abilityDamage = 2;
 
@@ -41,6 +41,6 @@ export class MonsterEffectLib {
         }
 
         player.statBlock.healthMin -= damage;
-        consoleData.add(monster.name + ' uses Feral Strike and deals ' + damage + ' damage to you.');
+        rpgConsole.add(monster.name + ' uses Feral Strike and deals ' + damage + ' damage to you.');
     };
 }

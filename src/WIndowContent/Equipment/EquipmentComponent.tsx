@@ -1,22 +1,21 @@
 import React from 'react';
 import ItemPopup from '../../Components/Popups/ItemPopup';
 import { EquipmentType } from '../../Models/Item/Item';
-import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
+import { IRootStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
-import { Player } from '../../Models/Fighter/Player';
-import { ConsoleData } from '../Console/ConsoleComponent';
-// import { PlayerAbilityEffectLib } from '../../Models/Shared/EffectLib/PlayerAbilityEffectLib';
+import { PlayerAbilityEffectLib } from '../../Models/Shared/EffectLib/PlayerAbilityEffectLib';
 
-function unequip(fighter: Player, inventorySlot: number, consoleData: ConsoleData) {
-    let invItem = fighter.equipmentSlots.items[inventorySlot];
+function unequip(store: IRootStore, inventorySlot: number) {
+    let player = store.player;
+    let invItem = player.equipmentSlots.items[inventorySlot];
 
     // Add equipment item to inventory.
     if (invItem !== null) {
-        let res = fighter.inventory.addItem(invItem);
+        let res = player.inventory.addItem(player, invItem);
 
         if (!res) {
-            consoleData.add('Unable to unequip item. Not enough inventory space.');
+            store.rpgConsole.addItemFail(invItem.name);
             __GLOBAL_REFRESH_FUNC_REF();
             return;
         }
@@ -24,36 +23,26 @@ function unequip(fighter: Player, inventorySlot: number, consoleData: ConsoleDat
         // Clear out equipment slot.
         switch (invItem.equipmentType) {
             case EquipmentType.WEAPON:
-                fighter.equipmentSlots.items[EquipmentSlotMapping.weapon] = null;
+                player.equipmentSlots.items[EquipmentSlotMapping.weapon] = null;
                 break;
             case EquipmentType.CHESTPLATE:
-                fighter.equipmentSlots.items[EquipmentSlotMapping.chestplate] = null;
+                player.equipmentSlots.items[EquipmentSlotMapping.chestplate] = null;
                 break;
             default:
                 break;
         }
 
-        // Pass turn if in combat.
-        if (fighter.inCombat()) {
-            /**
-             * DAR TODO
-            PlayerAbilityEffectLib.doNonCombatAction(
-                player,
-                enemy,
-                combatState,
-                gameStateManager,
-                consoleData,
-                'You spend some time equipping an item.',
-            );
-             */
-        }
+        // Do equip 'effect'.
+        PlayerAbilityEffectLib.equip(store);
     }
 
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
-function getEquipmentMap(fighter: Player, consoleData: ConsoleData): JSX.Element[] {
-    if (fighter.equipmentSlots.items.length === 0) {
+function getEquipmentMap(store: IRootStore): JSX.Element[] {
+    let player = store.player;
+
+    if (player.equipmentSlots.items.length === 0) {
         return [<div key={0}></div>];
     }
 
@@ -67,14 +56,14 @@ function getEquipmentMap(fighter: Player, consoleData: ConsoleData): JSX.Element
     let item;
     let button;
 
-    return fighter.equipmentSlots.items.map((v, i) => {
-        item = fighter.equipmentSlots.items[i];
+    return player.equipmentSlots.items.map((v, i) => {
+        item = player.equipmentSlots.items[i];
 
         if (item != null) {
             button = (
                 <button
                     onClick={() => {
-                        unequip(fighter, i, consoleData);
+                        unequip(store, i);
                     }}
                 >
                     Unequip
@@ -95,13 +84,11 @@ function getEquipmentMap(fighter: Player, consoleData: ConsoleData): JSX.Element
 
 export default function EquipmentComponent(): JSX.Element {
     const store: any = __GLOBAL_GAME_STORE((__DATA) => __DATA);
-    let fighter = store.player;
-    let consoleData: ConsoleData = store.consoleData;
 
     return (
         <div className="window-core">
             <h1>Equipment</h1>
-            {getEquipmentMap(fighter, consoleData)}
+            {getEquipmentMap(store)}
         </div>
     );
 }

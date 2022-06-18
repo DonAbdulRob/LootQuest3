@@ -154,9 +154,10 @@ export default class Fighter {
 
     healHealth = (x: number) => {
         this.statBlock.healthMin += x;
+        let maxHealth = this.getHealthMax();
 
-        if (this.statBlock.healthMin > this.statBlock.healthMax) {
-            this.statBlock.healthMin = this.statBlock.healthMax;
+        if (this.statBlock.healthMin > maxHealth) {
+            this.statBlock.healthMin = maxHealth;
         }
     };
 

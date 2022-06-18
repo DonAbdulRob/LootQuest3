@@ -7,7 +7,7 @@ import { Player } from '../Models/Fighter/Player';
 import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 import { G_MONTHS_ARR, getPaddedToTwoDigits } from '../Models/Helper';
 import WindowStateManager from '../Models/Singles/WindowStateManager';
-import { ConsoleData } from '../WIndowContent/Console/ConsoleComponent';
+import { RpgConsole } from '../Models/Singles/RpgConsole';
 import QuitButtonComponent from './Components/QuitButtonComponent';
 import { __GLOBAL_REFRESH_FUNC_REF } from './PlayPage';
 import IPageEnum from './Enums/IPageEnum';
@@ -16,7 +16,7 @@ import LoadGameComponent from './Components/LoadGame/LoadGameComponent';
 export default function SettingsPage() {
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
-    let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
+    let rpgConsole: RpgConsole = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.rpgConsole);
     let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
 
     return (
@@ -51,7 +51,7 @@ export default function SettingsPage() {
 
                     a.download = 'Loot_Quest_' + nowStr + '.txt';
                     a.click();
-                    consoleData.add('Game saved.');
+                    rpgConsole.add('Game saved.');
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >

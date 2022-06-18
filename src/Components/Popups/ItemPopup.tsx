@@ -6,7 +6,7 @@ import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import './ItemPopup.css';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
 import { Player } from '../../Models/Fighter/Player';
-import { ConsoleData } from '../../WIndowContent/Console/ConsoleComponent';
+import { RpgConsole } from '../../Models/Singles/RpgConsole';
 
 interface IItemPopupProps {
     prefix: string;
@@ -116,7 +116,7 @@ function getDamageDisplay(fighter: Player, item: Equipment) {
 export default function ItemPopup(props: IItemPopupProps) {
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
-    let consoleData: ConsoleData = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.consoleData);
+    let rpgConsole: RpgConsole = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.rpgConsole);
     let lootButton = null;
 
     if (props.addLootButton) {
@@ -128,12 +128,12 @@ export default function ItemPopup(props: IItemPopupProps) {
                         return;
                     }
 
-                    let res = player.inventory.addItem(props.item);
+                    let res = player.inventory.addItem(player, props.item);
 
                     if (res) {
                         combatState.loot = removeElement(combatState.loot, props.item);
                     } else {
-                        consoleData.add('Unable to loot. Not enough inventory space.');
+                        rpgConsole.addItemFail(props.item.name);
                     }
 
                     __GLOBAL_REFRESH_FUNC_REF();
@@ -146,6 +146,10 @@ export default function ItemPopup(props: IItemPopupProps) {
 
     let item = props.item;
     let statDisplay = null;
+
+    if (item != null) {
+        console.log(item.weight);
+    }
 
     if (item instanceof Equipment) {
         statDisplay = (
@@ -171,7 +175,7 @@ export default function ItemPopup(props: IItemPopupProps) {
                     {props.prefix + item.name} {lootButton}
                 </div>
                 <span className="tooltiptext">
-                    <p className="item-name">{item.name}</p>
+                    <p className="item-name">{item.name + ' (' + item.weight + ' lb)'}</p>
                     <p className="item-description">{item.description}</p>
                     {statDisplay}
                 </span>

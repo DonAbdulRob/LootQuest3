@@ -1,5 +1,5 @@
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
-import { ConsoleData } from '../../WIndowContent/Console/ConsoleComponent';
+import { RpgConsole } from '../Singles/RpgConsole';
 import { IMonsterEffectFunction } from '../Fighter/Ability/MonsterAbilityContainer';
 import { IRootStore } from '../GlobalGameStore';
 import { getRandomElement, getRandomValueUpTo } from '../Helper';
@@ -42,26 +42,26 @@ export default class CombatState {
         return customDamageMessage.str1 + damage + customDamageMessage.str2;
     }
 
-    private displayMessage(damage: number, consoleData: ConsoleData, customMessage?: ICustomDamageMessage | null) {
-        if (customMessage !== undefined && customMessage !== null) {
-            let finalMsg = '';
+    private displayBasicAttackMessage(damage: number, rpgConsole: RpgConsole) {
+        rpgConsole.add('You perform a basic attack for ' + damage + ' damage.');
+    }
 
-            if (customMessage.insertDamage) {
-                finalMsg = this.getCustomDamageMessage(customMessage, damage);
-            } else {
-                finalMsg = customMessage.str1;
-            }
+    private displayMessage(damage: number, rpgConsole: RpgConsole, customMessage: ICustomDamageMessage) {
+        let finalMsg = '';
 
-            consoleData.add(finalMsg);
+        if (customMessage.insertDamage) {
+            finalMsg = this.getCustomDamageMessage(customMessage, damage);
         } else {
-            consoleData.add('You perform a basic attack for ' + damage + ' damage.');
+            finalMsg = customMessage.str1;
         }
+
+        rpgConsole.add(finalMsg);
     }
 
     processCombatRound(store: IRootStore, customMessage?: ICustomDamageMessage | null) {
         let player = store.player;
         let enemy = store.enemy;
-        let consoleData = store.consoleData;
+        let rpgConsole = store.rpgConsole;
         let combatState = store.combatState;
 
         // var init
@@ -93,14 +93,21 @@ export default class CombatState {
         // If player has skip turn status, skip over damage portion entirely.
         if (!player.statusContainer.hasSkipTurnStatus()) {
             enemy.statBlock.healthMin -= playerDamage;
+            this.displayBasicAttackMessage(playerDamage, rpgConsole);
+        } else {
+            if (customMessage !== undefined && customMessage !== null) {
+                this.displayMessage(playerDamage, rpgConsole, customMessage);
+            } else {
+                console.warn(
+                    `Warning: No description for the combat turn provided. This is not necessarily an error and may be intentional, assuming a message is expected then provided or isn't expected then isn't provided.`,
+                );
+            }
         }
-
-        this.displayMessage(playerDamage, consoleData, customMessage);
 
         // If enemy died, then handle enemy death.
         if (enemy.statBlock.healthMin <= 0) {
             enemyDead = true;
-            consoleData.add('Enemy died.');
+            rpgConsole.add('Enemy died.');
             player.gold += enemy.gold;
             player.giveExperience(store);
             player.setLooting();
@@ -130,14 +137,14 @@ export default class CombatState {
                     let doAbility: IMonsterEffectFunction = getRandomElement(enemyAbilities);
 
                     // Do the ability.
-                    doAbility(enemy, player, combatState, consoleData);
+                    doAbility(enemy, player, combatState, rpgConsole);
                 }
             }
 
             // Otherwise, do basic attack.
             if (!usedAbility) {
                 player.statBlock.healthMin -= enemyDamage;
-                consoleData.add(enemy.name + ' hits you for ' + enemyDamage + ' damage.');
+                rpgConsole.add(enemy.name + ' hits you for ' + enemyDamage + ' damage.');
             }
         }
 
@@ -145,7 +152,7 @@ export default class CombatState {
         if (player.statBlock.healthMin <= 0) {
             playerDead = true;
 
-            consoleData.add('You died, but a passing Cleric revived you at full life. (Nice!)');
+            rpgConsole.add('You died, but a passing Cleric revived you at full life. (Nice!)');
 
             // Heal and clear statuses.
             player.statBlock.healthMin = player.statBlock.healthMax;

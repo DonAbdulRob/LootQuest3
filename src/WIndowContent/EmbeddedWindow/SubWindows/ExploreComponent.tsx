@@ -7,14 +7,14 @@ import { getRandomValueBetween, getRandomValueUpTo } from '../../../Models/Helpe
 import { ItemGen } from '../../../Models/Item/ItemGen';
 import GameStateManager from '../../../Models/Singles/GameStateManager';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
-import { ConsoleData } from '../../Console/ConsoleComponent';
+import { RpgConsole } from '../../../Models/Singles/RpgConsole';
 import CombatComponent from '../Combat/CombatComponent';
 
 function explore(store: IRootStore) {
-    let res = getRandomValueUpTo(100);
+    let rollRes = getRandomValueUpTo(100);
     let player: Player = store.player;
     let enemy: Monster = store.enemy;
-    let consoleData: ConsoleData = store.consoleData;
+    let rpgConsole: RpgConsole = store.rpgConsole;
     let gameStateManager: GameStateManager = store.gameStateManager;
 
     // Always reset explore output.
@@ -22,19 +22,24 @@ function explore(store: IRootStore) {
     let str = '';
 
     // Combat result.
-    if (res <= 75) {
+    if (rollRes <= 75) {
         let monsterLevel = getRandomValueBetween(player.currentArea.levelMin, player.currentArea.levelMax);
         enemy.generateMonster(monsterLevel, gameStateManager.gameDifficulty);
-        consoleData.add('A monster appears: ' + enemy.name);
+        rpgConsole.add('A monster appears: ' + enemy.name);
         player.setCombatStart();
         __GLOBAL_REFRESH_FUNC_REF();
     }
 
     // Harvest result
-    else if (res <= 95) {
+    else if (rollRes <= 95) {
+        let res = player.inventory.addItem(player, ItemGen.getWood());
         str = 'You chop woods for a while and find some logs.';
-        consoleData.add(str);
-        player.inventory.addItem(ItemGen.getWood());
+
+        if (res) {
+            str += ` But, you don't have enough inventory space to carry any, so you leave them behind.`;
+        }
+
+        rpgConsole.add(str);
         gameStateManager.exploreOutput = str;
         __GLOBAL_REFRESH_FUNC_REF();
     }
@@ -42,7 +47,7 @@ function explore(store: IRootStore) {
     // Special result.
     else {
         str = 'A pixie appears and grants you 2 bonus hit points. AMAZING!';
-        consoleData.add(str);
+        rpgConsole.add(str);
         player.statBlock.healthMax += 2;
         gameStateManager.exploreOutput = str;
         __GLOBAL_REFRESH_FUNC_REF();

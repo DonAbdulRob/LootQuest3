@@ -8,11 +8,11 @@ import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { Monster } from '../../Models/Fighter/Monster';
 import { Player } from '../../Models/Fighter/Player';
 import GameStateManager from '../../Models/Singles/GameStateManager';
-import { ConsoleData } from '../Console/ConsoleComponent';
+import { RpgConsole } from '../../Models/Singles/RpgConsole';
 import { getRandomValueBetween } from '../../Models/Helper';
 
 function addGodSword(store: IRootStore) {
-    let item = new Equipment('God Sword', 'A cheat god sword.', EquipmentType.WEAPON);
+    let item = new Equipment('God Sword', 'A cheat god sword.', EquipmentType.WEAPON, 50);
 
     item.statBlock.damageMin = 99;
     item.statBlock.damageMax = 99;
@@ -21,21 +21,24 @@ function addGodSword(store: IRootStore) {
     item.statBlock.mana = 99;
     item.statBlock.armor = 99;
 
-    store.player.inventory.addItem(item);
+    if (!store.player.inventory.addItem(store.player, item)) {
+        store.rpgConsole.addItemFail(item.name);
+    }
+
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
 function autoPlayOneRound(store: IRootStore) {
     let player: Player = store.player;
     let enemy: Monster = store.enemy;
-    let consoleData: ConsoleData = store.consoleData;
+    let rpgConsole: RpgConsole = store.rpgConsole;
     let gameStateManager: GameStateManager = store.gameStateManager;
 
     // Create monster if player is idle.
     if (player.isIdle()) {
         let monsterLevel = getRandomValueBetween(player.currentArea.levelMin, player.currentArea.levelMax);
         enemy.generateMonster(monsterLevel, gameStateManager.gameDifficulty);
-        consoleData.add('A monster appears: ' + enemy.name);
+        rpgConsole.add('A monster appears: ' + enemy.name);
         player.setCombatStart();
         __GLOBAL_REFRESH_FUNC_REF();
         return;
