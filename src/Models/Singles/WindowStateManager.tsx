@@ -20,6 +20,7 @@ export default class WindowStateManager {
     windowDataArr: Array<FloatingWindowData> = [];
     maxZIndex = 5;
     opacity: number = 1;
+    embedCore: boolean = false;
 
     resetWindows() {
         this.windowDataArr = [];

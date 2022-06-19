@@ -1,5 +1,5 @@
 import { getRandomValueBetween } from '../Helper';
-import { Item, Equipment } from '../Item/Item';
+import { Equipment } from '../Item/Item';
 import { IStatBlock } from '../Shared/IStatBlock';
 import { StatusContainer } from './Status/StatusContainer';
 import { EquipmentSlots } from './Storage/EquipmentSlots';
@@ -47,42 +47,6 @@ export default class Fighter {
         this.inventory.clear();
         this.equipmentSlots.clear();
         this.statusContainer.clear();
-    }
-
-    /** Methods to convert properties to and from JSON. Should be updated as new properties are added. */
-    getJSON() {
-        return JSON.stringify(this);
-    }
-
-    // Protected level method.
-    fromJSON(str: string) {
-        let obj = JSON.parse(str);
-        let item1;
-        let ele;
-
-        this.name = obj.name;
-        this.level = obj.level;
-        this.experience = obj.experience;
-        this.gold = obj.gold;
-        this.statBlock = obj.statBlock;
-
-        this.inventory.items = [];
-
-        for (item1 of obj.inventory.items) {
-            this.inventory.items.push(Item.getFromJSON(item1));
-        }
-
-        this.equipmentSlots.items = [];
-
-        for (var i = 0; i < obj.equipmentSlots.items.length; i++) {
-            ele = obj.equipmentSlots.items[i];
-
-            if (ele !== null) {
-                this.equipmentSlots.items.push(Item.getFromJSON(ele));
-            } else {
-                this.equipmentSlots.items.push(null);
-            }
-        }
     }
 
     getDamageRange = (): [a: number, b: number] => {

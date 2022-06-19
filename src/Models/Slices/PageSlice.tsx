@@ -8,9 +8,8 @@ export interface IPageSlice {
 
 export const createPageSlice: StoreSlice<IPageSlice> = (set, get) => ({
     page: IPageEnum.Play,
-    setPage: (x: number) =>
-        set((prev: IPageSlice) => {
-            prev.page = x;
-            return prev;
-        }),
+    setPage: (x: IPageEnum) =>
+        set((prev: IPageSlice) => ({
+            page: x,
+        })),
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import ItemPopup from '../../Components/Popups/ItemPopup';
 import { EquipmentType } from '../../Models/Item/Item';
 import { IRootStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
 import { PlayerAbilityEffectLib } from '../../Models/Shared/EffectLib/PlayerAbilityEffectLib';
 

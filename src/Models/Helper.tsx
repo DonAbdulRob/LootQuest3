@@ -37,5 +37,17 @@ export function getPaddedToTwoDigits(x: number): string {
         return '0' + x;
     }
 
-    return x + ' ';
+    return x + '';
+}
+
+export function getPaddedToThreeDigits(x: number): string {
+    if (x < 10) {
+        return '00' + x;
+    }
+
+    if (x < 100) {
+        return '0' + x;
+    }
+
+    return x + '';
 }

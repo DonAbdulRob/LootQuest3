@@ -1,4 +1,4 @@
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import { RpgConsole } from '../Singles/RpgConsole';
 import { IMonsterEffectFunction } from '../Fighter/Ability/MonsterAbilityContainer';
 import { IRootStore } from '../GlobalGameStore';

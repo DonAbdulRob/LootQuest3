@@ -1,6 +1,6 @@
 import { PlayerAbilityContainer } from './Ability/PlayerAbilityContainer';
 import { immerable } from 'immer';
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import Area from '../Area/Area';
 import { G_AREA_GREENVALE } from '../Area/AreaContainer';
 import { IRootStore } from '../GlobalGameStore';

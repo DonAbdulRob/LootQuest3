@@ -2,7 +2,7 @@ import React from 'react';
 import { Equipment, EquipmentType, Item, ItemType } from '../../Models/Item/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { removeElement } from '../../Models/Helper';
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import './ItemPopup.css';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
 import { Player } from '../../Models/Fighter/Player';
@@ -146,10 +146,6 @@ export default function ItemPopup(props: IItemPopupProps) {
 
     let item = props.item;
     let statDisplay = null;
-
-    if (item != null) {
-        console.log(item.weight);
-    }
 
     if (item instanceof Equipment) {
         statDisplay = (

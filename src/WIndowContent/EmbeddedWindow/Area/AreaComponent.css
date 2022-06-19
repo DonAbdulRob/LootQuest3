@@ -1,6 +1,26 @@
+/** Shares space with .embedded-sub-component */
 .area-parent-container {
     padding: 5px;
     margin: 5px;
     border-right: 3px black solid;
-    width: 25%;
+    width: 50%;
 }
+
+.area-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.area-item {
+    padding: 5px;
+    margin: 2px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    border: 2px solid black;
+}
+
+/**
+
+    max-width: 300px;
+*/

@@ -1,0 +1,26 @@
+.embedded-window-core {
+    display: flex;
+    top: 110px;
+    height: 500px;
+    width: 800px;
+    background-color: rgb(250, 250, 250);
+    border: 3px solid rgb(186, 201, 230);
+    padding: 5px;
+}
+
+.not-embedded-window-core {
+    display: flex;
+    width: 1000px;
+}
+
+.embedded-sub-component {
+    width: 100%;
+}
+
+.encounter-line:nth-child(odd) {
+    color: rgb(161, 0, 153);
+}
+
+.encounter-line:nth-child(even) {
+    color: rgb(0, 11, 112);
+}

@@ -17,11 +17,12 @@ Empty! Everything is PLANNED!
 
 ## TODO - Short Term:
 
-1. Show monster description in embedded game window during combat.
-2. Hardcode stats for monsters from levels 1-5. For higher levels, use formulas.
-3. Fill the 'show town stuff' section with town stuff. (Inn to heal, Shop, etc.).
-4. Flesh out systems to have content for implemented systems up to level 5.
-5. Add at least one 'special' encounter, like meeting the 'Wise Wizard Merlin' and having a dialog or something that could lead to a fight or item reward, etc.
+1. Implement Wise Man fight. (Need to improve logic for generating specific monster types and starting fights in general).
+2. Show monster descriptions in embedded game window during combat. (no more art, rip)
+3. Hardcode stats for monsters from levels 1-5. For higher levels, use formulas.
+4. Implement options besides 'explore' while inside of a town. (Inn to heal, Shop, etc.).
+   - While this won't be implemented for 1.0, we could turn entire towns into StoryPrompt based encounters with the ability to visit people and have dialogs. But, I want a tool for writing and managing stories implemented first, before doing any kind of major content like that.
+5. Flesh out systems to have content for implemented systems up to level 5.
 
 ## TODO - Medium Term:
 
@@ -36,6 +37,10 @@ Empty! Everything is PLANNED!
 # Done List
 
 For things that are done!
+
+## Older Marked Done 6/19/2022+:
+
+5. Add at least one 'special' encounter, like meeting the 'Wise Wizard Merlin' and having a dialog or something that could lead to a fight or item reward, etc.
 
 ## Older Marked Done 6/18/2022+:
 

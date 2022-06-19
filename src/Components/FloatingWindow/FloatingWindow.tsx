@@ -121,10 +121,6 @@ function assignResizeDragBehavior(
             for (let i = 0; i < levelsToParent; i++) {
                 elmnt = elmnt.parentNode;
             }
-
-            // var rect = elmnt.getBoundingClientRect();
-            // windowData.top = rect.top;
-            // windowData.left = rect.left;
         }
 
         function mouseMove(e: any) {
@@ -246,7 +242,6 @@ export default function FloatingWindow(props: IFloatingWindowProps): JSX.Element
                     </button>
                     <button
                         onClick={(e) => {
-                            console.log('A');
                             maximizeClick(e, windowContentRef);
                         }}
                     >

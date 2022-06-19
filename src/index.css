@@ -14,7 +14,8 @@ body {
     color: rgb(15, 43, 73);
 }
 
-button {
+button,
+.a-as-button {
     background-color: #336574;
     border: none;
     color: white;
@@ -67,4 +68,50 @@ button:active {
     /* Scaling button to 0.98 to its original size */
     box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.24);
     /* Lowering the shadow */
+}
+
+.a-as-button:active {
+    transform: scale(0.95);
+    /* Scaling button to 0.98 to its original size */
+    box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.24);
+    /* Lowering the shadow */
+}
+
+.a-as-button-container {
+    margin-top: 15px;
+    margin-bottom: 12px;
+}
+
+.a-as-button {
+    padding: 4px;
+    margin: 5px;
+    text-decoration: none;
+    color: white;
+}
+
+/**
+Settings page setting.
+*/
+
+.window-core-large {
+    display: flex;
+    padding: 5px;
+    margin: 5px;
+    min-width: 800px;
+}
+
+.window-transparency-div {
+    background-color: rgb(245, 245, 245);
+    padding: 4px;
+    margin: 2px;
+    width: 400px;
+}
+
+.window-transparency-div > * {
+    margin: 5px;
+}
+
+.embedded-window-copy-core {
+    display: flex;
+    padding: 5px;
 }

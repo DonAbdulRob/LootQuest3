@@ -2,7 +2,7 @@ import React from 'react';
 import ItemPopup from '../../../Components/Popups/ItemPopup';
 import { Item } from '../../../Models/Item/Item';
 import { IRootStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../../App';
 
 function getLootDisplay(loot: Array<Item>) {
     return loot.map((v: Item, i: number) => {

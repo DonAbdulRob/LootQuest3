@@ -1,3 +1,8 @@
+/**
+ * The explore component is used to let the player 'explore' within some area.
+ * Exploring leads to encounters, which can develop into literally any type of gameplay event.
+ * Also, combat events are stored within the explore component.
+ */
 import React from 'react';
 import EAreaType from '../../../Models/Area/EAreaType';
 import { Monster } from '../../../Models/Fighter/Monster';
@@ -6,9 +11,10 @@ import { IRootStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore
 import { getRandomValueBetween, getRandomValueUpTo } from '../../../Models/Helper';
 import { ItemGen } from '../../../Models/Item/ItemGen';
 import GameStateManager from '../../../Models/Singles/GameStateManager';
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../../App';
 import { RpgConsole } from '../../../Models/Singles/RpgConsole';
 import CombatComponent from '../Combat/CombatComponent';
+import { WiseManEncounter } from '../../../Story/RandomEncounters/WiseManEncounter';
 
 function explore(store: IRootStore) {
     let rollRes = getRandomValueUpTo(100);
@@ -21,7 +27,7 @@ function explore(store: IRootStore) {
     gameStateManager.exploreOutput = '';
     let str = '';
 
-    // Combat result.
+    // Random Combat result.
     if (rollRes <= 75) {
         let monsterLevel = getRandomValueBetween(player.currentArea.levelMin, player.currentArea.levelMax);
         enemy.generateMonster(monsterLevel, gameStateManager.gameDifficulty);
@@ -31,7 +37,7 @@ function explore(store: IRootStore) {
     }
 
     // Harvest result
-    else if (rollRes <= 95) {
+    else if (rollRes <= 90) {
         let res = player.inventory.addItem(player, ItemGen.getWood());
         str = 'You chop woods for a while and find some logs.';
 
@@ -41,6 +47,17 @@ function explore(store: IRootStore) {
 
         rpgConsole.add(str);
         gameStateManager.exploreOutput = str;
+        __GLOBAL_REFRESH_FUNC_REF();
+    }
+
+    // Start the wise man encounter.
+    else if (rollRes <= 95) {
+        if (gameStateManager.wiseManEncounter == null) {
+            gameStateManager.wiseManEncounter = new WiseManEncounter(store);
+        } else {
+            rpgConsole.add(`You're walking and think you spot something significant, but, alas, it's just a bird.`);
+        }
+
         __GLOBAL_REFRESH_FUNC_REF();
     }
 
@@ -88,5 +105,5 @@ export default function ExploreComponent() {
         );
     }
 
-    return content;
+    return <div className="embedded-sub-component">{content}</div>;
 }

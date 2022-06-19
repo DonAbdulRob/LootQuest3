@@ -16,9 +16,8 @@ import { _GAME_IN_DEBUG_MODE } from '../App';
 import Ability from '../WIndowContent/Ability/AbilityComponent';
 import IPageEnum from './Enums/IPageEnum';
 import QuitButtonComponent from './Components/QuitButtonComponent';
-import EmbeddedWindowComponent from '../WIndowContent/EmbeddedWindow/EmbeddedWindowComponent';
-
-export let __GLOBAL_REFRESH_FUNC_REF: Function;
+import EmbeddedMainComponent from '../WIndowContent/EmbeddedWindow/EmbeddedMainComponent';
+import FloatingMainComponent from '../WIndowContent/EmbeddedWindow/FloatingMainComponent';
 
 export interface IFloatingWindowPropsBuilder {
     id?: number;
@@ -32,54 +31,62 @@ export interface IFloatingWindowPropsBuilder {
  * Builds and returns our array of window content to display on the page.
  */
 function getWindows(windowStateManager: WindowStateManager) {
-    let secondRowStart = 500;
+    let topBottomStart = 400;
 
-    let windows: Array<IFloatingWindowPropsBuilder> = [
-        {
-            title: 'Player',
-            contentElement: <CharacterComponent usePlayer={true} />,
+    let windows: Array<IFloatingWindowPropsBuilder> = [];
+
+    if (windowStateManager.embedCore === false) {
+        windows.push({
+            title: 'Main',
+            contentElement: <FloatingMainComponent />,
             top: 110,
             left: 10,
-        },
-        {
-            title: 'Console',
-            contentElement: <ConsoleComponent />,
-            top: secondRowStart,
-            left: 10,
-        },
-        {
-            title: 'Ability',
-            contentElement: <Ability />,
-            top: secondRowStart,
-            left: 510,
-        },
-        {
-            title: 'Equipment',
-            contentElement: <EquipmentComponent />,
-            top: 110,
-            left: 1200,
-        },
-        {
-            title: 'Inventory',
-            contentElement: <InventoryComponent />,
-            top: 350,
-            left: 1200,
-        },
-    ];
+        });
+    }
+    windows.push({
+        title: 'Player',
+        contentElement: <CharacterComponent usePlayer={true} />,
+        top: topBottomStart,
+        left: 10,
+    });
+    windows.push({
+        title: 'Console',
+        contentElement: <ConsoleComponent />,
+        top: topBottomStart + 165,
+        left: 450,
+    });
+    windows.push({
+        title: 'Ability',
+        contentElement: <Ability />,
+        top: topBottomStart,
+        left: 450,
+    });
+    windows.push({
+        title: 'Equipment',
+        contentElement: <EquipmentComponent />,
+        top: 10,
+        left: 1050,
+    });
+    windows.push({
+        title: 'Inventory',
+        contentElement: <InventoryComponent />,
+        top: 300,
+        left: 1050,
+    });
 
     if (_GAME_IN_DEBUG_MODE) {
         windows.push({
             title: 'Cheat',
             contentElement: <CheatComponent />,
             top: 0,
-            left: 800,
+            left: 500,
         });
 
         windows.push({
             title: 'Enemy',
             contentElement: <CharacterComponent usePlayer={false} />,
-            top: secondRowStart + 150,
-            left: 510,
+            top: topBottomStart + 350,
+            left: 450,
         });
     }
 
@@ -107,17 +114,9 @@ function getWindows(windowStateManager: WindowStateManager) {
     });
 }
 
-function forceRefresh(setRefreshVar: Function) {
-    setRefreshVar((v: number) => v + 1);
-}
-
 export function PlayPage() {
     // var inits
-    const [refreshVar, setRefreshVar] = React.useState(0);
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
-    __GLOBAL_REFRESH_FUNC_REF = () => {
-        forceRefresh(setRefreshVar);
-    };
     let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
 
     return (
@@ -139,12 +138,13 @@ export function PlayPage() {
                 </button>
                 <QuitButtonComponent />
             </div>
-            <div id="floating-window-container" key={refreshVar}>
-                {getWindows(windowStateManager)}
-            </div>
+            <div id="floating-window-container">{getWindows(windowStateManager)}</div>
 
-            <hr />
-            {<EmbeddedWindowComponent />}
+            {windowStateManager.embedCore && (
+                <span>
+                    <hr /> <EmbeddedMainComponent />
+                </span>
+            )}
         </div>
     );
 }

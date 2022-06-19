@@ -5,7 +5,7 @@
  *
  * Note: Don't do percentage increases/decreases for now because we don't have seperate 'buffStatBlock' to uncalculate % buffs yet.
  */
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../../Pages/PlayPage';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../../App';
 import { RpgConsole } from '../../Singles/RpgConsole';
 import { Player } from '../../Fighter/Player';
 import Fighter from '../../Fighter/Fighter';

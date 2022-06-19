@@ -3,11 +3,11 @@ import ItemPopup from '../../Components/Popups/ItemPopup';
 import { Item, EquipmentType, ItemType, Equipment, Consumable } from '../../Models/Item/Item';
 import { CONSUMABLE_EFFECT_FUNCTION } from '../../Models/Item/ItemEffectToCoreEffectMapper';
 import { IRootStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
 import { Player } from '../../Models/Fighter/Player';
 import { G_MAX_INV_SIZE } from '../../Models/Fighter/Storage/Inventory';
 import { PlayerAbilityEffectLib } from '../../Models/Shared/EffectLib/PlayerAbilityEffectLib';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 
 function equip(store: IRootStore, inventorySlot: number) {
     let player = store.player;

@@ -4,12 +4,13 @@
 import React from 'react';
 import { Equipment, EquipmentType } from '../../Models/Item/Item';
 import { IRootStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../Pages/PlayPage';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import { Monster } from '../../Models/Fighter/Monster';
 import { Player } from '../../Models/Fighter/Player';
 import GameStateManager from '../../Models/Singles/GameStateManager';
 import { RpgConsole } from '../../Models/Singles/RpgConsole';
 import { getRandomValueBetween } from '../../Models/Helper';
+import { WiseManEncounter } from '../../Story/RandomEncounters/WiseManEncounter';
 
 function addGodSword(store: IRootStore) {
     let item = new Equipment('God Sword', 'A cheat god sword.', EquipmentType.WEAPON, 50);
@@ -25,6 +26,12 @@ function addGodSword(store: IRootStore) {
         store.rpgConsole.addItemFail(item.name);
     }
 
+    __GLOBAL_REFRESH_FUNC_REF();
+}
+
+function startWiseManEncounter(store: IRootStore) {
+    // Start the wise man encounter.
+    store.gameStateManager.wiseManEncounter = new WiseManEncounter(store);
     __GLOBAL_REFRESH_FUNC_REF();
 }
 
@@ -118,6 +125,14 @@ export default function CheatComponent(): JSX.Element {
                 }}
             >
                 Autoplay 1,000,000
+            </button>
+
+            <button
+                onClick={() => {
+                    startWiseManEncounter(store);
+                }}
+            >
+                Start Wise Man Encounter
             </button>
         </div>
     );
