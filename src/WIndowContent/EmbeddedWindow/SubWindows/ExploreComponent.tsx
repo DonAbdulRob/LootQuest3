@@ -8,7 +8,7 @@ import EAreaType from '../../../Models/Area/EAreaType';
 import { Monster } from '../../../Models/Fighter/Monster';
 import { Player } from '../../../Models/Fighter/Player';
 import { IRootStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
-import { getRandomValueBetween, getRandomValueUpTo } from '../../../Models/Helper';
+import { G_getRandomValueBetween, G_getRandomValueUpTo } from '../../../Models/Helper';
 import { ItemGen } from '../../../Models/Item/ItemGen';
 import GameStateManager from '../../../Models/Singles/GameStateManager';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../App';
@@ -17,7 +17,7 @@ import CombatComponent from '../Combat/CombatComponent';
 import { WiseManEncounter } from '../../../Story/RandomEncounters/WiseManEncounter';
 
 function explore(store: IRootStore) {
-    let rollRes = getRandomValueUpTo(100);
+    let rollRes = G_getRandomValueUpTo(100);
     let player: Player = store.player;
     let enemy: Monster = store.enemy;
     let rpgConsole: RpgConsole = store.rpgConsole;
@@ -29,7 +29,7 @@ function explore(store: IRootStore) {
 
     // Random Combat result.
     if (rollRes <= 75) {
-        let monsterLevel = getRandomValueBetween(player.currentArea.levelMin, player.currentArea.levelMax);
+        let monsterLevel = G_getRandomValueBetween(player.currentArea.levelMin, player.currentArea.levelMax);
         enemy.generateMonster(monsterLevel, gameStateManager.gameDifficulty);
         rpgConsole.add('A monster appears: ' + enemy.name);
         player.setCombatStart();

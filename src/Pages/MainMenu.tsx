@@ -1,5 +1,5 @@
 /**
- * The intro page is what the player sees immediately upon starting the game (perhaps add animation to start one day?)
+ * The intro page is what the player sees immediately upon starting the game.
  */
 
 import * as React from 'react';

@@ -1,13 +1,13 @@
-import { getRandomValueUpTo, getRandomElement } from '../Helper';
+import { G_getRandomValueUpTo, G_getRandomElement } from '../Helper';
 import { Item, Equipment, EquipmentType, Consumable, ItemType } from './Item';
 import * as ItemEffects from './ItemEffectToCoreEffectMapper';
 
 export class ItemGen {
     static getRandomSword(): Item {
         const materials = ['Wood', 'Stone', 'Iron', 'Gold', 'Diamond'];
-        const min = getRandomValueUpTo(2) + 1;
-        const max = Math.round(min + getRandomValueUpTo(2));
-        const mat = getRandomElement(materials);
+        const min = G_getRandomValueUpTo(2) + 1;
+        const max = Math.round(min + G_getRandomValueUpTo(2));
+        const mat = G_getRandomElement(materials);
 
         let newItem: Equipment = new Equipment(mat + ' Sword', 'A sword made of ' + mat, EquipmentType.WEAPON, 4);
 
@@ -18,7 +18,7 @@ export class ItemGen {
 
     static getWood(): Item {
         const materials = ['Oak', 'Willow', 'Redwood'];
-        const mat = getRandomElement(materials);
+        const mat = G_getRandomElement(materials);
 
         let newItem: Item = new Item(mat + ' Log', 'A log made of ' + mat, ItemType.RESOURCE, 10);
         return newItem;

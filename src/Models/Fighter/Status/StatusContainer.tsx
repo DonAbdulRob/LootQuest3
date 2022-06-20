@@ -1,3 +1,6 @@
+/**
+ * The Status Container stores an array of statuses and provides interfaces to manage them.
+ */
 import { Status, G_HIDDEN_SKIP_TURN_STATUS } from './Status';
 
 export class StatusContainer {

@@ -1,5 +1,5 @@
 /**
- * The intro page is what the player sees immediately upon starting the game (perhaps add animation to start one day?)
+ * The Help Page provides the user with information on how to play the game.
  */
 
 import * as React from 'react';

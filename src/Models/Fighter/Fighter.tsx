@@ -1,4 +1,4 @@
-import { getRandomValueBetween } from '../Helper';
+import { G_getRandomValueBetween } from '../Helper';
 import { Equipment } from '../Item/Item';
 import { IStatBlock } from '../Shared/IStatBlock';
 import { StatusContainer } from './Status/StatusContainer';
@@ -81,7 +81,7 @@ export default class Fighter {
     };
 
     getRandomDamageValue = () => {
-        return getRandomValueBetween(...this.getDamageRange());
+        return G_getRandomValueBetween(...this.getDamageRange());
     };
 
     getArmor = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Equipment, EquipmentType, Item, ItemType } from '../../Models/Item/Item';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
-import { removeElement } from '../../Models/Helper';
+import { G_removeElement } from '../../Models/Helper';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import './ItemPopup.css';
 import { EquipmentSlotMapping } from '../../Models/Fighter/Storage/EquipmentSlots';
@@ -131,7 +131,7 @@ export default function ItemPopup(props: IItemPopupProps) {
                     let res = player.inventory.addItem(player, props.item);
 
                     if (res) {
-                        combatState.loot = removeElement(combatState.loot, props.item);
+                        combatState.loot = G_removeElement(combatState.loot, props.item);
                     } else {
                         rpgConsole.addItemFail(props.item.name);
                     }

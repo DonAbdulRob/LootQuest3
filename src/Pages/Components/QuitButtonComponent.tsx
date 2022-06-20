@@ -1,3 +1,6 @@
+/**
+ * The Quit button provides a reuseable method to return to the Main Menu.
+ */
 import React from 'react';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import IPageEnum from '../Enums/IPageEnum';

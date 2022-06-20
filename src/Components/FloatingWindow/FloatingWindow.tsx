@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import './FloatingWindow.css';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';

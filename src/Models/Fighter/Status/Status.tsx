@@ -1,3 +1,8 @@
+/**
+ * This file defines status effects that can be given to Fighters.
+ * Statuses are generally temporary buffs or debuffs that affect the fighter in some manner over their duration.
+ */
+
 // Special 'skip turn' status for when player/monster uses ability.
 export const G_HIDDEN_SKIP_TURN_STATUS = 'HIDDEN_SKIP_TURN_STATUS';
 

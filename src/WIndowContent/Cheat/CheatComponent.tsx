@@ -9,7 +9,7 @@ import { Monster } from '../../Models/Fighter/Monster';
 import { Player } from '../../Models/Fighter/Player';
 import GameStateManager from '../../Models/Singles/GameStateManager';
 import { RpgConsole } from '../../Models/Singles/RpgConsole';
-import { getRandomValueBetween } from '../../Models/Helper';
+import { G_getRandomValueBetween } from '../../Models/Helper';
 import { WiseManEncounter } from '../../Story/RandomEncounters/WiseManEncounter';
 
 function addGodSword(store: IRootStore) {
@@ -43,7 +43,7 @@ function autoPlayOneRound(store: IRootStore) {
 
     // Create monster if player is idle.
     if (player.isIdle()) {
-        let monsterLevel = getRandomValueBetween(player.currentArea.levelMin, player.currentArea.levelMax);
+        let monsterLevel = G_getRandomValueBetween(player.currentArea.levelMin, player.currentArea.levelMax);
         enemy.generateMonster(monsterLevel, gameStateManager.gameDifficulty);
         rpgConsole.add('A monster appears: ' + enemy.name);
         player.setCombatStart();

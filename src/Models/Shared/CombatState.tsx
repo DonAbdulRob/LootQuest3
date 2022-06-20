@@ -2,7 +2,7 @@ import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import { RpgConsole } from '../Singles/RpgConsole';
 import { IMonsterEffectFunction } from '../Fighter/Ability/MonsterAbilityContainer';
 import { IRootStore } from '../GlobalGameStore';
-import { getRandomElement, getRandomValueUpTo } from '../Helper';
+import { G_getRandomElement, G_getRandomValueUpTo } from '../Helper';
 import { Item } from '../Item/Item';
 import { ItemGen } from '../Item/ItemGen';
 import { ICustomDamageMessage } from './ICustomDamageMessage';
@@ -14,7 +14,7 @@ export default class CombatState {
 
     generateNewLoot() {
         this.loot = [];
-        let lootRolls = getRandomValueUpTo(100);
+        let lootRolls = G_getRandomValueUpTo(100);
         let lootAmount = 0;
 
         if (lootRolls >= 50) {
@@ -28,7 +28,7 @@ export default class CombatState {
         let type;
 
         for (var i = 0; i < lootAmount; i++) {
-            type = getRandomValueUpTo(1);
+            type = G_getRandomValueUpTo(1);
 
             if (type === 0) {
                 this.loot.push(ItemGen.getRandomSword());
@@ -130,11 +130,11 @@ export default class CombatState {
             let usedAbility = false;
 
             if (enemyAbilities.length > 0) {
-                let abilityUseChance = getRandomValueUpTo(4); // 20% chance.
+                let abilityUseChance = G_getRandomValueUpTo(4); // 20% chance.
 
                 if (abilityUseChance === 0) {
                     usedAbility = true;
-                    let doAbility: IMonsterEffectFunction = getRandomElement(enemyAbilities);
+                    let doAbility: IMonsterEffectFunction = G_getRandomElement(enemyAbilities);
 
                     // Do the ability.
                     doAbility(enemy, player, combatState, rpgConsole);

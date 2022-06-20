@@ -1,3 +1,6 @@
+/**
+ * The Global Game Store is our one store for holding game information in accordance with the Zustand library's specifications.
+ */
 import create, { GetState, SetState } from 'zustand';
 import { RpgConsole } from './Singles/RpgConsole';
 import { Monster } from './Fighter/Monster';

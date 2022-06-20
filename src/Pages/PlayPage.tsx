@@ -1,5 +1,5 @@
 /**
- * Our play page represents the game window that the player sees after exiting the intro.
+ * Our play page represents the game window that the player sees after existing the New Game Page.
  * It is the focal point for all other windows and player interactions.
  */
 

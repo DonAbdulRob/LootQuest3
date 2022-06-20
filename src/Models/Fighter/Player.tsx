@@ -1,3 +1,6 @@
+/**
+ * Represents the main character being played by the real-life player interacting with the game.
+ */
 import { PlayerAbilityContainer } from './Ability/PlayerAbilityContainer';
 import { immerable } from 'immer';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
@@ -7,6 +10,7 @@ import { IRootStore } from '../GlobalGameStore';
 import Fighter from './Fighter';
 import EPlayerActivity from './EPlayerActivity';
 import { Item } from '../Item/Item';
+import { G_getFixedLengthNumber } from '../Helper';
 
 export class Player extends Fighter {
     [immerable] = true;
@@ -110,7 +114,7 @@ export class Player extends Fighter {
             }
         }
 
-        return finalWeight;
+        return G_getFixedLengthNumber(finalWeight);
     }
 
     /**

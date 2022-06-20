@@ -1,5 +1,5 @@
 /**
- * The intro page is what the player sees immediately upon starting the game (perhaps add animation to start one day?)
+ * The Settings page provides the user with interfaces to modify certain game settings.
  */
 
 import * as React from 'react';
@@ -10,6 +10,7 @@ import IPageEnum from './Enums/IPageEnum';
 import LoadGameComponent from './Components/LoadGame/LoadGameComponent';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../App';
 import { SaveLib } from '../Models/SaveLib';
+import { G_getFixedLengthNumber } from '../Models/Helper';
 
 export default function SettingsPage() {
     let store: IRootStore = __GLOBAL_GAME_STORE((__DATA: any) => __DATA);
@@ -62,10 +63,7 @@ export default function SettingsPage() {
                     max="100"
                     value={windowStateManager.opacity * 100}
                     onChange={(e: any) => {
-                        windowStateManager.opacity = e.target.value * 0.01;
-                        // round technique thanks to: https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary
-                        // (excellent research skills, wow)
-                        windowStateManager.opacity = +windowStateManager.opacity.toFixed(2); // Limit to 2 decimals.
+                        windowStateManager.opacity = G_getFixedLengthNumber(e.target.value * 0.01);
                         __GLOBAL_REFRESH_FUNC_REF();
                     }}
                 />

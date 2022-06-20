@@ -11,7 +11,7 @@ import { Player } from '../../Fighter/Player';
 import Fighter from '../../Fighter/Fighter';
 import { G_HIDDEN_SKIP_TURN_STATUS, Status } from '../../Fighter/Status/Status';
 import { activateHealthHealItem } from './EffectLIbHelpers';
-import { getRandomValueUpTo } from '../../Helper';
+import { G_getRandomValueUpTo } from '../../Helper';
 import { IRootStore } from '../../GlobalGameStore';
 
 const STR_COMBAT_ONLY = 'This ability can only be used in combat.';
@@ -108,7 +108,7 @@ export class PlayerAbilityEffectLib {
 
     static flee: IAbilityEffectFunction = (store: IRootStore) => {
         // Attempt to flee. On success, return, else, continue combat. (25%)
-        let fleeRes = getRandomValueUpTo(3);
+        let fleeRes = G_getRandomValueUpTo(3);
 
         if (fleeRes === 0) {
             store.rpgConsole.add('You successfully flee from combat.');

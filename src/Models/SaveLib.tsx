@@ -1,7 +1,7 @@
 import { __GLOBAL_REFRESH_FUNC_REF } from '../App';
 import { Player } from './Fighter/Player';
 import { IRootStore } from './GlobalGameStore';
-import { G_MONTHS_ARR, getPaddedToTwoDigits, getPaddedToThreeDigits } from './Helper';
+import { G_MONTHS_ARR, G_getPaddedToTwoDigits, G_getPaddedToThreeDigits } from './Helper';
 import { Item } from './Item/Item';
 
 export class SaveLib {
@@ -21,17 +21,17 @@ export class SaveLib {
         return (
             G_MONTHS_ARR[now.getMonth()] +
             '_' +
-            getPaddedToTwoDigits(now.getDate()) +
+            G_getPaddedToTwoDigits(now.getDate()) +
             '_' +
             now.getFullYear() +
             '_' +
-            getPaddedToTwoDigits(now.getHours()) +
+            G_getPaddedToTwoDigits(now.getHours()) +
             '_' +
-            getPaddedToTwoDigits(now.getMinutes()) +
+            G_getPaddedToTwoDigits(now.getMinutes()) +
             '_' +
-            getPaddedToTwoDigits(now.getSeconds()) +
+            G_getPaddedToTwoDigits(now.getSeconds()) +
             '_' +
-            getPaddedToThreeDigits(now.getMilliseconds())
+            G_getPaddedToThreeDigits(now.getMilliseconds())
         );
     }
 

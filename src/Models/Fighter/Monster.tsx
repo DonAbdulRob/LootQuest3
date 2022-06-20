@@ -1,5 +1,5 @@
 /* eslint-disable no-fallthrough */ // < we WANT fall-through for names.
-import { getRandomValueBetween, getRandomValueUpTo } from '../Helper';
+import { G_getRandomValueBetween, G_getRandomValueUpTo } from '../Helper';
 import { IStatBlock } from '../Shared/IStatBlock';
 import { GameDifficulty } from '../Singles/GameDifficulty';
 import { MonsterAbilityContainer } from './Ability/MonsterAbilityContainer';
@@ -18,9 +18,9 @@ export class Monster extends Fighter {
         level = level * gameDifficulty.getDifficultyData().monsterLevelMultiplier;
 
         // Factor in monster level deviation
-        let levelDiff = (getRandomValueUpTo(20) + 1) * 0.01; // +-20% (* 0.2 or * -0.2)
+        let levelDiff = (G_getRandomValueUpTo(20) + 1) * 0.01; // +-20% (* 0.2 or * -0.2)
 
-        if (getRandomValueBetween(0, 1) === 0) {
+        if (G_getRandomValueBetween(0, 1) === 0) {
             level *= 1 + levelDiff * -1;
         } else {
             level *= 1 + levelDiff;
