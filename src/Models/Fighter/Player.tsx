@@ -11,12 +11,15 @@ import Fighter from './Fighter';
 import EPlayerActivity from './EPlayerActivity';
 import { Item } from '../Item/Item';
 import { G_getFixedLengthNumber } from '../Helper';
+import { EViews } from '../../WIndowContent/EmbeddedWindow/SubWindows/Town/TownComponent';
 
 export class Player extends Fighter {
     [immerable] = true;
     abilities: PlayerAbilityContainer = new PlayerAbilityContainer();
     currentArea: Area = G_AREA_GREENVALE;
     activity: EPlayerActivity = EPlayerActivity.IDLE;
+    knowsErin: boolean = false;
+    currentTownView: EViews = EViews.Root;
 
     constructor() {
         super();

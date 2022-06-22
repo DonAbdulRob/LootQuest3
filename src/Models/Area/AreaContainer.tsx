@@ -4,9 +4,19 @@
 
 import { Player } from '../Fighter/Player';
 import Area from './Area';
+import AreaDescriptions from './AreaDescriptions';
 import EAreaType from './EAreaType';
+import { TownDescription } from './TownDescription';
 
-export const G_AREA_GREENVALE = new Area('Greenvale', 'A cool town.', EAreaType.TOWN, 1, 1);
+const default_town_description = new TownDescription(
+    'A small town located within the wilderness of the Elora Continent.',
+    'The inn is a place to heal up and chat with locals.',
+    'The shop is a place to buy goods',
+    'The forge is a place to craft items.',
+    'The guild is a place to accept quests and recuit allies. Unfortunately, it appears to be closed right now.',
+);
+
+export const G_AREA_GREENVALE = new Area('Greenvale', default_town_description, EAreaType.TOWN, 1, 1);
 
 export default class AreaContainer {
     globalAreaList: Area[] = [];
@@ -58,42 +68,46 @@ export default class AreaContainer {
     generateAreas() {
         const greenvaleOutskirts = new Area(
             'Greenvale Outskirts',
-            'A small town located within the wilderness of the Elora Continent.',
-            EAreaType.TOWN,
+            default_town_description.getWithCustomRoot(
+                'The small border region between Greevale and its wild forests.',
+            ),
+            EAreaType.WILD,
             1,
             2,
         );
         const greenvaleForest = new Area(
             'Greenvale Forest',
-            'A sparse forest lush with flora and fauna.',
+            new AreaDescriptions('A sparse forest lush with flora and fauna.'),
             EAreaType.WILD,
             3,
             4,
         );
         const greenvaleMine = new Area(
             'Greenvale Mine',
-            'A local & active mine near Greenvale full of stone and ores.',
+            new AreaDescriptions('A local & active mine near Greenvale full of stone and ores.'),
             EAreaType.WILD,
             3,
             4,
         );
         const westAstonRoad = new Area(
             'West Aston Road',
-            'A dirt-road between Greenvale and Aston that passes through deep woods.',
+            new AreaDescriptions('A dirt-road between Greenvale and Aston that passes through deep woods.'),
             EAreaType.WILD,
             5,
             6,
         );
         const astonRoadDeepWoods = new Area(
             'Deep Woods',
-            `Dense forest that branches off from the West Aston Road.`,
+            new AreaDescriptions(`Dense forest that branches off from the West Aston Road.`),
             EAreaType.WILD,
             7,
             10,
         );
         const aston = new Area(
             'Aston',
-            'A moderate-sized city in the Western Region of the Elora Continent.',
+            default_town_description.getWithCustomRoot(
+                'A moderate-sized city in the Western Region of the Elora Continent.',
+            ),
             EAreaType.TOWN,
             7,
             7,
@@ -102,7 +116,9 @@ export default class AreaContainer {
         // Todo, add more links between
         const melodon = new Area(
             'Melodon',
-            `The capital city of the Melodon Empire dominating over Elora's Western Region.`,
+            default_town_description.getWithCustomRoot(
+                `The capital city of the Melodon Empire dominating over Elora's Western Region.`,
+            ),
             EAreaType.TOWN,
             13,
             13,
@@ -110,8 +126,8 @@ export default class AreaContainer {
 
         const voidSpace = new Area(
             'Void Space',
-            `A strange region of void space wtih mysteries defying comprehension.`,
-            EAreaType.TOWN,
+            new AreaDescriptions(`A strange region of void space wtih mysteries defying comprehension.`),
+            EAreaType.WILD,
             20,
             20,
         );

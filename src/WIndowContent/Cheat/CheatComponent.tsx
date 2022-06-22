@@ -7,6 +7,7 @@ import { IRootStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import { Player } from '../../Models/Fighter/Player';
 import { WiseManEncounter } from '../../Story/RandomEncounters/WiseManEncounter';
+import { WoodMaterialLib } from '../../Models/Item/Resources/WoodMaterialLib';
 
 function addGodSword(store: IRootStore) {
     let item = new Equipment('God Sword', 'A cheat god sword.', EquipmentType.WEAPON, 50);
@@ -78,6 +79,23 @@ export default function CheatComponent(): JSX.Element {
                 }}
             >
                 Add God Sword
+            </button>
+            <button
+                onClick={() => {
+                    store.player.inventory.addItem(store.player, WoodMaterialLib.oak);
+                    __GLOBAL_REFRESH_FUNC_REF();
+                }}
+            >
+                Add Oak Log
+            </button>
+            <button
+                onClick={() => {
+                    // Demonstrate global item renaming capability, for future items/monsters changing over time.
+                    WoodMaterialLib.oak.name = 'Oak Log 2';
+                    __GLOBAL_REFRESH_FUNC_REF();
+                }}
+            >
+                Rename Oak Logs
             </button>
             <button
                 onClick={() => {

@@ -3,21 +3,33 @@ import EPlayerActivity from '../../../Models/Fighter/EPlayerActivity';
 import { IRootStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
 import LootTransitionComponent from './LootTransitionComponent';
 import { PlayerAbilityEffectLib } from '../../../Models/Shared/EffectLib/PlayerAbilityEffectLib';
+import { MG_Erin } from '../../../Models/Fighter/Monster/MonsterGenerators/Humanoids/MG_Erin';
 
 export default function CombatComponent(): JSX.Element {
     let store: IRootStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
     let player = store.player;
     let enemy = store.enemy;
     let display;
+    let mg = enemy.monsterGenerator;
+    let enemyName = '';
+    let enemyDescription = '';
+
+    if (player.knowsErin && mg.knownName === MG_Erin.knownName) {
+        enemyName = mg.knownName;
+        enemyDescription = mg.knownDescription;
+    } else {
+        enemyName = mg.unknownName;
+        enemyDescription = mg.unknownDescription;
+    }
 
     switch (player.activity) {
         case EPlayerActivity.IN_COMBAT_FIGHTING:
             display = (
                 <div>
                     <h1>
-                        {player.name} vs. {enemy.name}
+                        {player.name} vs. {enemyName}
                     </h1>
-                    <p>{enemy.monsterGenerator.unknownDescription}</p>
+                    <p>{enemyDescription}</p>
                     <p>
                         {player.statBlock.healthMin} vs. {enemy.statBlock.healthMin}
                     </p>

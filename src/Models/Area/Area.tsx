@@ -3,19 +3,21 @@
  * It has lore, a level range, area connections and encounters.
  */
 
+import AreaDescriptions from './AreaDescriptions';
 import EAreaType from './EAreaType';
 
 export default class Area {
     name: string;
-    description: string;
+    descriptions: AreaDescriptions;
     levelMin: number;
     levelMax: number;
     connectedAreas: Area[];
-    type: EAreaType = EAreaType.TOWN;
+    type: EAreaType;
 
-    constructor(name: string, description: string, type: EAreaType, levelMin: number, levelMax: number) {
+    constructor(name: string, descriptions: AreaDescriptions, type: EAreaType, levelMin: number, levelMax: number) {
         this.name = name;
-        this.description = description;
+        this.descriptions = descriptions;
+        this.type = type;
         this.levelMin = levelMin;
         this.levelMax = levelMax;
         this.connectedAreas = [];

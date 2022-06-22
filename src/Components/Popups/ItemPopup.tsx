@@ -1,6 +1,6 @@
 import React from 'react';
 import { Equipment, EquipmentType, Item, ItemType } from '../../Models/Item/Item';
-import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
+import { IRootStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { G_removeElement } from '../../Models/Helper';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import './ItemPopup.css';
@@ -114,6 +114,7 @@ function getDamageDisplay(fighter: Player, item: Equipment) {
 }
 
 export default function ItemPopup(props: IItemPopupProps) {
+    let store: IRootStore = __GLOBAL_GAME_STORE((__DATA: any) => __DATA);
     let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let combatState = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.combatState);
     let rpgConsole: RpgConsole = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.rpgConsole);
@@ -132,6 +133,12 @@ export default function ItemPopup(props: IItemPopupProps) {
 
                     if (res) {
                         combatState.loot = G_removeElement(combatState.loot, props.item);
+
+                        // If no loot left, end looting.
+                        if (combatState.loot.length === 0) {
+                            combatState.endLooting(store);
+                            rpgConsole.add('You loot all items and contine your adventure.');
+                        }
                     } else {
                         rpgConsole.addItemFail(props.item.name);
                     }

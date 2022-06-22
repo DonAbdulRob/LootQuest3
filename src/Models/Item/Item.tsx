@@ -82,3 +82,12 @@ export class Consumable extends Item {
         this.useCount = useCount;
     }
 }
+
+export class Resource extends Item {
+    materialLevel: number;
+
+    constructor(name: string, description: string, weight: number, materialLevel: number) {
+        super(name, description, ItemType.RESOURCE, weight);
+        this.materialLevel = materialLevel;
+    }
+}

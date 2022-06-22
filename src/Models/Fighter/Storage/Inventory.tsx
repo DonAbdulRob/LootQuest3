@@ -14,6 +14,71 @@ export default class Inventory {
         this.addStarterItems();
     }
 
+    /**
+     * Returns if user has 'count' number of item by comparing names of the new item and existing inventory items.
+     */
+    public has_nameMatch(item: Item, count: number): boolean {
+        let iName = item.name;
+        let currentAmount = 0;
+
+        for (var i of this.items) {
+            if (i.name === iName) {
+                currentAmount++;
+
+                if (currentAmount === count) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public remove_nameMatch(item: Item, amountToRemove: number) {
+        // First, store indexes of all items to remove. (Avoid concurrent modification)
+        let iName = item.name;
+        let removeIndexArr = [];
+        let removeCount = 0;
+
+        if (amountToRemove === 0) {
+            return;
+        }
+
+        // Iterate in reverse order so that when we remove, subsequent splices aren't effected by previous ones.
+        for (var i = this.items.length - 1; i > -1; i--) {
+            if (this.items[i].name === iName) {
+                removeIndexArr.push(i);
+                removeCount++;
+                if (removeCount === amountToRemove) {
+                    break;
+                }
+            }
+        }
+
+        // Remove items.
+        for (const removeIndex of removeIndexArr) {
+            this.items.splice(removeIndex, 1);
+        }
+    }
+
+    /**
+     * A method to return whether or not an array of items can be added to the inventory based on
+     * slot and weight restraints.
+     */
+    canAdd(player: Player, items: Item[]): boolean {
+        let numberOfItems = items.length;
+
+        if (!this.canFit(numberOfItems)) {
+            return false;
+        }
+
+        if (!player.canCarryAll(items)) {
+            return false;
+        }
+
+        return true;
+    }
+
     addItem(player: Player, item: Item): boolean {
         if (!this.canFit(1)) {
             return false;
@@ -28,13 +93,7 @@ export default class Inventory {
     }
 
     addItems(player: Player, items: Item[]): boolean {
-        let numberOfItems = items.length;
-
-        if (!this.canFit(numberOfItems)) {
-            return false;
-        }
-
-        if (!player.canCarryAll(items)) {
+        if (!this.canAdd(player, items)) {
             return false;
         }
 

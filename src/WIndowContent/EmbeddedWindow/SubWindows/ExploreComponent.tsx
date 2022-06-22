@@ -7,14 +7,15 @@ import React from 'react';
 import EAreaType from '../../../Models/Area/EAreaType';
 import { Player } from '../../../Models/Fighter/Player';
 import { IRootStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
-import { G_getRandomValueUpTo } from '../../../Models/Helper';
-import { ItemGen } from '../../../Models/Item/ItemGen';
+import { G_getRandomElement, G_getRandomValueBetween, G_getRandomValueUpTo } from '../../../Models/Helper';
 import GameStateManager from '../../../Models/Singles/GameStateManager';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../App';
 import { RpgConsole } from '../../../Models/Singles/RpgConsole';
 import CombatComponent from '../Combat/CombatComponent';
 import { WiseManEncounter } from '../../../Story/RandomEncounters/WiseManEncounter';
 import CombatState from '../../../Models/Shared/CombatState';
+import { TownComponent } from './Town/TownComponent';
+import { WoodMaterialLib } from '../../../Models/Item/Resources/WoodMaterialLib';
 
 function explore(store: IRootStore) {
     let rollRes = G_getRandomValueUpTo(100);
@@ -34,11 +35,16 @@ function explore(store: IRootStore) {
 
     // Harvest result
     else if (rollRes <= 90) {
-        let res = player.inventory.addItem(player, ItemGen.getWood());
-        str = 'You chop woods for a while and find some logs.';
+        let areaLevel = G_getRandomValueBetween(player.currentArea.levelMin, player.currentArea.levelMax);
+        let item = G_getRandomElement(new WoodMaterialLib().getResource(areaLevel));
+
+        let res = player.inventory.addItem(player, item);
+        str = 'You explore for a while and find a suitable tree to harvest from. ';
 
         if (res) {
-            str += ` But, you don't have enough inventory space to carry any, so you leave them behind.`;
+            str += ` But, you can't carry anything, so you leave it behind.`;
+        } else {
+            str += ` And, after chopping for a while you acquire one ` + item.name + `.`;
         }
 
         rpgConsole.add(str);
@@ -77,17 +83,11 @@ export default function ExploreComponent() {
     let areaArt = null;
 
     if (player.currentArea.type === EAreaType.TOWN) {
-        areaArt = <div>Show town stuff.</div>;
+        areaArt = <TownComponent />;
     } else {
-        areaArt = <div>Show Wild stuff.</div>;
-    }
-
-    if (player.inCombat()) {
-        content = <CombatComponent />;
-    } else {
-        content = (
+        areaArt = (
             <div>
-                {areaArt}
+                {player.currentArea.descriptions.root}
                 <button
                     className="big-button"
                     onClick={() => {
@@ -99,6 +99,12 @@ export default function ExploreComponent() {
                 <p>{gameStateManager.exploreOutput}</p>
             </div>
         );
+    }
+
+    if (player.inCombat()) {
+        content = <CombatComponent />;
+    } else {
+        content = <div>{areaArt}</div>;
     }
 
     return <div className="embedded-sub-component">{content}</div>;

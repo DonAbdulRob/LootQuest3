@@ -10,17 +10,6 @@ function getLootDisplay(loot: Array<Item>) {
     });
 }
 
-function endLooting(store: IRootStore) {
-    // Clear loot in combat state.
-    store.combatState.loot = [];
-
-    // Advance combat to next phase (out of combat)
-    store.player.setCombatOver();
-
-    // Refresh screen.
-    __GLOBAL_REFRESH_FUNC_REF();
-}
-
 export default function LootTransitionComponent() {
     let store: IRootStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
     let player = store.player;
@@ -40,7 +29,7 @@ export default function LootTransitionComponent() {
                     let res = player.inventory.addItems(player, loot);
 
                     if (res) {
-                        endLooting(store);
+                        combatState.endLooting(store);
                     } else {
                         rpgConsole.add('Unable to loot all. Not enough inventory space.');
                     }
@@ -53,7 +42,7 @@ export default function LootTransitionComponent() {
             </button>
             <button
                 onClick={() => {
-                    endLooting(store);
+                    combatState.endLooting(store);
                 }}
             >
                 Exit Looting

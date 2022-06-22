@@ -203,4 +203,15 @@ export default class CombatState {
         // Refresh!
         __GLOBAL_REFRESH_FUNC_REF();
     }
+
+    endLooting(store: IRootStore) {
+        // Clear loot in combat state.
+        store.combatState.loot = [];
+
+        // Advance combat to next phase (out of combat)
+        store.player.setCombatOver();
+
+        // Refresh screen.
+        __GLOBAL_REFRESH_FUNC_REF();
+    }
 }
