@@ -8,15 +8,17 @@ import AreaDescriptions from './AreaDescriptions';
 import EAreaType from './EAreaType';
 import { TownDescription } from './TownDescription';
 
-const default_town_description = new TownDescription(
-    'A small town located within the wilderness of the Elora Continent.',
-    'The inn is a place to heal up and chat with locals.',
-    'The shop is a place to buy goods',
-    'The forge is a place to craft items.',
-    'The guild is a place to accept quests and recuit allies. Unfortunately, it appears to be closed right now.',
-);
+function getTownDescription() {
+    return new TownDescription(
+        'A small town located within the wilderness of the Elora Continent.',
+        'The inn is a place to heal up and chat with locals.',
+        'The shop is a place to buy goods',
+        'The forge is a place to craft items.',
+        'The guild is a place to accept quests and recuit allies. Unfortunately, it appears to be closed right now.',
+    );
+}
 
-export const G_AREA_GREENVALE = new Area('Greenvale', default_town_description, EAreaType.TOWN, 1, 1);
+export const G_AREA_GREENVALE = new Area('Greenvale', getTownDescription(), EAreaType.TOWN, 1, 1);
 
 export default class AreaContainer {
     globalAreaList: Area[] = [];
@@ -68,9 +70,7 @@ export default class AreaContainer {
     generateAreas() {
         const greenvaleOutskirts = new Area(
             'Greenvale Outskirts',
-            default_town_description.getWithCustomRoot(
-                'The small border region between Greevale and its wild forests.',
-            ),
+            getTownDescription().getWithCustomRoot('The small border region between Greevale and its wild forests.'),
             EAreaType.WILD,
             1,
             2,
@@ -105,7 +105,7 @@ export default class AreaContainer {
         );
         const aston = new Area(
             'Aston',
-            default_town_description.getWithCustomRoot(
+            getTownDescription().getWithCustomRoot(
                 'A moderate-sized city in the Western Region of the Elora Continent.',
             ),
             EAreaType.TOWN,
@@ -116,7 +116,7 @@ export default class AreaContainer {
         // Todo, add more links between
         const melodon = new Area(
             'Melodon',
-            default_town_description.getWithCustomRoot(
+            getTownDescription().getWithCustomRoot(
                 `The capital city of the Melodon Empire dominating over Elora's Western Region.`,
             ),
             EAreaType.TOWN,
