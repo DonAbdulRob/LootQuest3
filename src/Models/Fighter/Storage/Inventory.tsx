@@ -1,14 +1,14 @@
 /**
  * An Inventory is a collection of items.
  */
-import { Item, EquipmentType, Equipment } from '../../Item/Item';
-import { ItemGen } from '../../Item/ItemGen';
+import { IG_Herb } from '../../Item/Consumables/IG_Herb';
+import { Item, EquipmentType, Equipment, Consumable, Resource } from '../../Item/Item';
 import { Player } from '../Player';
 
 export const G_MAX_INV_SIZE = 20;
 
 export default class Inventory {
-    items: Array<Item | Equipment> = [];
+    items: Array<Item | Equipment | Consumable | Resource> = [];
 
     constructor() {
         this.addStarterItems();
@@ -118,6 +118,7 @@ export default class Inventory {
             'An old and moldy sword. Is that wood beneath the mold? Or, something else? Who knows...',
             EquipmentType.WEAPON,
             1,
+            1,
         );
         starter1.statBlock.damageMin = 1;
         starter1.statBlock.damageMax = 1;
@@ -127,6 +128,7 @@ export default class Inventory {
             `A rusted sword. Seems a bit better than the moldy sword, but is it really?`,
             EquipmentType.WEAPON,
             1.5,
+            1,
         );
         starter2.statBlock.damageMin = 1;
         starter2.statBlock.damageMax = 2;
@@ -136,6 +138,7 @@ export default class Inventory {
             `A chestplate made from discarded nespaper. It might have been useful if crafted into thick layers by a skilled artison. Unfortunately, it wasn't. Pray that it doesn't rain.`,
             EquipmentType.CHESTPLATE,
             3,
+            1,
         );
         starter3.statBlock.health = 3;
 
@@ -144,9 +147,10 @@ export default class Inventory {
             `A chestplate made from torn cardboard boxes. Does offer 'some' protection, but makes you uncomfortable, stiff and a bit itchy. You also smell... urine?`,
             EquipmentType.CHESTPLATE,
             5,
+            1,
         );
         starter4.statBlock.armor = 1;
 
-        this.items.push(starter1, starter2, starter3, starter4, ItemGen.getOranHerb());
+        this.items.push(starter1, starter2, starter3, starter4, IG_Herb.oran());
     }
 }

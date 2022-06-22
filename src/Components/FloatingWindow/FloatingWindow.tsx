@@ -94,8 +94,6 @@ function assignResizeDragBehavior(
     levelsToParent: number,
     pos1: React.MutableRefObject<number>,
     pos2: React.MutableRefObject<number>,
-    pos3: React.MutableRefObject<number>,
-    pos4: React.MutableRefObject<number>,
     windowData: FloatingWindowData,
 ) {
     // Implement draggable logic.
@@ -105,8 +103,8 @@ function assignResizeDragBehavior(
 
         windowData.isBeingHovered = true;
 
-        pos3.current = mouseDownEvent.clientX;
-        pos4.current = mouseDownEvent.clientY;
+        pos1.current = mouseDownEvent.clientX;
+        pos2.current = mouseDownEvent.clientY;
 
         function mouseUp(e: any) {
             document.removeEventListener('mouseup', mouseUp);
@@ -194,20 +192,16 @@ export default function FloatingWindow(props: IFloatingWindowProps): JSX.Element
     const pos3 = React.useRef(0);
     const pos4 = React.useRef(0);
 
-    const pos5 = React.useRef(0);
     const pos6 = React.useRef(0);
     const pos7 = React.useRef(0);
-    const pos8 = React.useRef(0);
 
     const windowData: FloatingWindowData = windowStateManager.windowDataArr[props.id];
 
     // After render, assign drag behavior.
     useEffect(() => {
         windowData.ref = parentEleRef;
-
         assignDragBehavior(titleDragRef.current, 3, pos1, pos2, pos3, pos4, windowData);
-
-        assignResizeDragBehavior(resizeDragRef.current, 2, pos5, pos6, pos7, pos8, windowData);
+        assignResizeDragBehavior(resizeDragRef.current, 2, pos6, pos7, windowData);
     });
 
     return (

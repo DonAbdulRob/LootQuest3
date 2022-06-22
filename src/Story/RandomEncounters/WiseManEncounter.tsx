@@ -2,10 +2,10 @@ import React from 'react';
 import { IRootStore } from '../../Models/GlobalGameStore';
 import { AbstractEncounter } from '../AbstractEncounter';
 import { StoryPrompt } from '../StoryPrompt';
-import { ItemGen } from '../../Models/Item/ItemGen';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import { BaseEncounter } from '../BaseEncounter';
 import { MG_Erin } from '../../Models/Fighter/Monster/MonsterGenerators/Humanoids/MG_Erin';
+import { IG_Herb } from '../../Models/Item/Consumables/IG_Herb';
 
 export class WiseManEncounter extends BaseEncounter implements AbstractEncounter {
     toldWizardTruth = true;
@@ -153,11 +153,11 @@ export class WiseManEncounter extends BaseEncounter implements AbstractEncounter
     ]);
 
     prompt4: StoryPrompt = new StoryPrompt(
-        `Thank you so much for that information! I'll make sure to put it to good use. And, please, take this Oran Herb as my thanks. Now, if you'll excuse me, I must be on my way."`,
+        `Thank you so much for that information! I'll make sure to put it to good use. And, please, take this Moro Herb as my thanks. Now, if you'll excuse me, I must be on my way."`,
         [
             <button
                 onClick={() => {
-                    this.store.rpgConsole.add('You allow the Mage to leave then continue on your journy.');
+                    this.store.rpgConsole.add('You allow the Mage to leave then continue on your journey.');
                     this.isOver = true;
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
@@ -167,7 +167,7 @@ export class WiseManEncounter extends BaseEncounter implements AbstractEncounter
             this.getAttackButton(),
         ],
         () => {
-            this.store.player.inventory.addItem(this.store.player, ItemGen.getOranHerb());
+            this.store.player.inventory.addItem(this.store.player, IG_Herb.moro());
         },
     );
 }

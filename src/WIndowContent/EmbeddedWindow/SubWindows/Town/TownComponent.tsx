@@ -5,8 +5,12 @@ import React from 'react';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../../App';
 import { TownDescription } from '../../../../Models/Area/TownDescription';
 import { IRootStore, __GLOBAL_GAME_STORE } from '../../../../Models/GlobalGameStore';
-import { ItemGen } from '../../../../Models/Item/ItemGen';
-import { WoodMaterialLib } from '../../../../Models/Item/Resources/WoodMaterialLib';
+import { IG_Herb } from '../../../../Models/Item/Consumables/IG_Herb';
+import { IG_Chestplate } from '../../../../Models/Item/Equipment/IG_Chestplate';
+import { IG_Sword } from '../../../../Models/Item/Equipment/IG_Sword';
+import { Item } from '../../../../Models/Item/Item';
+import { IG_Alloy } from '../../../../Models/Item/Resources/IG_Alloy';
+import { IG_Wood } from '../../../../Models/Item/Resources/IG_Wood';
 
 export enum EViews {
     Root,
@@ -113,6 +117,36 @@ function getInnView(store: IRootStore) {
     );
 }
 
+function getBuyButton(store: IRootStore, itemGenFunction: Function, cost: number) {
+    // Create an instance of the item that will be used to show in the component.
+    let item = itemGenFunction();
+
+    return (
+        <button
+            onClick={() => {
+                if (store.player.gold < cost) {
+                    store.rpgConsole.add('You are too poor to buy one ' + item.name + '.');
+                    __GLOBAL_REFRESH_FUNC_REF();
+                    return false;
+                }
+                if (!store.player.inventory.canAdd(store.player, [item])) {
+                    store.rpgConsole.addItemFail(item.name);
+                    __GLOBAL_REFRESH_FUNC_REF();
+                    return false;
+                }
+
+                // Take gold and give the player a new instance of the item.
+                store.player.gold -= cost;
+                store.player.inventory.addItem(store.player, itemGenFunction());
+                store.rpgConsole.add('You successfully buy one ' + item.name + '.');
+                __GLOBAL_REFRESH_FUNC_REF();
+            }}
+        >
+            {item.name + ' (' + cost + ' gp)'}
+        </button>
+    );
+}
+
 function getShopView(store: IRootStore) {
     let d = store.player.currentArea.descriptions as TownDescription;
 
@@ -121,71 +155,76 @@ function getShopView(store: IRootStore) {
             <h1>Shop</h1>
             <p>{d.shop}</p>
             <h2>Buy List</h2>
-            <button
-                onClick={() => {
-                    let herb = ItemGen.getOranHerb();
-
-                    if (store.player.gold < 1) {
-                        store.rpgConsole.add('You are too poor to buy this item.');
-                    } else if (!store.player.inventory.canAdd(store.player, [herb])) {
-                        store.rpgConsole.addItemFail(herb.name);
-                    } else {
-                        store.player.gold -= 1;
-                        store.player.inventory.addItem(store.player, ItemGen.getOranHerb());
-                        store.rpgConsole.add('You successfully buy an Oran Herb.');
-                    }
-
-                    __GLOBAL_REFRESH_FUNC_REF();
-                }}
-            >
-                Oran Herb (1 gp)
-            </button>
+            {getBuyButton(store, IG_Herb.oran, 1)}
+            {getBuyButton(store, IG_Herb.ryla, 5)}
+            {getBuyButton(store, IG_Herb.moro, 25)}
+            {getBuyButton(store, IG_Herb.tal, 200)}
             {getBackButton(store)}
         </div>
     );
 }
 
-function getForgeView(store: IRootStore) {
+function getForgeElement(
+    store: IRootStore,
+    itemGenFunction: Function,
+    desc: string,
+    goldCost: number,
+    resourceCost: Item,
+    resourceCostAmount: number,
+) {
     let player = store.player;
     let r = __GLOBAL_REFRESH_FUNC_REF; // short and cute reference
+    let itemTemplate = itemGenFunction();
+
+    return (
+        <div>
+            <p>{itemTemplate.name}</p>
+            <p>{desc}</p>
+            <button
+                onClick={() => {
+                    // Precheck for gold, then logs, then success.
+                    if (player.gold < goldCost) {
+                        store.rpgConsole.add('You are too poor to craft this item.');
+                        r();
+                        return;
+                    }
+
+                    // Precheck logs.
+                    if (!player.inventory.has_nameMatch(resourceCost, resourceCostAmount)) {
+                        store.rpgConsole.add('You need more ' + resourceCost.name + 's to craft this item.');
+                        r();
+                        return;
+                    }
+
+                    // Remove required items.
+                    player.inventory.remove_nameMatch(resourceCost, resourceCostAmount);
+                    player.gold -= goldCost;
+
+                    // Create Item and provide success.
+                    player.inventory.addItem(player, itemGenFunction());
+                    store.rpgConsole.add('You successfully craft one ' + itemTemplate.name + '!');
+                    r();
+                }}
+            >
+                Craft
+            </button>
+        </div>
+    );
+}
+
+function getForgeView(store: IRootStore) {
     let d = store.player.currentArea.descriptions as TownDescription;
 
     return (
         <div>
             <h1>Forge</h1>
             <p>{d.forge}</p>
-            <h2>Forge List</h2>
-            <div>
-                <p>Wooden Sword</p>
-                <p>Requires: 3x Oak Log, 5 GP</p>
-                <button
-                    onClick={() => {
-                        // Precheck for gold, then logs, then success.
-                        if (player.gold < 5) {
-                            store.rpgConsole.add('You are too poor to craft this item.');
-                            r();
-                            return;
-                        }
-
-                        // Precheck logs.
-                        if (!player.inventory.has_nameMatch(WoodMaterialLib.oak, 3)) {
-                            store.rpgConsole.add('You need more ' + WoodMaterialLib.oak.name + 's to craft this item.');
-                            r();
-                            return;
-                        }
-
-                        // Remove item.
-                        player.inventory.remove_nameMatch(WoodMaterialLib.oak, 3);
-
-                        // Create Item and provide success. Remove items.
-                        player.inventory.addItem(player, ItemGen.getOakSword());
-                        store.rpgConsole.add('You successfully craft an Oak Sword!');
-                        r();
-                    }}
-                >
-                    Craft
-                </button>
-            </div>
+            <h2>Available Recipes</h2>
+            {getForgeElement(store, IG_Sword.oak, 'Requires: 3x Oak Log, 5 GP', 5, IG_Wood.oak(), 3)}
+            {getForgeElement(store, IG_Sword.bronze, 'Requires: 3x Bronze Ingot, 12 GP', 12, IG_Alloy.bronze(), 3)}
+            {getForgeElement(store, IG_Sword.iron, 'Requires: 3x Iron Ingot, 25 GP', 25, IG_Alloy.iron(), 3)}
+            {getForgeElement(store, IG_Chestplate.bronze, 'Requires: 5x Bronze Ingot, 25 GP', 25, IG_Alloy.bronze(), 5)}
+            {getForgeElement(store, IG_Chestplate.iron, 'Requires: 5x Iron Ingot, 50 GP', 50, IG_Alloy.iron(), 5)}
             {getBackButton(store)}
         </div>
     );

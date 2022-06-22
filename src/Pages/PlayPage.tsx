@@ -12,7 +12,6 @@ import ConsoleComponent from '../WIndowContent/Console/ConsoleComponent';
 import CheatComponent from '../WIndowContent/Cheat/CheatComponent';
 import WindowStateManager from '../Models/Singles/WindowStateManager';
 import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
-import { _GAME_IN_DEBUG_MODE } from '../App';
 import Ability from '../WIndowContent/Ability/AbilityComponent';
 import IPageEnum from './Enums/IPageEnum';
 import QuitButtonComponent from './Components/QuitButtonComponent';
@@ -30,8 +29,8 @@ export interface IFloatingWindowPropsBuilder {
 /**
  * Builds and returns our array of window content to display on the page.
  */
-function getWindows(windowStateManager: WindowStateManager) {
-    let topBottomStart = 400;
+function getWindows(debugMode: boolean, windowStateManager: WindowStateManager) {
+    let topBottomStart = 710;
 
     let windows: Array<IFloatingWindowPropsBuilder> = [];
 
@@ -52,8 +51,8 @@ function getWindows(windowStateManager: WindowStateManager) {
     windows.push({
         title: 'Console',
         contentElement: <ConsoleComponent />,
-        top: topBottomStart + 165,
-        left: 450,
+        top: topBottomStart,
+        left: 885,
     });
     windows.push({
         title: 'Ability',
@@ -70,11 +69,11 @@ function getWindows(windowStateManager: WindowStateManager) {
     windows.push({
         title: 'Inventory',
         contentElement: <InventoryComponent />,
-        top: 300,
+        top: 250,
         left: 1050,
     });
 
-    if (_GAME_IN_DEBUG_MODE) {
+    if (debugMode) {
         windows.push({
             title: 'Cheat',
             contentElement: <CheatComponent />,
@@ -116,6 +115,7 @@ function getWindows(windowStateManager: WindowStateManager) {
 
 export function PlayPage() {
     // var inits
+    let debugMode: boolean = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.debugMode);
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
     let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
 
@@ -138,7 +138,7 @@ export function PlayPage() {
                 </button>
                 <QuitButtonComponent />
             </div>
-            <div id="floating-window-container">{getWindows(windowStateManager)}</div>
+            <div id="floating-window-container">{getWindows(debugMode, windowStateManager)}</div>
 
             {windowStateManager.embedCore && (
                 <span>

@@ -80,6 +80,15 @@ export default function SettingsPage() {
             <br />
             <button
                 onClick={() => {
+                    store.debugMode = !store.debugMode;
+                    __GLOBAL_REFRESH_FUNC_REF();
+                }}
+            >
+                Toggle 'Debug/Cheat' Mode.
+            </button>
+            <br />
+            <button
+                onClick={() => {
                     setPage(IPageEnum.Play);
                 }}
             >

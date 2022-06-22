@@ -15,7 +15,8 @@ import CombatComponent from '../Combat/CombatComponent';
 import { WiseManEncounter } from '../../../Story/RandomEncounters/WiseManEncounter';
 import CombatState from '../../../Models/Shared/CombatState';
 import { TownComponent } from './Town/TownComponent';
-import { WoodMaterialLib } from '../../../Models/Item/Resources/WoodMaterialLib';
+import { IG_Wood } from '../../../Models/Item/Resources/IG_Wood';
+import { IG_Ore } from '../../../Models/Item/Resources/IG_Ore';
 
 function explore(store: IRootStore) {
     let rollRes = G_getRandomValueUpTo(100);
@@ -23,28 +24,45 @@ function explore(store: IRootStore) {
     let rpgConsole: RpgConsole = store.rpgConsole;
     let combatState: CombatState = store.combatState;
     let gameStateManager: GameStateManager = store.gameStateManager;
+    let currentarea = player.currentArea;
 
     // Always reset explore output.
     gameStateManager.exploreOutput = '';
     let str = '';
 
     // Random Combat result.
-    if (rollRes <= 75) {
+    if (rollRes <= 35) {
         combatState.startFight(store);
     }
 
     // Harvest result
     else if (rollRes <= 90) {
-        let areaLevel = G_getRandomValueBetween(player.currentArea.levelMin, player.currentArea.levelMax);
-        let item = G_getRandomElement(new WoodMaterialLib().getResource(areaLevel));
+        let areaLevel = G_getRandomValueBetween(currentarea.levelMin, currentarea.levelMax);
 
-        let res = player.inventory.addItem(player, item);
-        str = 'You explore for a while and find a suitable tree to harvest from. ';
+        if (currentarea.type === EAreaType.FOREST) {
+            let item = G_getRandomElement(new IG_Wood().getResource(0, areaLevel));
 
-        if (res) {
-            str += ` But, you can't carry anything, so you leave it behind.`;
+            let res = player.inventory.addItem(player, item);
+            str = 'You explore for a while and find a suitable tree to harvest from. ';
+
+            if (res) {
+                str += ` And, after chopping for a while you acquire one ` + item.name + `.`;
+            } else {
+                str += ` But, you can't carry anything, so you leave it behind.`;
+            }
+        } else if (currentarea.type === EAreaType.MINE) {
+            let item = G_getRandomElement(new IG_Ore().getResource(0, areaLevel));
+
+            let res = player.inventory.addItem(player, item);
+            str = 'You explore for a while and find an ore patch to mine from. ';
+
+            if (res) {
+                str += ` And, after mining for a while you acquire one ` + item.name + `.`;
+            } else {
+                str += ` But, you can't carry anything, so you ignore it.`;
+            }
         } else {
-            str += ` And, after chopping for a while you acquire one ` + item.name + `.`;
+            console.log('Area type not implemented yet: ' + currentarea.type);
         }
 
         rpgConsole.add(str);
@@ -87,7 +105,7 @@ export default function ExploreComponent() {
     } else {
         areaArt = (
             <div>
-                {player.currentArea.descriptions.root}
+                <p>{player.currentArea.descriptions.root}</p>
                 <button
                     className="big-button"
                     onClick={() => {

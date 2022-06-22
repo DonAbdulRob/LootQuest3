@@ -71,35 +71,35 @@ export default class AreaContainer {
         const greenvaleOutskirts = new Area(
             'Greenvale Outskirts',
             getTownDescription().getWithCustomRoot('The small border region between Greevale and its wild forests.'),
-            EAreaType.WILD,
+            EAreaType.FOREST,
             1,
             2,
         );
         const greenvaleForest = new Area(
             'Greenvale Forest',
             new AreaDescriptions('A sparse forest lush with flora and fauna.'),
-            EAreaType.WILD,
+            EAreaType.FOREST,
             3,
             4,
         );
         const greenvaleMine = new Area(
             'Greenvale Mine',
             new AreaDescriptions('A local & active mine near Greenvale full of stone and ores.'),
-            EAreaType.WILD,
+            EAreaType.MINE,
             3,
             4,
         );
         const westAstonRoad = new Area(
             'West Aston Road',
             new AreaDescriptions('A dirt-road between Greenvale and Aston that passes through deep woods.'),
-            EAreaType.WILD,
+            EAreaType.FOREST,
             5,
             6,
         );
         const astonRoadDeepWoods = new Area(
             'Deep Woods',
             new AreaDescriptions(`Dense forest that branches off from the West Aston Road.`),
-            EAreaType.WILD,
+            EAreaType.FOREST,
             7,
             10,
         );
@@ -127,7 +127,7 @@ export default class AreaContainer {
         const voidSpace = new Area(
             'Void Space',
             new AreaDescriptions(`A strange region of void space wtih mysteries defying comprehension.`),
-            EAreaType.WILD,
+            EAreaType.FOREST,
             20,
             20,
         );

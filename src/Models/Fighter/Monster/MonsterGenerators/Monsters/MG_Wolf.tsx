@@ -1,10 +1,6 @@
 /* eslint-disable no-fallthrough */
 import { MonsterGenerator } from '../../MonsterGenerator';
 
-/**
- * Rats are relatively weak monsters.
- * The weaker rats will always have their names known while stronger variants won't.
- */
 export class MG_Wolf extends MonsterGenerator {
     setProperties() {
         // Our stat formula for infinite monster growth.
@@ -17,7 +13,6 @@ export class MG_Wolf extends MonsterGenerator {
 
         // Set monster attributes based on level.
         if (this.level === 1) {
-            // Rats always have their names known.
             this.setNames('Wolf Pup');
             this.setDescriptions(
                 `A tiny wolf that must have been seperated from its pack. With it's tiny body, soft grey-fur and barely developed fangs, you can't help but want to pet it.`,
@@ -71,7 +66,7 @@ export class MG_Wolf extends MonsterGenerator {
             statAssignmentFormula();
         } else {
             this.unknownName = 'Powerful Wolf';
-            this.unknownName =
+            this.unknownDescription =
                 'You feel a chill run down your spine. Upon turning to look, you spot a wolf that glows with azure light.';
             this.knownName = 'Wolf Proginator';
             this.knownDescription =
@@ -81,7 +76,7 @@ export class MG_Wolf extends MonsterGenerator {
         }
 
         if (this.level > 4) {
-            this.unknownDescription = `A new type of rat appears before you with unknown strength. All you can tell is that it's strong.`;
+            this.unknownDescription = `A new type of wolf appears before you with unknown strength. All you can tell is that it's strong.`;
         }
     }
 }

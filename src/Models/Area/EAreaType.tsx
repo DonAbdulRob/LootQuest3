@@ -1,5 +1,6 @@
 enum EAreaType {
     TOWN,
-    WILD,
+    FOREST,
+    MINE,
 }
 export default EAreaType;

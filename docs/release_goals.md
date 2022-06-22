@@ -17,8 +17,10 @@ Empty! Everything is PLANNED!
 
 ## TODO - Short Term:
 
-1. Flesh out systems to have content for implemented systems up to level 5. Potentially pick some post-release-term items to implement before going to 'final state'.
+- Exploring in mines will now have a chance to produce ores.
+
 2. Do the style overhaul.
+   - Put 'Settings' display into modal.
 3. Total code review. Go through 'continual section' and apply changes.
 
 ## TODO - Post-Release Term (Maybe complete for 1.0, maybe not):
@@ -43,17 +45,31 @@ Empty! Everything is PLANNED!
 - Item identification system?
 - More item types, body statuses, etc.
 - Console Input ?
-- More Skills ?
+- More abilities ?
+- Skills, like 'mining, smelting, alchemy' etc.
 - Multiple enemies in combat.
 - Walkeable overworld.
 - Co-Op? Multiplayer?
 - Actual Overarching Game Story
+- Keep on Top feature for Window Management.
+- Add value attribute to items for buy/sell logic.
+- Rearrange/sort inventory.
+- More Equipment Slots.
+
 
 # Done List
 
 For things that are done!
 
 ## Older Marked Done 6/19/2022+:
+
+- Fix use count of items. (add cheat to add tal herb and test)
+
+1. Flesh out systems to have content for implemented systems up to level 5.
+   - Level 1, 2, 3, 4, 5 healing items
+   - Level 1, 2, 3, 4, 5 swords and chestplates that drop and can be crafted.
+   - 3 Random Monster Types (rat, wolf, bandit)
+
 
 1. Implement options besides 'explore' while inside of a town. (Inn to heal, Shop, etc.).
    - While this won't be implemented for 1.0, we could turn entire towns into StoryPrompt based encounters with the ability to visit people and have dialogs. But, I want a tool for writing and managing stories implemented first, before doing any kind of major content like that.

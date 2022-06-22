@@ -6,6 +6,7 @@ import { GameDifficulty } from '../../Singles/GameDifficulty';
 import { MonsterAbilityContainer } from '../Ability/MonsterAbilityContainer';
 import Fighter from '../Fighter';
 import { MonsterGenerator } from './MonsterGenerator';
+import { MG_Bandit } from './MonsterGenerators/Monsters/MG_Bandit';
 import { MG_NULL } from './MonsterGenerators/Monsters/MG_NULL';
 import { MG_Rat } from './MonsterGenerators/Monsters/MG_Rat';
 import { MG_Wolf } from './MonsterGenerators/Monsters/MG_Wolf';
@@ -39,6 +40,9 @@ export class Monster extends Fighter {
                 break;
             case 1:
                 this.generateMonsterSpecific(new MG_Wolf({ ...this.statBlock }, baseLevel, gameDifficulty));
+                break;
+            case 2:
+                this.generateMonsterSpecific(new MG_Bandit({ ...this.statBlock }, baseLevel, gameDifficulty));
                 break;
         }
     };

@@ -19,6 +19,7 @@ export interface IGlobals {
     windowStateManager: WindowStateManager;
     gameStateManager: GameStateManager;
     saveLib: SaveLib;
+    debugMode: boolean;
 }
 
 const createGlobalSlice: StoreSlice<IGlobals> = (set, get) => ({
@@ -28,6 +29,7 @@ const createGlobalSlice: StoreSlice<IGlobals> = (set, get) => ({
     windowStateManager: new WindowStateManager(),
     gameStateManager: new GameStateManager(),
     saveLib: new SaveLib(),
+    debugMode: false,
 });
 
 export interface IRootStore extends IGlobals, IPlayerSlice, IPageSlice {}

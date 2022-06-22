@@ -1,5 +1,5 @@
 import React from 'react';
-import { Equipment, EquipmentType, Item, ItemType } from '../../Models/Item/Item';
+import { Consumable, Equipment, EquipmentType, Item, ItemType } from '../../Models/Item/Item';
 import { IRootStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { G_removeElement } from '../../Models/Helper';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
@@ -165,6 +165,7 @@ export default function ItemPopup(props: IItemPopupProps) {
             </span>
         );
     }
+
     if (item === null) {
         return (
             <div className="tooltip">
@@ -172,6 +173,12 @@ export default function ItemPopup(props: IItemPopupProps) {
             </div>
         );
     } else {
+        let uses = -1;
+
+        if (item instanceof Consumable) {
+            uses = item.useCount;
+        }
+
         return (
             <div className="tooltip">
                 <div>
@@ -180,6 +187,7 @@ export default function ItemPopup(props: IItemPopupProps) {
                 <span className="tooltiptext">
                     <p className="item-name">{item.name + ' (' + item.weight + ' lb)'}</p>
                     <p className="item-description">{item.description}</p>
+                    {uses !== -1 && <p>Uses Remaining: {uses}</p>}
                     {statDisplay}
                 </span>
             </div>

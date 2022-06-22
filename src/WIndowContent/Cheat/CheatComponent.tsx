@@ -7,10 +7,12 @@ import { IRootStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import { Player } from '../../Models/Fighter/Player';
 import { WiseManEncounter } from '../../Story/RandomEncounters/WiseManEncounter';
-import { WoodMaterialLib } from '../../Models/Item/Resources/WoodMaterialLib';
+import { IG_Wood } from '../../Models/Item/Resources/IG_Wood';
+import { IG_Herb } from '../../Models/Item/Consumables/IG_Herb';
+import { IG_Alloy } from '../../Models/Item/Resources/IG_Alloy';
 
 function addGodSword(store: IRootStore) {
-    let item = new Equipment('God Sword', 'A cheat god sword.', EquipmentType.WEAPON, 50);
+    let item = new Equipment('God Sword', 'A cheat god sword.', EquipmentType.WEAPON, 50, 999);
 
     item.statBlock.damageMin = 99;
     item.statBlock.damageMax = 99;
@@ -82,7 +84,7 @@ export default function CheatComponent(): JSX.Element {
             </button>
             <button
                 onClick={() => {
-                    store.player.inventory.addItem(store.player, WoodMaterialLib.oak);
+                    store.player.inventory.addItem(store.player, IG_Wood.oak());
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >
@@ -90,20 +92,27 @@ export default function CheatComponent(): JSX.Element {
             </button>
             <button
                 onClick={() => {
-                    // Demonstrate global item renaming capability, for future items/monsters changing over time.
-                    WoodMaterialLib.oak.name = 'Oak Log 2';
+                    store.player.inventory.addItem(store.player, IG_Alloy.bronze());
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >
-                Rename Oak Logs
+                Add Bronze Ingot
             </button>
             <button
                 onClick={() => {
-                    player.gold = 999999;
+                    store.player.inventory.addItem(store.player, IG_Alloy.iron());
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >
-                Set Gold High
+                Add Iron Ingot
+            </button>
+            <button
+                onClick={() => {
+                    store.player.inventory.addItem(store.player, IG_Herb.tal());
+                    __GLOBAL_REFRESH_FUNC_REF();
+                }}
+            >
+                Add Tal Herb
             </button>
             <button
                 onClick={() => {
@@ -112,6 +121,14 @@ export default function CheatComponent(): JSX.Element {
                 }}
             >
                 Heal
+            </button>
+            <button
+                onClick={() => {
+                    player.gold = 999999;
+                    __GLOBAL_REFRESH_FUNC_REF();
+                }}
+            >
+                Big Money
             </button>
             <button
                 onClick={() => {

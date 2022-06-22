@@ -76,7 +76,7 @@ export class MG_Rat extends MonsterGenerator {
             statAssignmentFormula();
         } else {
             this.unknownName = 'Powerful Rat';
-            this.unknownName =
+            this.unknownDescription =
                 'You feel a chill run down your spine. Upon turning to look, you spot a rat that glows with faint black light.';
             this.knownName = 'Rat Proginator';
             this.knownDescription =

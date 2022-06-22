@@ -4,12 +4,14 @@ import { IMonsterEffectFunction } from '../Fighter/Ability/MonsterAbilityContain
 import { IRootStore } from '../GlobalGameStore';
 import { G_getRandomElement, G_getRandomValueBetween, G_getRandomValueUpTo } from '../Helper';
 import { Item } from '../Item/Item';
-import { ItemGen } from '../Item/ItemGen';
 import { ICustomDamageMessage } from './ICustomDamageMessage';
 import { Monster } from '../Fighter/Monster/Monster';
 import { MonsterGenerator } from '../Fighter/Monster/MonsterGenerator';
 import { Player } from '../Fighter/Player';
 import GameStateManager from '../Singles/GameStateManager';
+import { IG_Herb } from '../Item/Consumables/IG_Herb';
+import { IG_Sword } from '../Item/Equipment/IG_Sword';
+import { IG_Chestplate } from '../Item/Equipment/IG_Chestplate';
 
 export default class CombatState {
     round: number = 0;
@@ -41,7 +43,7 @@ export default class CombatState {
         __GLOBAL_REFRESH_FUNC_REF();
     }
 
-    generateNewLoot() {
+    generateNewLoot(level: number) {
         this.loot = [];
         let lootRolls = G_getRandomValueUpTo(100);
         let lootAmount = 0;
@@ -57,12 +59,20 @@ export default class CombatState {
         let type;
 
         for (var i = 0; i < lootAmount; i++) {
-            type = G_getRandomValueUpTo(1);
+            type = G_getRandomValueUpTo(3);
 
             if (type === 0) {
-                this.loot.push(ItemGen.getRandomSword());
+                let ig = new IG_Sword();
+                let ele = G_getRandomElement(ig.getResource(0, level));
+                this.loot.push(ele);
             } else if (type === 1) {
-                this.loot.push(ItemGen.getOranHerb());
+                let ig = new IG_Chestplate();
+                let ele = G_getRandomElement(ig.getResource(0, level));
+                this.loot.push(ele);
+            } else if (type === 2) {
+                let ig = new IG_Herb();
+                let ele = G_getRandomElement(ig.getResource(0, level));
+                this.loot.push(ele);
             }
         }
     }
@@ -142,7 +152,7 @@ export default class CombatState {
             player.setLooting();
 
             // Generate loot.
-            combatState.generateNewLoot();
+            combatState.generateNewLoot(enemy.level);
 
             // End combat if no loot, else show loot screen.
             if (combatState.loot.length === 0) {
@@ -181,7 +191,7 @@ export default class CombatState {
         if (player.statBlock.healthMin <= 0) {
             playerDead = true;
 
-            rpgConsole.add('You died, but a passing Cleric revived you at full life. (Nice!)');
+            rpgConsole.add('You died! Fortunately, a passing Cleric revives you to full life. (Nice!)');
 
             // Heal and clear statuses.
             player.statBlock.healthMin = player.statBlock.healthMax;

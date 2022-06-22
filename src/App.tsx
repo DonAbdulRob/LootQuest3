@@ -13,7 +13,6 @@ import SettingsPage from './Pages/SettingsPage';
 import IPageEnum from './Pages/Enums/IPageEnum';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
-export const _GAME_IN_DEBUG_MODE = true;
 
 function getDesiredPage(page: IPageEnum): JSX.Element {
     switch (page) {

@@ -19,27 +19,29 @@ export class Item {
     description: string = '';
     itemType: ItemType = 0;
     weight: number = 0;
+    level: number;
 
-    constructor(name: string, description: string, itemType: ItemType, weight: number) {
+    constructor(name: string, description: string, itemType: ItemType, weight: number, level: number) {
         this.name = name;
         this.description = description;
         this.itemType = itemType;
         this.weight = weight;
+        this.level = level;
     }
 
     static getFromJSON(obj: any): any {
         let i: any;
 
         if (obj.itemType === ItemType.EQUIPMENT) {
-            i = new Equipment(obj.name, obj.description, obj.equipmentType, obj.weight);
+            i = new Equipment(obj.name, obj.description, obj.equipmentType, obj.weight, obj.level);
             i.minDamage = obj.minDamage;
             i.maxDamage = obj.maxDamage;
             i.health = obj.health;
             i.armor = obj.armor;
         } else if (obj.itemType === ItemType.CONSUMABLE) {
-            i = new Consumable(obj.name, obj.description, obj.weight, obj.useFunctionId, obj.useCount);
+            i = new Consumable(obj.name, obj.description, obj.weight, obj.useFunctionId, obj.useCount, obj.level);
         } else {
-            i = new Item(obj.name, obj.description, obj.itemType, obj.weight);
+            i = new Item(obj.name, obj.description, obj.itemType, obj.weight, obj.level);
         }
 
         return i;
@@ -66,8 +68,8 @@ export class Equipment extends Item {
         armor: 0,
     };
 
-    constructor(name: string, description: string, equipmentType: EquipmentType, weight: number) {
-        super(name, description, ItemType.EQUIPMENT, weight);
+    constructor(name: string, description: string, weight: number, level: number, equipmentType: EquipmentType) {
+        super(name, description, ItemType.EQUIPMENT, weight, level);
         this.equipmentType = equipmentType;
     }
 }
@@ -76,18 +78,22 @@ export class Consumable extends Item {
     useFunctionId: number;
     useCount: number = 0;
 
-    constructor(name: string, description: string, weight: number, useFunctionId: number, useCount: number) {
-        super(name, description, ItemType.CONSUMABLE, weight);
+    constructor(
+        name: string,
+        description: string,
+        weight: number,
+        level: number,
+        useFunctionId: number,
+        useCount: number,
+    ) {
+        super(name, description, ItemType.CONSUMABLE, weight, level);
         this.useFunctionId = useFunctionId;
         this.useCount = useCount;
     }
 }
 
 export class Resource extends Item {
-    materialLevel: number;
-
-    constructor(name: string, description: string, weight: number, materialLevel: number) {
-        super(name, description, ItemType.RESOURCE, weight);
-        this.materialLevel = materialLevel;
+    constructor(name: string, description: string, weight: number, level: number) {
+        super(name, description, ItemType.RESOURCE, weight, level);
     }
 }

@@ -69,24 +69,63 @@ export class CoreEffects {
             index,
             rpgConsole,
             1,
-            'You apply the Oran Herb and feel a bit healthier. (+1 Healing).',
+            'You apply the Oran Herb and feel slightly healthier. (+1 Healing).',
+        );
+    };
+
+    static ryla_herb = (user: Fighter, index: number, rpgConsole: RpgConsole) => {
+        activateHealthHealItem(
+            user,
+            index,
+            rpgConsole,
+            2,
+            'You apply the Oran Herb and feel a tad healthier. (+2 Healing).',
+        );
+    };
+    static moro_herb = (user: Fighter, index: number, rpgConsole: RpgConsole) => {
+        activateHealthHealItem(user, index, rpgConsole, 3, 'You apply the Moro Herb and feel healthier. (+3 Healing).');
+    };
+
+    static tal_herb = (user: Fighter, index: number, rpgConsole: RpgConsole) => {
+        activateHealthHealItem(
+            user,
+            index,
+            rpgConsole,
+            5,
+            'You apply the Tal Herb and feel much healthier. (+5 Healing).',
         );
     };
 }
 
 // Items can be used by players or monsters (WIP). This is for players.
 export class PlayerItemEffectLib {
-    static oran_herb: IPlayerItemEffectFunction = (store: IRootStore, index: number) => {
-        let player = store.player;
-
-        // Handle oran herb core effect.
-        CoreEffects.oran_herb(player, index, store.rpgConsole);
-
+    static handleCombatSkip(store: IRootStore) {
         // If fighting, add skip turn status and handle combat round.
-        if (player.isFighting()) {
-            PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(player);
+        if (store.player.isFighting()) {
+            PlayerAbilityEffectLib.addSkipTurnStatusToPlayer(store.player);
             store.combatState.processCombatRound(store);
         }
+    }
+
+    static oran_herb: IPlayerItemEffectFunction = (store: IRootStore, index: number) => {
+        // Intentionally use seperated store elements since core_effects can apply to any kind of fighter.
+        CoreEffects.oran_herb(store.player, index, store.rpgConsole);
+        PlayerItemEffectLib.handleCombatSkip(store);
+    };
+
+    static ryla_herb: IPlayerItemEffectFunction = (store: IRootStore, index: number) => {
+        CoreEffects.ryla_herb(store.player, index, store.rpgConsole);
+        PlayerItemEffectLib.handleCombatSkip(store);
+    };
+
+    static moro_herb: IPlayerItemEffectFunction = (store: IRootStore, index: number) => {
+        CoreEffects.moro_herb(store.player, index, store.rpgConsole);
+        PlayerItemEffectLib.handleCombatSkip(store);
+    };
+
+    static tal_herb: IPlayerItemEffectFunction = (store: IRootStore, index: number) => {
+        CoreEffects.tal_herb(store.player, index, store.rpgConsole);
+        PlayerItemEffectLib.handleCombatSkip(store);
     };
 }
 

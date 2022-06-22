@@ -18,8 +18,8 @@ export class BaseEncounter implements AbstractEncounter {
      * @param newPrompt Our new story prompt.
      */
     goToPrompt(newPrompt: StoryPrompt) {
-        if (this.nextPrompt.introFunction !== undefined) {
-            this.nextPrompt.introFunction();
+        if (newPrompt.introFunction !== undefined) {
+            newPrompt.introFunction();
         }
 
         this.nextPrompt = newPrompt;
