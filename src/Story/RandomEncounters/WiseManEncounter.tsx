@@ -5,13 +5,14 @@ import { StoryPrompt } from '../StoryPrompt';
 import { ItemGen } from '../../Models/Item/ItemGen';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import { BaseEncounter } from '../BaseEncounter';
+import { MG_Erin } from '../../Models/Fighter/Monster/MonsterGenerators/Humanoids/MG_Erin';
 
 export class WiseManEncounter extends BaseEncounter implements AbstractEncounter {
     toldWizardTruth = true;
 
-    constructor(state: IRootStore) {
+    constructor(store: IRootStore) {
         // Require super called to pass up state.
-        super(state);
+        super(store);
 
         // Must always update the prompt. (Can't pass to constructor, so do as next line.)
         this.nextPrompt = this.prompt1;
@@ -39,7 +40,10 @@ export class WiseManEncounter extends BaseEncounter implements AbstractEncounter
                 onClick={() => {
                     this.store.rpgConsole.add('Good! Good! I needed a fresh corpse for my upcoming experiments!');
                     this.isOver = true;
-                    // DAR TODO - start combat.
+                    this.store.combatState.startFight(
+                        this.store,
+                        new MG_Erin(this.store.enemy.statBlock, -1, this.store.gameStateManager.gameDifficulty),
+                    );
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >

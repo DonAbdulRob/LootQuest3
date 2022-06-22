@@ -5,22 +5,22 @@
  */
 import React from 'react';
 import EAreaType from '../../../Models/Area/EAreaType';
-import { Monster } from '../../../Models/Fighter/Monster';
 import { Player } from '../../../Models/Fighter/Player';
 import { IRootStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
-import { G_getRandomValueBetween, G_getRandomValueUpTo } from '../../../Models/Helper';
+import { G_getRandomValueUpTo } from '../../../Models/Helper';
 import { ItemGen } from '../../../Models/Item/ItemGen';
 import GameStateManager from '../../../Models/Singles/GameStateManager';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../App';
 import { RpgConsole } from '../../../Models/Singles/RpgConsole';
 import CombatComponent from '../Combat/CombatComponent';
 import { WiseManEncounter } from '../../../Story/RandomEncounters/WiseManEncounter';
+import CombatState from '../../../Models/Shared/CombatState';
 
 function explore(store: IRootStore) {
     let rollRes = G_getRandomValueUpTo(100);
     let player: Player = store.player;
-    let enemy: Monster = store.enemy;
     let rpgConsole: RpgConsole = store.rpgConsole;
+    let combatState: CombatState = store.combatState;
     let gameStateManager: GameStateManager = store.gameStateManager;
 
     // Always reset explore output.
@@ -29,11 +29,7 @@ function explore(store: IRootStore) {
 
     // Random Combat result.
     if (rollRes <= 75) {
-        let monsterLevel = G_getRandomValueBetween(player.currentArea.levelMin, player.currentArea.levelMax);
-        enemy.generateMonster(monsterLevel, gameStateManager.gameDifficulty);
-        rpgConsole.add('A monster appears: ' + enemy.name);
-        player.setCombatStart();
-        __GLOBAL_REFRESH_FUNC_REF();
+        combatState.startFight(store);
     }
 
     // Harvest result

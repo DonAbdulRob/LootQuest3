@@ -3,12 +3,12 @@
  */
 
 import { RpgConsole } from '../../Singles/RpgConsole';
-import CombatState from '../../Shared/CombatState';
 import { Player } from '../Player';
-import { Monster } from '../Monster';
+import { Monster } from '../Monster/Monster';
+import { IRootStore } from '../../GlobalGameStore';
 
 export interface IMonsterEffectFunction {
-    (monster: Monster, player: Player, combatState: CombatState, rpgConsole: RpgConsole): void;
+    (store: IRootStore): void;
 }
 
 export class MonsterAbilityContainer {
@@ -25,12 +25,11 @@ export class MonsterAbilityContainer {
 
 // Monster specific effects.
 export class MonsterEffectLib {
-    static power_strike: IMonsterEffectFunction = (
-        monster: Monster,
-        player: Player,
-        combatState: CombatState,
-        rpgConsole: RpgConsole,
-    ) => {
+    static power_strike: IMonsterEffectFunction = (store: IRootStore) => {
+        let player: Player = store.player;
+        let monster: Monster = store.enemy;
+        let rpgConsole: RpgConsole = store.rpgConsole;
+
         let abilityDamage = 2;
 
         // TODO: Move 'dealt damage' calc into fighter class, same for combat class.

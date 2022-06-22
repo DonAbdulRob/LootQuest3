@@ -35,12 +35,16 @@ export default class GameStateManager {
     getContent(encounter: AbstractEncounter) {
         return (
             <div>
-                {encounter.introLines.map((v) => (
-                    <p className="encounter-line">{v}</p>
+                {encounter.introLines.map((v, i) => (
+                    <p className="encounter-line" key={i}>
+                        {v}
+                    </p>
                 ))}
                 <p className="encounter-line">{encounter.nextPrompt.body}</p>
                 <br />
-                {encounter.nextPrompt.responses}
+                {encounter.nextPrompt.responses.map((v, i) => (
+                    <span key={i}>{v}</span>
+                ))}
             </div>
         );
     }

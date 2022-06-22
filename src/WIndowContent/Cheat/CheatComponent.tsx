@@ -5,11 +5,7 @@ import React from 'react';
 import { Equipment, EquipmentType } from '../../Models/Item/Item';
 import { IRootStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
-import { Monster } from '../../Models/Fighter/Monster';
 import { Player } from '../../Models/Fighter/Player';
-import GameStateManager from '../../Models/Singles/GameStateManager';
-import { RpgConsole } from '../../Models/Singles/RpgConsole';
-import { G_getRandomValueBetween } from '../../Models/Helper';
 import { WiseManEncounter } from '../../Story/RandomEncounters/WiseManEncounter';
 
 function addGodSword(store: IRootStore) {
@@ -37,16 +33,10 @@ function startWiseManEncounter(store: IRootStore) {
 
 function autoPlayOneRound(store: IRootStore) {
     let player: Player = store.player;
-    let enemy: Monster = store.enemy;
-    let rpgConsole: RpgConsole = store.rpgConsole;
-    let gameStateManager: GameStateManager = store.gameStateManager;
 
     // Create monster if player is idle.
     if (player.isIdle()) {
-        let monsterLevel = G_getRandomValueBetween(player.currentArea.levelMin, player.currentArea.levelMax);
-        enemy.generateMonster(monsterLevel, gameStateManager.gameDifficulty);
-        rpgConsole.add('A monster appears: ' + enemy.name);
-        player.setCombatStart();
+        store.combatState.startFight(store);
         __GLOBAL_REFRESH_FUNC_REF();
         return;
     }

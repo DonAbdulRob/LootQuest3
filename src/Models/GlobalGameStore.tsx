@@ -3,7 +3,7 @@
  */
 import create, { GetState, SetState } from 'zustand';
 import { RpgConsole } from './Singles/RpgConsole';
-import { Monster } from './Fighter/Monster';
+import { Monster } from './Fighter/Monster/Monster';
 import CombatState from './Shared/CombatState';
 import WindowStateManager from './Singles/WindowStateManager';
 import GameStateManager from './Singles/GameStateManager';

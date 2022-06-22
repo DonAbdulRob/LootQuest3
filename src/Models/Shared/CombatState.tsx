@@ -2,15 +2,44 @@ import { __GLOBAL_REFRESH_FUNC_REF } from '../../App';
 import { RpgConsole } from '../Singles/RpgConsole';
 import { IMonsterEffectFunction } from '../Fighter/Ability/MonsterAbilityContainer';
 import { IRootStore } from '../GlobalGameStore';
-import { G_getRandomElement, G_getRandomValueUpTo } from '../Helper';
+import { G_getRandomElement, G_getRandomValueBetween, G_getRandomValueUpTo } from '../Helper';
 import { Item } from '../Item/Item';
 import { ItemGen } from '../Item/ItemGen';
 import { ICustomDamageMessage } from './ICustomDamageMessage';
+import { Monster } from '../Fighter/Monster/Monster';
+import { MonsterGenerator } from '../Fighter/Monster/MonsterGenerator';
+import { Player } from '../Fighter/Player';
+import GameStateManager from '../Singles/GameStateManager';
 
 export default class CombatState {
     round: number = 0;
     loot: Array<Item> = [];
     generateLootLock: boolean = false;
+
+    /**
+     * Starts a fight with a specific monster type if a MonsterGenerator is supplied. Otherwise, starts a fight with a random monster.
+     * @param store global game store
+     * @param monsterGenerator a possible monster generator
+     */
+    startFight(store: IRootStore, monsterGenerator?: MonsterGenerator) {
+        let player: Player = store.player;
+        let enemy: Monster = store.enemy;
+        let rpgConsole: RpgConsole = store.rpgConsole;
+        let gameStateManager: GameStateManager = store.gameStateManager;
+        let monsterLevel = G_getRandomValueBetween(player.currentArea.levelMin, player.currentArea.levelMax);
+
+        if (monsterGenerator !== undefined) {
+            enemy.generateMonsterSpecific(monsterGenerator);
+        } else {
+            enemy.generateMonsterRandom(monsterLevel, gameStateManager.gameDifficulty);
+        }
+
+        // TODO support known/unknown description.
+        rpgConsole.add(enemy.monsterGenerator.unknownDescription);
+
+        player.setCombatStart();
+        __GLOBAL_REFRESH_FUNC_REF();
+    }
 
     generateNewLoot() {
         this.loot = [];
@@ -137,7 +166,7 @@ export default class CombatState {
                     let doAbility: IMonsterEffectFunction = G_getRandomElement(enemyAbilities);
 
                     // Do the ability.
-                    doAbility(enemy, player, combatState, rpgConsole);
+                    doAbility(store);
                 }
             }
 

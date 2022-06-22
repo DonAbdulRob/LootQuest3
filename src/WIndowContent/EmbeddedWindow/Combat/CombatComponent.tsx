@@ -17,6 +17,7 @@ export default function CombatComponent(): JSX.Element {
                     <h1>
                         {player.name} vs. {enemy.name}
                     </h1>
+                    <p>{enemy.monsterGenerator.unknownDescription}</p>
                     <p>
                         {player.statBlock.healthMin} vs. {enemy.statBlock.healthMin}
                     </p>
