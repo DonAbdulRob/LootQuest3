@@ -17,8 +17,6 @@ Empty! Everything is PLANNED!
 
 ## TODO - Short Term:
 
-- Exploring in mines will now have a chance to produce ores.
-
 2. Do the style overhaul.
    - Put 'Settings' display into modal.
 3. Total code review. Go through 'continual section' and apply changes.
@@ -63,6 +61,7 @@ For things that are done!
 
 ## Older Marked Done 6/19/2022+:
 
+- Exploring in mines will now have a chance to produce ores.
 - Fix use count of items. (add cheat to add tal herb and test)
 
 1. Flesh out systems to have content for implemented systems up to level 5.
