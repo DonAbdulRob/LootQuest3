@@ -166,7 +166,7 @@ export default function ItemPopup(props: IItemPopupProps) {
         );
     }
 
-    if (item === null) {
+    if (item === null || item === undefined) {
         return (
             <div className="tooltip">
                 <p>{props.prefix + ' '}None</p>
