@@ -11,6 +11,7 @@ import { IG_Sword } from '../../../../Models/Item/Equipment/IG_Sword';
 import { Item } from '../../../../Models/Item/Item';
 import { IG_Alloy } from '../../../../Models/Item/Resources/IG_Alloy';
 import { IG_Wood } from '../../../../Models/Item/Resources/IG_Wood';
+import './TownComponent.css';
 
 export enum EViews {
     Root,
@@ -36,21 +37,21 @@ function getRootView(store: IRootStore) {
                     setView(store, EViews.Inn);
                 }}
             >
-                Visit Inn
+                Inn
             </button>
             <button
                 onClick={() => {
                     setView(store, EViews.Shop);
                 }}
             >
-                Visit Shop
+                Shop
             </button>
             <button
                 onClick={() => {
                     setView(store, EViews.Forge);
                 }}
             >
-                Visit Forge
+                Forge
             </button>
             {/* 
             TODO:
@@ -112,6 +113,7 @@ function getInnView(store: IRootStore) {
             >
                 Buy A Round (2 GP)
             </button>
+            <br />
             {getBackButton(store)}
         </div>
     );
@@ -159,6 +161,7 @@ function getShopView(store: IRootStore) {
             {getBuyButton(store, IG_Herb.ryla, 5)}
             {getBuyButton(store, IG_Herb.moro, 25)}
             {getBuyButton(store, IG_Herb.tal, 200)}
+            <br />
             {getBackButton(store)}
         </div>
     );
@@ -177,7 +180,7 @@ function getForgeElement(
     let itemTemplate = itemGenFunction();
 
     return (
-        <div>
+        <div className="town-forge-element">
             <p>{itemTemplate.name}</p>
             <p>{desc}</p>
             <button
@@ -216,15 +219,16 @@ function getForgeView(store: IRootStore) {
     let d = store.player.currentArea.descriptions as TownDescription;
 
     return (
-        <div>
+        <div className="town-forge">
             <h1>Forge</h1>
             <p>{d.forge}</p>
-            <h2>Available Recipes</h2>
-            {getForgeElement(store, IG_Sword.oak, 'Requires: 3x Oak Log, 5 GP', 5, IG_Wood.oak(), 3)}
-            {getForgeElement(store, IG_Sword.bronze, 'Requires: 3x Bronze Ingot, 12 GP', 12, IG_Alloy.bronze(), 3)}
-            {getForgeElement(store, IG_Sword.iron, 'Requires: 3x Iron Ingot, 25 GP', 25, IG_Alloy.iron(), 3)}
-            {getForgeElement(store, IG_Chestplate.bronze, 'Requires: 5x Bronze Ingot, 25 GP', 25, IG_Alloy.bronze(), 5)}
-            {getForgeElement(store, IG_Chestplate.iron, 'Requires: 5x Iron Ingot, 50 GP', 50, IG_Alloy.iron(), 5)}
+            <div className="town-forge-elements">
+                {getForgeElement(store, IG_Sword.oak, '3x Oak Log, 5 GP', 5, IG_Wood.oak(), 3)}
+                {getForgeElement(store, IG_Sword.bronze, '3x Bronze Ingot, 12 GP', 12, IG_Alloy.bronze(), 3)}
+                {getForgeElement(store, IG_Sword.iron, '3x Iron Ingot, 25 GP', 25, IG_Alloy.iron(), 3)}
+                {getForgeElement(store, IG_Chestplate.bronze, '5x Bronze Ingot, 25 GP', 25, IG_Alloy.bronze(), 5)}
+                {getForgeElement(store, IG_Chestplate.iron, '5x Iron Ingot, 50 GP', 50, IG_Alloy.iron(), 5)}
+            </div>
             {getBackButton(store)}
         </div>
     );
@@ -273,5 +277,10 @@ export function TownComponent() {
         content = getGuildView(store);
     } */
 
-    return content;
+    return (
+        <div>
+            <h1>{store.player.currentArea.name}</h1>
+            {content}
+        </div>
+    );
 }

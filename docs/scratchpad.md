@@ -50,3 +50,6 @@ prettier --write .
     </div>
 </div>
 
+# Colors:
+
+https://coolors.co/211717-736060-ab7979-ed4c4c-f7e1e1

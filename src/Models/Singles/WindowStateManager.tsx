@@ -1,26 +1,12 @@
 import { IFloatingWindowPropsBuilder } from '../../Pages/PlayPage';
-
-export class FloatingWindowData {
-    id: number;
-    title: string = '';
-    top: number = 0;
-    left: number = 0;
-    width: string = '100%';
-    height: string = '100%';
-    zIndex: number = 3;
-    isBeingHovered: boolean = false;
-    ref: any;
-
-    constructor(id: number) {
-        this.id = id;
-    }
-}
+import { FloatingWindowData } from './FloatingWindowData';
 
 export default class WindowStateManager {
     windowDataArr: Array<FloatingWindowData> = [];
     maxZIndex = 5;
     opacity: number = 1;
     embedCore: boolean = false;
+    allowResize: boolean = false;
 
     resetWindows() {
         this.windowDataArr = [];

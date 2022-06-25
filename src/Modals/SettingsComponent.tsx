@@ -1,24 +1,19 @@
 /**
  * The Settings page provides the user with interfaces to modify certain game settings.
  */
-
-import * as React from 'react';
-import { IRootStore, __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
-import WindowStateManager from '../Models/Singles/WindowStateManager';
-import QuitButtonComponent from './Components/QuitButtonComponent';
-import IPageEnum from './Enums/IPageEnum';
-import LoadGameComponent from './Components/LoadGame/LoadGameComponent';
+import React from 'react';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../App';
-import { SaveLib } from '../Models/SaveLib';
+import { IRootStore, __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 import { G_getFixedLengthNumber } from '../Models/Helper';
+import { SaveLib } from '../Models/SaveLib';
+import WindowStateManager from '../Models/Singles/WindowStateManager';
+import LoadGameComponent from '../Pages/Components/LoadGame/LoadGameComponent';
+import QuitButtonComponent from '../Pages/Components/QuitButtonComponent';
+import './Settings.css';
 
-export default function SettingsPage() {
+export function SettingsComponent() {
     let store: IRootStore = __GLOBAL_GAME_STORE((__DATA: any) => __DATA);
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
-    // let rpgConsole: RpgConsole = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.rpgConsole);
-    let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
-
-    // let downloadRef = React.useRef(null);
     let saveData: string = SaveLib.getSaveData(store);
 
     let href = window.URL.createObjectURL(
@@ -28,35 +23,26 @@ export default function SettingsPage() {
     );
 
     return (
-        <div>
-            <br />
-            <h1>Settings</h1>
-            <h2>Access Game Settings here</h2>
-            <div className="a-as-button-container">
-                <a
-                    href={href}
-                    download={store.saveLib.saveFileName}
-                    onClick={() => {
-                        store.saveLib.updateSaveFileName();
-                        __GLOBAL_REFRESH_FUNC_REF();
-                    }}
-                    className="a-as-button"
-                >
-                    Save Game
-                </a>
+        <div className="settings">
+            <div className="settings-h1">
+                <h1>Settings</h1>
             </div>
-            <LoadGameComponent />
-            <button
+
+            <a
+                href={href}
+                download={store.saveLib.saveFileName}
                 onClick={() => {
-                    windowStateManager.resetWindows();
+                    store.saveLib.updateSaveFileName();
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
+                className="a-as-button"
             >
-                Reset Window Positions
-            </button>
+                Save Game
+            </a>
+            <LoadGameComponent />
             <div className="window-transparency-div">
                 <p>Window Transparency: {windowStateManager.opacity}</p>
-                <p>Click the slider to modify window opacity values.</p>
+                <p>Click the slider to modify the opacity of floating windows.</p>
                 <input
                     type="range"
                     min="10"
@@ -80,16 +66,35 @@ export default function SettingsPage() {
             <br />
             <button
                 onClick={() => {
+                    windowStateManager.allowResize = !windowStateManager.allowResize;
+                    __GLOBAL_REFRESH_FUNC_REF();
+                }}
+            >
+                Toggle Window Resizing (Advanced Feature)
+            </button>
+            {windowStateManager.allowResize && (
+                <button
+                    onClick={() => {
+                        windowStateManager.resetWindows();
+                        __GLOBAL_REFRESH_FUNC_REF();
+                    }}
+                >
+                    Reset Window Positions
+                </button>
+            )}
+            <button
+                onClick={() => {
                     store.debugMode = !store.debugMode;
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >
-                Toggle 'Debug/Cheat' Mode.
+                Toggle 'Debug/Cheat' Mode. (Advanced Feature)
             </button>
             <br />
             <button
                 onClick={() => {
-                    setPage(IPageEnum.Play);
+                    store.modalStateManager.toggleVisible();
+                    __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >
                 Back to Game

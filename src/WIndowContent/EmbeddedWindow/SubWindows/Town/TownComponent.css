@@ -1,0 +1,13 @@
+.town-forge {
+}
+
+.town-forge-element {
+    margin: 2px;
+    padding: 3px;
+    border: 1px solid black;
+}
+
+.town-forge-elements {
+    display: flex;
+    flex-wrap: wrap;
+}

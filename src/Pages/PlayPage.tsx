@@ -17,6 +17,7 @@ import IPageEnum from './Enums/IPageEnum';
 import QuitButtonComponent from './Components/QuitButtonComponent';
 import EmbeddedMainComponent from '../WIndowContent/EmbeddedWindow/EmbeddedMainComponent';
 import FloatingMainComponent from '../WIndowContent/EmbeddedWindow/FloatingMainComponent';
+import BaseModal from '../Modals/BaseModal';
 
 export interface IFloatingWindowPropsBuilder {
     id?: number;
@@ -121,7 +122,7 @@ export function PlayPage() {
 
     return (
         <div>
-            <div>
+            <div style={{ display: 'flex' }}>
                 <button
                     onClick={() => {
                         setPage(IPageEnum.Help);
@@ -129,13 +130,7 @@ export function PlayPage() {
                 >
                     Help
                 </button>
-                <button
-                    onClick={() => {
-                        setPage(IPageEnum.Settings);
-                    }}
-                >
-                    Settings
-                </button>
+                <BaseModal />
                 <QuitButtonComponent />
             </div>
             <div id="floating-window-container">{getWindows(debugMode, windowStateManager)}</div>

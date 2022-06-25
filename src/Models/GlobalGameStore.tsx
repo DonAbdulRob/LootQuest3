@@ -11,6 +11,7 @@ import { createPlayerSlice, IPlayerSlice } from './Slices/PlayerSlice';
 import { StoreSlice } from './Slices/StoreSlice';
 import { IPageSlice, createPageSlice } from './Slices/PageSlice';
 import { SaveLib } from './SaveLib';
+import ModalStateManager from './Singles/ModalStateManager';
 
 export interface IGlobals {
     enemy: Monster;
@@ -18,6 +19,7 @@ export interface IGlobals {
     rpgConsole: RpgConsole;
     windowStateManager: WindowStateManager;
     gameStateManager: GameStateManager;
+    modalStateManager: ModalStateManager;
     saveLib: SaveLib;
     debugMode: boolean;
 }
@@ -28,6 +30,7 @@ const createGlobalSlice: StoreSlice<IGlobals> = (set, get) => ({
     rpgConsole: new RpgConsole(),
     windowStateManager: new WindowStateManager(),
     gameStateManager: new GameStateManager(),
+    modalStateManager: new ModalStateManager(),
     saveLib: new SaveLib(),
     debugMode: false,
 });

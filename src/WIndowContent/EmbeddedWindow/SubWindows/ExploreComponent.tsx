@@ -105,6 +105,7 @@ export default function ExploreComponent() {
     } else {
         areaArt = (
             <div>
+                <h1>{player.currentArea.name}</h1>
                 <p>{player.currentArea.descriptions.root}</p>
                 <button
                     className="big-button"

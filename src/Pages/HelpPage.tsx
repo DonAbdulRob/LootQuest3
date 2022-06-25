@@ -25,6 +25,14 @@ export default function HelpPage() {
                 the strongest being in existance.
             </p>
             <hr />
+            <h1>Before You Play</h1>
+            <p>
+                I strongly recommend that you modify your game window's zoom if you intend to seriously play the game.
+                The default setting is quite large for aethestics and can and really should be shrunk down for
+                efficiency if you're serious about playing the game for a while. 80% is probably good enough for most,
+                but if you have a 4k monitor that's fairly large, your settings might vary quite a bit from average.
+            </p>
+            <hr />
             <h1>How to Play?</h1>
             <p>
                 The game can be played by hitting the 'New Game' button from the Main Menu, choosing a name and

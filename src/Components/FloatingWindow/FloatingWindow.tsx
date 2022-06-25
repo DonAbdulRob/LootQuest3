@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import './FloatingWindow.css';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
-import WindowStateManager, { FloatingWindowData } from '../../Models/Singles/WindowStateManager';
+import WindowStateManager from '../../Models/Singles/WindowStateManager';
+import { FloatingWindowData } from '../../Models/Singles/FloatingWindowData';
 
 function assignDragBehavior(
     ele: any,
@@ -106,7 +107,7 @@ function assignResizeDragBehavior(
         pos1.current = mouseDownEvent.clientX;
         pos2.current = mouseDownEvent.clientY;
 
-        function mouseUp(e: any) {
+        function mouseUp() {
             document.removeEventListener('mouseup', mouseUp);
             document.removeEventListener('mousemove', mouseMove);
 
@@ -201,7 +202,10 @@ export default function FloatingWindow(props: IFloatingWindowProps): JSX.Element
     useEffect(() => {
         windowData.ref = parentEleRef;
         assignDragBehavior(titleDragRef.current, 3, pos1, pos2, pos3, pos4, windowData);
-        assignResizeDragBehavior(resizeDragRef.current, 2, pos6, pos7, windowData);
+
+        if (windowStateManager.allowResize) {
+            assignResizeDragBehavior(resizeDragRef.current, 2, pos6, pos7, windowData);
+        }
     });
 
     return (
@@ -253,9 +257,11 @@ export default function FloatingWindow(props: IFloatingWindowProps): JSX.Element
             <div ref={windowContentRef} style={{ overflow: 'visible !important' }}>
                 {props.contentElement}
             </div>
-            <div className="align-right">
-                <button ref={resizeDragRef}>Resize</button>
-            </div>
+            {windowStateManager.allowResize && (
+                <div className="align-right">
+                    <button ref={resizeDragRef}>Resize</button>
+                </div>
+            )}
         </div>
     );
 }

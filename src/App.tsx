@@ -9,7 +9,6 @@ import HelpPage from './Pages/HelpPage';
 import MainMenuPage from './Pages/MainMenu';
 import NewGamePage from './Pages/NewGamePage';
 import { PlayPage } from './Pages/PlayPage';
-import SettingsPage from './Pages/SettingsPage';
 import IPageEnum from './Pages/Enums/IPageEnum';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
@@ -22,8 +21,6 @@ function getDesiredPage(page: IPageEnum): JSX.Element {
             return <NewGamePage />;
         case IPageEnum.Play:
             return <PlayPage />;
-        case IPageEnum.Settings:
-            return <SettingsPage />;
         case IPageEnum.Help:
             return <HelpPage />;
         default:

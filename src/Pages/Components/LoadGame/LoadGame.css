@@ -1,16 +1,9 @@
-.custom-file-input *,
-.custom-file-input *:before,
-.custom-file-input *:after {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
 .custom-file-input label,
 .custom-file-input input,
 .custom-file-input select,
 .custom-file-input button {
     font: 1rem/1.5 'Helvetica Neue', Arial, sans-serif;
+    width: 100%;
 }
 
 .custom-file-input .file {
@@ -51,6 +44,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    width: 100%;
 }
 
 .custom-file-input .file-custom:after {
@@ -76,4 +70,9 @@
 
 .custom-file-input .file input:focus ~ .file-custom {
     box-shadow: 0 0 0 0.075rem #fff, 0 0 0 0.2rem #0074d9;
+}
+
+span.file-custom {
+    display: flex;
+    width: 100%;
 }

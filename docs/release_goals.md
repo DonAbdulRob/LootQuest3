@@ -2,24 +2,28 @@
 
 This document has all of the planned goals for Loot Quest's completion, iterated periodically as goals are met.
 
-## TODO - CONTINUAL:
-
-- Continue using comments and 'let' and 'const' as appropriate.
-- Polish existing features as needed.
-- Play and identify what is needed to make things 'work' and put in list format here for later task delegation.
-   - Empty!
-- Keep styling game to look nice. (don't forget icons eventually instead of buttons everywhere)
-- Continue work on help page.
-
 ## TODO - HIGH PRIO (Volitile scope creeping changes)
 
 Empty! Everything is PLANNED!
 
 ## TODO - Short Term:
 
-2. Do the style overhaul.
-   - Put 'Settings' display into modal.
-3. Total code review. Go through 'continual section' and apply changes.
+1. Perform the style overhaul.
+   - Put 'Settings' display into modal. +
+   - Play with SASS and see if it has any utility.
+   - Figure out way to make headers less plain in various headers.
+   - Address <hr /> background breaking.
+   - Change colors for ItemPopup and Encounter dialog.
+   - Explore viability of global-color changing.
+   - Add icons in place of buttons in various places (fontawesome ofc)
+   - Give w3.css dedicated file in project.
+   - Embedded main component needs styled (use sass if possible, else no worries)
+2. Total code review. 
+   - General play test and bug review/fix.
+   - Replace var with 'let' and 'const' when possible.
+3. Basic balance Pass on Game.
+4. Finalize Help Page.
+5. Finalize Game Intro Screen. Create Logo.
 
 ## TODO - Post-Release Term (Maybe complete for 1.0, maybe not):
 
