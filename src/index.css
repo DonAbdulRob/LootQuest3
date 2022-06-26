@@ -9,7 +9,7 @@
     --bg-gradient-1: linear-gradient(0deg, var(--main-color-0) 0%, var(--main-color-1) 39%, var(--main-color-0) 100%);
     --bg-gradient-2: linear-gradient(90deg, var(--main-color-0) 0%, var(--main-color-3) 100%);
     --bg-gradient-3: linear-gradient(90deg, var(--main-color-0) 0%, var(--main-color-2) 100%);
-    --thin-border: 1px solid var(--maincolor-5);
+    --thin-border: 1px solid var(--main-color-5);
 }
 
 html,
