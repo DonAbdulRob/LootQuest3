@@ -10,14 +10,14 @@ Empty! Everything is PLANNED!
 
 1. Perform the style overhaul.
    - Put 'Settings' display into modal. +
-   - Play with SASS and see if it has any utility.
-   - Figure out way to make headers less plain in various headers.
-   - Address <hr /> background breaking.
-   - Change colors for ItemPopup and Encounter dialog.
-   - Explore viability of global-color changing.
+   - Play with SASS and see if it has any utility. (Used CSS Variables instead. Apparently even SASS is out of date... 2022 is OP) + 
+   - Figure out way to make headers less plain in various headers. (GRADIENTS) +
+   - Address <hr /> background breaking. +
+   - Change colors for ItemPopup and Encounter dialog. +
+   - Explore viability of global-color changing. +
    - Add icons in place of buttons in various places (fontawesome ofc)
    - Give w3.css dedicated file in project.
-   - Embedded main component needs styled (use sass if possible, else no worries)
+   - Embedded main component needs styled (use sass if possible, else no worries) +
 2. Total code review. 
    - General play test and bug review/fix.
    - Replace var with 'let' and 'const' when possible.
@@ -57,6 +57,7 @@ Empty! Everything is PLANNED!
 - Add value attribute to items for buy/sell logic.
 - Rearrange/sort inventory.
 - More Equipment Slots.
+- Even more comprehensive save-data handling. (Store settings, etc.)
 
 
 # Done List

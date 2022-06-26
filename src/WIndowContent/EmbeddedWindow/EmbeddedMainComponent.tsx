@@ -18,8 +18,8 @@ export function getMainComponentContent(store: IRootStore, isEmbed: boolean): JS
     } else {
         finalContent = (
             <div className={finalClass}>
-                <AreaComponent />
                 <ExploreComponent />
+                <AreaComponent />
             </div>
         );
     }

@@ -14,9 +14,7 @@ export default function AreaComponent() {
 
     return (
         <div className="area-parent-container">
-            <h1>{player.currentArea.name}</h1>
-            <h2>{player.currentArea.getLevelDisplay()}</h2>
-            <p>Travel To:</p>
+            <p className="center-p">Travel To:</p>
             <div className="area-container">
                 {store.gameStateManager.areaContainer.getAreaList(player).map((v: Area, i: number) => {
                     return (

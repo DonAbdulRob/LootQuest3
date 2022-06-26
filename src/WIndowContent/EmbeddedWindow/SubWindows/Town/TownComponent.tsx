@@ -279,7 +279,7 @@ export function TownComponent() {
 
     return (
         <div>
-            <h1>{store.player.currentArea.name}</h1>
+            <h1>{store.player.currentArea.getDisplay()}</h1>
             {content}
         </div>
     );

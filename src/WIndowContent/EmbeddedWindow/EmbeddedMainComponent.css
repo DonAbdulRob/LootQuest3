@@ -1,21 +1,24 @@
 .embedded-window-core {
-    display: flex;
-    top: 110px;
-    height: 500px;
-    width: 800px;
-    background-color: rgb(250, 250, 250);
-    border: 3px solid rgb(186, 201, 230);
+    position: absolute;
+    top: 95px;
+    background: var(--bg-gradient-2);
+    border: var(--thin-border);
     padding: 5px;
+    max-width: 1200px;
+    max-height: 750px;
+    /** Component currently doesn't overflow, so new handling may be needed in the future if overflow behavior ever occurs. */
+    overflow: auto;
 }
 
 .not-embedded-window-core {
     display: flex;
+    flex-direction: column;
     width: 1000px;
     height: 500px;
 }
 
 .embedded-sub-component {
-    width: 100%;
+    height: 80%;
 }
 
 .encounter-line:nth-child(odd) {

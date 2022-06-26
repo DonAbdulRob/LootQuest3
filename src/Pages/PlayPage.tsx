@@ -18,6 +18,7 @@ import QuitButtonComponent from './Components/QuitButtonComponent';
 import EmbeddedMainComponent from '../WIndowContent/EmbeddedWindow/EmbeddedMainComponent';
 import FloatingMainComponent from '../WIndowContent/EmbeddedWindow/FloatingMainComponent';
 import BaseModal from '../Modals/BaseModal';
+import { SettingsComponent } from '../Modals/Content/SettingsComponent';
 
 export interface IFloatingWindowPropsBuilder {
     id?: number;
@@ -130,7 +131,7 @@ export function PlayPage() {
                 >
                     Help
                 </button>
-                <BaseModal />
+                <BaseModal component={<SettingsComponent />} />
                 <QuitButtonComponent />
             </div>
             <div id="floating-window-container">{getWindows(debugMode, windowStateManager)}</div>

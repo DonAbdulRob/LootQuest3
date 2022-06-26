@@ -1,16 +1,11 @@
 .floating-window {
     position: absolute;
-    background-color: white;
-    border: 1px solid rgb(255, 0, 0);
-    /** CSS Gradient Pattern 2 */
-    background: rgb(247, 199, 199);
-    background: linear-gradient(90deg, rgb(255, 233, 233) 0%, rgb(252, 245, 245) 100%);
+    border: var(--thin-border);
+    background: var(--bg-gradient-2);
 }
 
 .floating-window-titlebar {
-    /** CSS Gradient Pattern 2 */
-    background: rgb(247, 199, 199);
-    background: linear-gradient(90deg, rgb(255, 220, 220) 0%, rgb(252, 209, 209) 100%);
+    background: var(--bg-gradient-3);
     color: black;
 }
 

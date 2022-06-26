@@ -98,14 +98,14 @@ export default function ExploreComponent() {
     let content = null;
 
     // Display vars.
-    let areaArt = null;
+    let areaDisplay = null;
 
     if (player.currentArea.type === EAreaType.TOWN) {
-        areaArt = <TownComponent />;
+        areaDisplay = <TownComponent />;
     } else {
-        areaArt = (
+        areaDisplay = (
             <div>
-                <h1>{player.currentArea.name}</h1>
+                <h1>{player.currentArea.getDisplay()}</h1>
                 <p>{player.currentArea.descriptions.root}</p>
                 <button
                     className="big-button"
@@ -123,7 +123,7 @@ export default function ExploreComponent() {
     if (player.inCombat()) {
         content = <CombatComponent />;
     } else {
-        content = <div>{areaArt}</div>;
+        content = <div>{areaDisplay}</div>;
     }
 
     return <div className="embedded-sub-component">{content}</div>;

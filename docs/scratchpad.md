@@ -3,10 +3,10 @@
 let c1 = 0;
 
 for (let i = 0; i < 100; i++) {
-windows.push({
-title: "Equipment" + c1++,
-contentElement: <Equipment { ...{ fighter: player, setFighter: setPlayer }}/>
-});
+    windows.push({
+    title: "Equipment" + c1++,
+    contentElement: <Equipment { ...{ fighter: player, setFighter: setPlayer }}/>
+    });
 }
 
 # PlayPage Snippets

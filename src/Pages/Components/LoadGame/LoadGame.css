@@ -63,7 +63,7 @@
     padding: 0.5rem 1rem;
     line-height: 1.5;
     color: #555;
-    background-color: #eee;
+    background-color: var(--main-color-0);
     border: 0.075rem solid #ddd;
     border-radius: 0 0.25rem 0.25rem 0;
 }

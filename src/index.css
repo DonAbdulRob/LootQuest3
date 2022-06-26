@@ -1,15 +1,24 @@
+:root {
+    --main-color-0: rgba(255, 233, 233, 1);
+    --main-color-1: rgba(255, 199, 199, 1);
+    --main-color-2: rgb(252, 209, 209);
+    --main-color-3: rgb(252, 245, 245);
+    --main-color-4: #971e00;
+    --main-color-5: #c7573b;
+
+    --bg-gradient-1: linear-gradient(0deg, var(--main-color-0) 0%, var(--main-color-1) 39%, var(--main-color-0) 100%);
+    --bg-gradient-2: linear-gradient(90deg, var(--main-color-0) 0%, var(--main-color-3) 100%);
+    --bg-gradient-3: linear-gradient(90deg, var(--main-color-0) 0%, var(--main-color-2) 100%);
+    --thin-border: 1px solid var(--maincolor-5);
+}
+
 html,
 body {
     margin: 0;
     font-size: 18px;
     /** CSS Gradient Pattern 5 */
-    background: rgb(255, 233, 233);
-    background: linear-gradient(
-        0deg,
-        rgba(255, 233, 233, 1) 0%,
-        rgba(255, 199, 199, 1) 39%,
-        rgba(255, 233, 233, 1) 100%
-    );
+    background: var(--main-color-0);
+    background: var(--bg-gradient-1);
     height: 100%;
     line-height: 1.2;
     overflow: auto;
@@ -40,8 +49,8 @@ button,
     padding: 3px;
 
     /** CSS Gradient Pattern 4, special for buttons */
-    background: 971;
-    background: linear-gradient(0deg, #971e00 0%, #c7573b 100%);
+    background: #971e00;
+    background: linear-gradient(0deg, var(--main-color-4) 0%, var(--main-color-5) 100%);
 }
 
 h1,
@@ -82,10 +91,7 @@ p {
 button:hover,
 .a-as-button:hover {
     transform: scale(0.95);
-    /* Scaling button to 0.98 to its original size */
     box-shadow: 5px 5px 22px 5px rgba(0, 0, 0, 0.24);
-    /* Lowering the shadow */
-    color: rgb(255, 222, 77);
 }
 
 .a-as-button {
@@ -117,4 +123,8 @@ Modal
 
 .max-z {
     z-index: 2147483646;
+}
+
+hr {
+    border-top: var(--thin-border);
 }

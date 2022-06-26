@@ -1,10 +1,23 @@
-# Loot Quest (LootQuest3) Description
+# tl;dr:
+
+See the project live here: https://stackblitz.com/github/Destro168/LootQuest3
+
+Features:
+
+-   Floating Windows that can be collapsed, expanded, dragged and resized, all made using pure HTML, JS and CSS.
+-   Dynamic, responsive and instant total website retheming
+-   CSS Variables, Zustand, W3.CSS and a bunch of other technologies integrated with hook-based React components.
+-   Fully-featured modernized turn-based game with boss objective as win condition.
+-   And much more!
+
+# Game Description
 
 Loot Quest is a traditional turn-based game made modern. Set in an ultra-difficult world full of intricate and one-of-a-kind mechanics, you'll start as a humble peasant with no items, fame or reputation to your name. Struggle your way toward greater strength and conquer. Or, succumb to the environment around you and be conquered.
 
-Features (many TODO):
+Features:
 
--   A story-based world where items have detailed descriptions and monsters have lots of little details in fights.
+-   A lore-rich world with descriptive items and monsters.
+-
 -   A deep turn-based combat system featuring limb damage, status effects, special effects and monsters that learn and evolve throughout combat.
 -   Infinite World Map, enemies and items
 -   Turn-Based Combat
@@ -12,16 +25,11 @@ Features (many TODO):
 -   Highly versatile windows for managing your equipped items, inventory, the world map itself and game console.
 -   And more!
 
-# How do I play?
+# How to Play
 
 You can follow the build instructions below to play it if you are able to download this repo and already have node/npm installed locally.
 
-Otherwise, I have conveniently set up a Stackblitz instance for playing, viewing, testing and fiddling with this project. Feel free to check it out here:
-
-Editor Link: https://stackblitz.com/edit/react-ts-ncpvqc?file=src/index.tsx
-Application URL: https://react-ts-ncpvqc.stackblitz.io
-
-If you haven't used an online IDE like stackblitz before, check it out! You can fork the project directly through their interface and fiddle in real-time.
+Otherwise, I recommend loading it up using your preferred online development environment. Example, Stackblitz: https://stackblitz.com/github/Destro168/LootQuest3
 
 # What's There To See in this Git Repo?
 

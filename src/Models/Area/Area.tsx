@@ -41,6 +41,10 @@ export default class Area {
         this.connectedAreas.push(area);
     }
 
+    getDisplay(): string {
+        return this.name + ' - ' + this.getLevelDisplay();
+    }
+
     getLevelDisplay(): string {
         let pref = 'Lvl: ' + this.levelMin;
 
