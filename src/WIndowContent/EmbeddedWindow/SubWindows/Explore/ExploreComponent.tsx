@@ -4,19 +4,20 @@
  * Also, combat events are stored within the explore component.
  */
 import React from 'react';
-import EAreaType from '../../../Models/Area/EAreaType';
-import { Player } from '../../../Models/Fighter/Player';
-import { IRootStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore';
-import { G_getRandomElement, G_getRandomValueBetween, G_getRandomValueUpTo } from '../../../Models/Helper';
-import GameStateManager from '../../../Models/Singles/GameStateManager';
-import { __GLOBAL_REFRESH_FUNC_REF } from '../../../App';
-import { RpgConsole } from '../../../Models/Singles/RpgConsole';
-import CombatComponent from '../Combat/CombatComponent';
-import { WiseManEncounter } from '../../../Story/RandomEncounters/WiseManEncounter';
-import CombatState from '../../../Models/Shared/CombatState';
-import { TownComponent } from './Town/TownComponent';
-import { IG_Wood } from '../../../Models/Item/Resources/IG_Wood';
-import { IG_Ore } from '../../../Models/Item/Resources/IG_Ore';
+import EAreaType from '../../../../Models/Area/EAreaType';
+import { Player } from '../../../../Models/Fighter/Player';
+import { IRootStore, __GLOBAL_GAME_STORE } from '../../../../Models/GlobalGameStore';
+import { G_getRandomElement, G_getRandomValueBetween, G_getRandomValueUpTo } from '../../../../Models/Helper';
+import GameStateManager from '../../../../Models/Singles/GameStateManager';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../../../../App';
+import { RpgConsole } from '../../../../Models/Singles/RpgConsole';
+import CombatComponent from '../../Combat/CombatComponent';
+import { WiseManEncounter } from '../../../../Story/RandomEncounters/WiseManEncounter';
+import CombatState from '../../../../Models/Shared/CombatState';
+import { TownComponent } from '../Town/TownComponent';
+import { IG_Wood } from '../../../../Models/Item/Resources/IG_Wood';
+import { IG_Ore } from '../../../../Models/Item/Resources/IG_Ore';
+import AreaComponent from '../../Area/AreaComponent';
 
 function explore(store: IRootStore) {
     let rollRes = G_getRandomValueUpTo(100);
@@ -91,19 +92,14 @@ function explore(store: IRootStore) {
     }
 }
 
-export default function ExploreComponent() {
-    let store: IRootStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
-    let player: Player = store.player;
+function getAreaDisplay(store: IRootStore) {
     let gameStateManager: GameStateManager = store.gameStateManager;
-    let content = null;
-
-    // Display vars.
-    let areaDisplay = null;
+    let player: Player = store.player;
 
     if (player.currentArea.type === EAreaType.TOWN) {
-        areaDisplay = <TownComponent />;
+        return <TownComponent />;
     } else {
-        areaDisplay = (
+        return (
             <div>
                 <h1>{player.currentArea.getDisplay()}</h1>
                 <p>{player.currentArea.descriptions.root}</p>
@@ -119,12 +115,25 @@ export default function ExploreComponent() {
             </div>
         );
     }
+}
+
+export default function ExploreComponent() {
+    let store: IRootStore = __GLOBAL_GAME_STORE((__DATA) => __DATA);
+    let player: Player = store.player;
+
+    // Display vars.
+    let content: any;
 
     if (player.inCombat()) {
         content = <CombatComponent />;
     } else {
-        content = <div>{areaDisplay}</div>;
+        content = (
+            <div className="height-100-percent">
+                <div className="height-80-percent">{getAreaDisplay(store)}</div>
+                <AreaComponent />
+            </div>
+        );
     }
 
-    return <div className="embedded-sub-component">{content}</div>;
+    return content;
 }

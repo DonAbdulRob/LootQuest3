@@ -17,10 +17,6 @@
     height: 500px;
 }
 
-.embedded-sub-component {
-    height: 80%;
-}
-
 .encounter-line:nth-child(odd) {
     color: rgb(161, 0, 153);
 }

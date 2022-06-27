@@ -128,3 +128,11 @@ Modal
 hr {
     border-top: var(--thin-border);
 }
+
+.height-80-percent {
+    height: 80%;
+}
+
+.height-100-percent {
+    height: 100%;
+}

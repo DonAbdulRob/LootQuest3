@@ -16,7 +16,7 @@ Empty! Everything is PLANNED!
    - Change colors for ItemPopup and Encounter dialog. +
    - Explore viability of global-color changing. +
    - Add icons in place of buttons in various places (fontawesome ofc)
-   - Give w3.css dedicated file in project.
+   - Give w3.css dedicated file in project. + 
    - Embedded main component needs styled (use sass if possible, else no worries) +
 2. Total code review. 
    - General play test and bug review/fix.

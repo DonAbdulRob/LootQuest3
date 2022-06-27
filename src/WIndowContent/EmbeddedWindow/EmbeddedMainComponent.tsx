@@ -3,9 +3,8 @@
  * All of the floating windows hover over top of it. It is unlabled. And, it is where 'core' game content is meant to be displayed.
  */
 import React from 'react';
-import ExploreComponent from './SubWindows/ExploreComponent';
+import ExploreComponent from './SubWindows/Explore/ExploreComponent';
 import './EmbeddedMainComponent.css';
-import AreaComponent from './Area/AreaComponent';
 import { IRootStore, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 
 export function getMainComponentContent(store: IRootStore, isEmbed: boolean): JSX.Element {
@@ -19,7 +18,6 @@ export function getMainComponentContent(store: IRootStore, isEmbed: boolean): JS
         finalContent = (
             <div className={finalClass}>
                 <ExploreComponent />
-                <AreaComponent />
             </div>
         );
     }
