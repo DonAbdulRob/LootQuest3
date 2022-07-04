@@ -8,22 +8,12 @@ Empty! Everything is PLANNED!
 
 ## TODO - Short Term:
 
-1. Perform the style overhaul.
-   - Put 'Settings' display into modal. +
-   - Play with SASS and see if it has any utility. (Used CSS Variables instead. Apparently even SASS is out of date... 2022 is OP) + 
-   - Figure out way to make headers less plain in various headers. (GRADIENTS) +
-   - Address <hr /> background breaking. +
-   - Change colors for ItemPopup and Encounter dialog. +
-   - Explore viability of global-color changing. +
-   - Add icons in place of buttons in various places (fontawesome ofc)
-   - Give w3.css dedicated file in project. + 
-   - Embedded main component needs styled (use sass if possible, else no worries) +
-2. Total code review. 
+1. Total code review.
    - General play test and bug review/fix.
    - Replace var with 'let' and 'const' when possible.
-3. Basic balance Pass on Game.
-4. Finalize Help Page.
-5. Finalize Game Intro Screen. Create Logo.
+   - Add minor if deemed necessary, though avoid when possible like the plague.
+2. Finalize Help Page.
+3. Do final review of all content.
 
 ## TODO - Post-Release Term (Maybe complete for 1.0, maybe not):
 
@@ -63,6 +53,23 @@ Empty! Everything is PLANNED!
 # Done List
 
 For things that are done!
+
+## Older Marked Done 7/4/2022+:
+
+1. Perform the style overhaul. +
+   - Put 'Settings' display into modal. +
+   - Play with SASS and see if it has any utility. (Used CSS Variables instead. Apparently even SASS is out of date... 2022 is OP) + 
+   - Figure out way to make headers less plain in various headers. (GRADIENTS) +
+   - Address <hr /> background breaking. +
+   - Change colors for ItemPopup and Encounter dialog. +
+   - Explore viability of global-color changing. +
+   - Add icons in place of buttons in various places (fontawesome ofc) +
+      - Actually wound up not using fontawesome cause fontawesome is now completely pay2use basically, so F. +
+   - Give w3.css dedicated file in project. + 
+   - Embedded main component needs styled (use sass if possible, else no worries) +
+   - Logo image. + (decided on text) +
+   - Main Screen revamp. +
+5. Finalize Game Intro Screen. Create Logo. +
 
 ## Older Marked Done 6/19/2022+:
 

@@ -2,20 +2,45 @@
  * The New Game page is where the player chooses their character and game settings.
  */
 
+import { mdiCheck, mdiSkull, mdiSword } from '@mdi/js';
+import Icon from '@mdi/react';
 import * as React from 'react';
+import { __GLOBAL_REFRESH_FUNC_REF } from '../App';
+import IconButton from '../Components/IconButton/IconButton';
 import { Player } from '../Models/Fighter/Player';
-import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
+import { iconSizeStr, __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 import { DifficultyEnum } from '../Models/Singles/GameDifficulty';
 import GameStateManager from '../Models/Singles/GameStateManager';
-import IPageEnum from './Enums/IPageEnum';
+import { PageContainer } from './Enums/PageContainer';
+import './NewGamePage.css';
 
-function forceRefresh(setRefreshVar: Function) {
-    setRefreshVar((v: number) => v + 1);
+function getDifficultyButton(gameStateManager: GameStateManager, names: string[], i: number) {
+    let icons = [];
+    let icon = i < 2 ? mdiSword : mdiSkull;
+
+    for (var l = 0; l < (i % 2) + 1; l++) {
+        icons.push(<Icon className={'button-with-icon'} path={icon} size={iconSizeStr} />);
+    }
+
+    return (
+        <button
+            className={'button-with-icon'}
+            onClick={() => {
+                gameStateManager.gameDifficulty.difficulty = i;
+                __GLOBAL_REFRESH_FUNC_REF();
+            }}
+        >
+            {icons[0]}
+            {icons.length >= 2 && icons[1]}
+            <div className="pad-left-and-right-5">{names[i]}</div>
+            {icons[0]}
+            {icons.length >= 2 && icons[1]}
+        </button>
+    );
 }
 
 export default function NewGamePage() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [refreshVar, setRefreshVar] = React.useState(0);
     let fighter: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let setPlayerName: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPlayerName);
     let gameStateManager: GameStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.gameStateManager);
@@ -29,58 +54,60 @@ export default function NewGamePage() {
     for (var i = keys.length * 0.5; i < keys.length; i++) {
         names.push(keys[i]);
     }
+
     let difficultyStr = names[difficulty];
+    let canFinish = fighter.name !== '';
 
     return (
-        <div className="container">
-            <h1>Welcome!</h1>
-            <h2>Here, you can choose your character's name.</h2>
+        <div>
+            <h1>Character Creation</h1>
             <hr />
-            <h1>Character Name</h1>
-            <input
-                type="text"
-                placeholder="name"
-                value={fighter.name}
-                onChange={(e: any) => {
-                    let input = e.target.value;
 
-                    if (input.length > 16) {
-                        input = input.substring(0, 16);
-                    }
+            <div className="new-game-section">
+                <h1>Name</h1>
+                <input
+                    type="text"
+                    value={fighter.name}
+                    onChange={(e: any) => {
+                        let input = e.target.value;
 
-                    setPlayerName(input);
-                }}
-            ></input>
-            <br />
-            <br />
-            <h1>Difficulty - {difficultyStr}</h1>
-            <h2>{desc}</h2>
-            {names.map((v: string, i: number) => {
-                return (
-                    <button
+                        if (input.length > 16) {
+                            input = input.substring(0, 16);
+                        }
+
+                        setPlayerName(input);
+                    }}
+                ></input>
+                <p style={{ color: 'grey' }}>Enter a name to continue</p>
+            </div>
+
+            <div className="new-game-section">
+                <h1>Difficulty - {difficultyStr}</h1>
+                <h2>{desc}</h2>
+                <div style={{ display: 'flex' }}>
+                    {getDifficultyButton(gameStateManager, names, 0)}
+                    {getDifficultyButton(gameStateManager, names, 1)}
+                    {getDifficultyButton(gameStateManager, names, 2)}
+                    {getDifficultyButton(gameStateManager, names, 3)}
+                </div>
+            </div>
+
+            <div className="new-game-section">
+                {canFinish && (
+                    <IconButton
                         onClick={() => {
-                            gameStateManager.gameDifficulty.difficulty = i;
-                            forceRefresh(setRefreshVar);
+                            setPage(PageContainer.Play);
                         }}
-                    >
-                        {v}
-                    </button>
-                );
-            })}
-            <br />
-            <br />
-            <button
-                onClick={() => {
-                    setPage(IPageEnum.Play);
-                }}
-            >
-                Finish
-            </button>
-            <br />
-            <br />
-            <p>... What? You wanted more?</p>
-            <br />
-            <p>Too bad! No freebies. Earn your class, abilities and traits in-game!</p>
+                        path={mdiCheck}
+                        text="Finish"
+                    />
+                )}
+            </div>
+
+            <div className="new-game-section">
+                <p>... What? You wanted more?</p>
+                <p>Too bad! No freebies. Earn your class, abilities and traits in-game!</p>
+            </div>
         </div>
     );
 }

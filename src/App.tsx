@@ -1,48 +1,36 @@
 /**
  * The main component handles the highest-level routing of pages based on user interaction.
- * See the 'Pages' folder for various pages.
+ * See EPages.tsx for page options and PageSlice.tsx for page store management.
  */
 
 import * as React from 'react';
 import { __GLOBAL_GAME_STORE } from './Models/GlobalGameStore';
-import HelpPage from './Pages/HelpPage';
-import MainMenuPage from './Pages/MainMenu';
-import NewGamePage from './Pages/NewGamePage';
-import { PlayPage } from './Pages/PlayPage';
-import IPageEnum from './Pages/Enums/IPageEnum';
+import ThemeManager from './Models/Singles/ThemeManager';
+import { Page } from './Pages/Enums/Page';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
 
-function getDesiredPage(page: IPageEnum): JSX.Element {
-    switch (page) {
-        case IPageEnum.MainMenu:
-            return <MainMenuPage />;
-        case IPageEnum.NewGame:
-            return <NewGamePage />;
-        case IPageEnum.Play:
-            return <PlayPage />;
-        case IPageEnum.Help:
-            return <HelpPage />;
-        default:
-            return <MainMenuPage />;
-    }
-}
-
-function forceRefresh(setRefreshVar: Function) {
-    setRefreshVar((v: number) => v + 1);
-}
-
 export default function App(): JSX.Element {
     const [refreshVar, setRefreshVar] = React.useState(0);
-    let page: IPageEnum = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.page);
+    let page: Page = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.page);
+    let themeManager: ThemeManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.themeManager);
+    let showAnimation = page.showAnimation ? ' bg-animation' : '';
+
+    // Set our global refresh function used to refresh pages on store changes.
     __GLOBAL_REFRESH_FUNC_REF = () => {
-        forceRefresh(setRefreshVar);
+        // Increment 'refresh var' to force refresh.
+        setRefreshVar((v: number) => v + 1);
     };
 
+    // Since we can't declare the refresh func as const, freeze it now to prevent unintended modification.
+    Object.freeze(__GLOBAL_REFRESH_FUNC_REF);
+
+    // Have theme manager update its values to reflect the new color settings.
+    themeManager.doUpdate();
+
     return (
-        <div className="app" key={refreshVar}>
-            <h1>Loot Quest</h1>
-            {getDesiredPage(page)}
+        <div className={'app' + showAnimation} key={refreshVar}>
+            {page.component}
         </div>
     );
 }

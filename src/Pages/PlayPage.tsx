@@ -13,12 +13,14 @@ import CheatComponent from '../WIndowContent/Cheat/CheatComponent';
 import WindowStateManager from '../Models/Singles/WindowStateManager';
 import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 import Ability from '../WIndowContent/Ability/AbilityComponent';
-import IPageEnum from './Enums/IPageEnum';
-import QuitButtonComponent from './Components/QuitButtonComponent';
 import EmbeddedMainComponent from '../WIndowContent/EmbeddedWindow/EmbeddedMainComponent';
 import FloatingMainComponent from '../WIndowContent/EmbeddedWindow/FloatingMainComponent';
 import BaseModal from '../Modals/BaseModal';
 import { SettingsComponent } from '../Modals/Content/SettingsComponent';
+import { mdiCog, mdiInformationOutline } from '@mdi/js';
+import IconButton from '../Components/IconButton/IconButton';
+import QuitIconButtonComponent from './Components/QuitIconButtonComponent';
+import { PageContainer } from './Enums/PageContainer';
 
 export interface IFloatingWindowPropsBuilder {
     id?: number;
@@ -33,7 +35,6 @@ export interface IFloatingWindowPropsBuilder {
  */
 function getWindows(debugMode: boolean, windowStateManager: WindowStateManager) {
     let topBottomStart = 710;
-
     let windows: Array<IFloatingWindowPropsBuilder> = [];
 
     if (windowStateManager.embedCore === false) {
@@ -44,30 +45,35 @@ function getWindows(debugMode: boolean, windowStateManager: WindowStateManager) 
             left: 10,
         });
     }
+
     windows.push({
         title: 'Player',
         contentElement: <CharacterComponent usePlayer={true} />,
         top: topBottomStart,
         left: 10,
     });
+
     windows.push({
         title: 'Console',
         contentElement: <ConsoleComponent />,
         top: topBottomStart,
         left: 885,
     });
+
     windows.push({
         title: 'Ability',
         contentElement: <Ability />,
         top: topBottomStart,
         left: 450,
     });
+
     windows.push({
         title: 'Equipment',
         contentElement: <EquipmentComponent />,
         top: 10,
         left: 1050,
     });
+
     windows.push({
         title: 'Inventory',
         contentElement: <InventoryComponent />,
@@ -123,19 +129,29 @@ export function PlayPage() {
 
     return (
         <div>
+            <h1>Loot Quest</h1>
+            {/* Our main nav bar below logo. */}
             <div style={{ display: 'flex' }}>
-                <button
+                {/* Help button */}
+                <IconButton
                     onClick={() => {
-                        setPage(IPageEnum.Help);
+                        setPage(PageContainer.Help);
                     }}
-                >
-                    Help
-                </button>
-                <BaseModal component={<SettingsComponent />} />
-                <QuitButtonComponent />
+                    path={mdiInformationOutline}
+                    text="Help"
+                />
+
+                {/* Settings button + modal */}
+                <BaseModal buttonText={'Settings'} iconPath={mdiCog} component={<SettingsComponent />} />
+
+                {/* Quit Icon Button */}
+                <QuitIconButtonComponent />
             </div>
+
+            {/* All of our windows */}
             <div id="floating-window-container">{getWindows(debugMode, windowStateManager)}</div>
 
+            {/* Embedded main component IF 'embed' setting is toggled by user. */}
             {windowStateManager.embedCore && (
                 <span>
                     <hr /> <EmbeddedMainComponent />

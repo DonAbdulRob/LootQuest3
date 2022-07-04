@@ -48,22 +48,20 @@ export function SettingsComponent() {
     let [color, setColor] = React.useState(themeManager.colors);
     let len = themeManager.colors.length;
 
-    for (var i = 0; i < len; i++) {
-        document.documentElement.style.setProperty('--main-color-' + i, themeManager.colors[i]);
-    }
-
     let href = window.URL.createObjectURL(
         new Blob([saveData], {
             type: 'text/plain',
         }),
     );
 
+    // Have theme manager update its values to reflect the new color settings.
+    themeManager.doUpdate();
+
     return (
         <div className="settings">
             <div className="settings-h1">
                 <h1>Settings</h1>
             </div>
-
             <a
                 href={href}
                 download={store.saveLib.saveFileName}
@@ -99,7 +97,6 @@ export function SettingsComponent() {
             >
                 Toggle 'Main' window float state.
             </button>
-
             <button
                 onClick={() => {
                     themeManager.useRed();
@@ -108,7 +105,14 @@ export function SettingsComponent() {
             >
                 Use Red Theme
             </button>
-
+            <button
+                onClick={() => {
+                    themeManager.useSoftBlue();
+                    __GLOBAL_REFRESH_FUNC_REF();
+                }}
+            >
+                Use Soft Blue Theme
+            </button>
             <button
                 onClick={() => {
                     themeManager.useBlue();
@@ -117,25 +121,14 @@ export function SettingsComponent() {
             >
                 Use Blue Theme
             </button>
-
             <button
                 onClick={() => {
-                    windowStateManager.allowResize = !windowStateManager.allowResize;
+                    windowStateManager.resetWindows();
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >
-                Toggle Window Resizing (Advanced Feature)
+                Reset Windows
             </button>
-            {windowStateManager.allowResize && (
-                <button
-                    onClick={() => {
-                        windowStateManager.resetWindows();
-                        __GLOBAL_REFRESH_FUNC_REF();
-                    }}
-                >
-                    Reset Window Positions
-                </button>
-            )}
             <button
                 onClick={() => {
                     store.debugMode = !store.debugMode;
@@ -144,7 +137,6 @@ export function SettingsComponent() {
             >
                 Toggle 'Debug/Cheat' Mode. (Advanced Feature)
             </button>
-
             <button
                 onClick={() => {
                     themeManager.toggleCustomizeTheme();
@@ -153,7 +145,6 @@ export function SettingsComponent() {
             >
                 Customize Theme (Advanced)
             </button>
-
             {themeManager.customizeTheme && (
                 <div className="color-pickers">
                     {[...Array(len)].map((v, i) => {
@@ -161,7 +152,6 @@ export function SettingsComponent() {
                     })}
                 </div>
             )}
-            <br />
             <QuitButtonComponent />
         </div>
     );

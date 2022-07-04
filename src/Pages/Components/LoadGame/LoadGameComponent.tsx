@@ -6,6 +6,7 @@ import { IRootStore, __GLOBAL_GAME_STORE } from '../../../Models/GlobalGameStore
 import { __GLOBAL_REFRESH_FUNC_REF } from '../../../App';
 import './LoadGame.css';
 import { SaveLib } from '../../../Models/SaveLib';
+import { PageContainer } from '../../Enums/PageContainer';
 
 export default function LoadGameComponent() {
     let store: IRootStore = __GLOBAL_GAME_STORE((__DATA: any) => __DATA);
@@ -15,8 +16,10 @@ export default function LoadGameComponent() {
         let reader = new FileReader();
 
         reader.addEventListener('load', function (loadEvent: any) {
+            // Load the data, output to console, then send player to play page.
             SaveLib.loadStateFromSave(store, loadEvent.target.result);
             store.rpgConsole.add('Game loaded.');
+            store.setPage(PageContainer.Play);
             __GLOBAL_REFRESH_FUNC_REF();
         });
 

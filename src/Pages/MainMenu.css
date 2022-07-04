@@ -1,0 +1,37 @@
+/* Center our content responsively */
+.main-game-container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 33%;
+}
+
+/* prevent container from scrunching too much on lower res. */
+@media only screen and (max-width: 1200px) {
+    .main-game-container {
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .main-game-container {
+        width: 100%;
+    }
+}
+
+/* Space elements out nicely. */
+.main-game-container > * {
+    margin-bottom: 25px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+.glowing-text {
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px;
+    -webkit-animation: text-glow-1 1s ease-in-out infinite alternate;
+    -moz-animation: text-glow-1 1s ease-in-out infinite alternate;
+    animation: text-glow-1 1s ease-in-out infinite alternate;
+}

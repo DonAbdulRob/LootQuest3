@@ -1,20 +1,22 @@
 /**
  * The Quit button provides a reuseable method to return to the Main Menu.
  */
+import { mdiClose } from '@mdi/js';
 import React from 'react';
+import IconButton from '../../Components/IconButton/IconButton';
 import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import { PageContainer } from '../Enums/PageContainer';
 
-export default function QuitButtonComponent() {
+export default function QuitIconButtonComponent() {
     let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
 
     return (
-        <button
+        <IconButton
             onClick={() => {
                 setPage(PageContainer.MainMenu);
             }}
-        >
-            Quit
-        </button>
+            path={mdiClose}
+            text="Quit"
+        />
     );
 }

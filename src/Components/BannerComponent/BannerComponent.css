@@ -1,0 +1,30 @@
+/**
+A few fun css tricks a couple of sites to style our logo:
+https://css-tricks.com/how-to-create-neon-text-with-css/
+*/
+
+@keyframes flash {
+    from {
+        color: var(--main-color-1);
+    }
+    50% {
+        color: var(--main-color-4);
+    }
+    to {
+        color: var(--main-color-1);
+    }
+}
+
+.banner {
+    font-size: 60px;
+    font-weight: 700;
+    border-radius: 20px;
+    text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px var(--main-color-3), 0 0 82px var(--main-color-3),
+        0 0 92px var(--main-color-3), 0 0 102px var(--main-color-3), 0 0 151px var(--main-color-3),
+        5px 5px 2px rgb(179, 179, 179);
+
+    animation-name: flash;
+    animation-iteration-count: infinite;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+}

@@ -57,3 +57,13 @@ https://coolors.co/211717-736060-ab7979-ed4c4c-f7e1e1
 # Gradients:
 
 https://cssgradient.io/
+
+# Icons:
+
+Docs:
+https://dev.materialdesignicons.com/getting-started/react
+
+Icon List (various displays):
+https://materialdesignicons.com/
+https://dev.materialdesignicons.com/icons
+https://pictogrammers.github.io/@mdi/font/6.5.95/

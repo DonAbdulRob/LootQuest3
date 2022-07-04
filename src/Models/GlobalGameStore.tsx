@@ -14,6 +14,8 @@ import { SaveLib } from './SaveLib';
 import ModalStateManager from './Singles/ModalStateManager';
 import ThemeManager from './Singles/ThemeManager';
 
+export const iconSizeStr = '18px';
+
 export interface IGlobals {
     enemy: Monster;
     combatState: CombatState;

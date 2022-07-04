@@ -1,3 +1,7 @@
 .modal-border {
     border: var(--thin-border);
 }
+
+.max-z {
+    z-index: 2147483646;
+}

@@ -1,0 +1,13 @@
+/* Icon related */
+.button-with-icon {
+    display: flex;
+    min-width: 0px;
+}
+
+.icon-no-click {
+    pointer-events: none;
+}
+
+.pad-right-10 {
+    padding-right: 10px;
+}

@@ -1,16 +1,19 @@
 /**
  * We take advantage of W3.CSS to handle the modal code easily with some minor modifications for react compatibility and customized usage.
- * The modal can take any sub-component as a prop to display within it.
+ * The modal can take any sub-component as a prop to display within it, along with button text and an icon.
  */
 
+import Icon from '@mdi/react';
 import * as React from 'react';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../App';
-import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
+import { iconSizeStr, __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 import ModalStateManager from '../Models/Singles/ModalStateManager';
 import './BaseModal.css';
 
 export interface ModalProps {
+    buttonText: string;
     component: JSX.Element;
+    iconPath: string;
 }
 
 export default function BaseModal(props: ModalProps) {
@@ -35,12 +38,14 @@ export default function BaseModal(props: ModalProps) {
     return (
         <div>
             <button
+                className="button-with-icon"
                 onClick={() => {
                     modalStateManager.toggleVisible();
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >
-                Settings
+                <Icon path={props.iconPath} size={iconSizeStr} />
+                {props.buttonText}
             </button>
 
             <div className={modalClassName} ref={modalRef} style={{ display: modalStateManager.getBlockOrNot() }}>

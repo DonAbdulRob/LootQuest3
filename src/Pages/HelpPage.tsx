@@ -4,7 +4,7 @@
 
 import * as React from 'react';
 import { __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
-import IPageEnum from './Enums/IPageEnum';
+import { PageContainer } from './Enums/PageContainer';
 
 export default function HelpPage() {
     let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
@@ -12,11 +12,8 @@ export default function HelpPage() {
     return (
         <div id="HelpPage" className="container">
             <h1>Help Page</h1>
-            <h2>Please note that some of the features described in this document a Work in Progress.</h2>
-            <p>
-                Welcome to the Help Page for Loot Quest! This page is designed to help break down a lot of features
-                about the game so that you can understand how to best enjoy the game.
-            </p>
+            <hr />
+            <p>This page is designed to help you, the reader, play the game to the best of your ability.</p>
             <hr />
             <h1>About Loot Quest</h1>
             <p>
@@ -45,18 +42,21 @@ export default function HelpPage() {
                 of other features. Once you're ready to leave, you can use the Area Selection window to go to the
                 Greevale Border area next and begin to fight monsters for loot, experience and items.
             </p>
-            <p>
-                Once you've killed OR fled from 5 monsters in the area, the next area will unlock for you to explore.
-                And, you can then choose to stay in the Forest Outskirts, travel to the next location, or return back to
-                the city.
-            </p>
+            {/*
+                Feature in progress.s
+                <p>
+                    Once you've killed OR fled from 5 monsters in the area, the next area will unlock for you to explore.
+                    And, you can then choose to stay in the Forest Outskirts, travel to the next location, or return back to
+                    the city.
+                </p>
+            */}
             <hr />
             <h1>The Travel System</h1>
             <p>
                 Loot Quest utilizes a virtual map system where areas, visible within the Area Window, lead backwards and
-                forwards to one or more areas. Advancing to a new area requires killing or fleeing from 5 monsters. And,
-                if you are in an area five levels or lower than yourself, you may move to any area five levels or lower
-                than yourself.
+                forwards to one or more areas. Advancing to a new area requires moving to a connected area. Though, you
+                may instantly travel to areas at a much lower level than yourself.
+                {/* Add comment about 5 kills / being in much lower level to use global travel later when implemented */}
             </p>
             <hr />
             <h1>Combat</h1>
@@ -67,9 +67,17 @@ export default function HelpPage() {
                 additional note, monsters substantially weaker than you will award reduced experience.
             </p>
             <hr />
+            <h1>Tips</h1>
+            <p>
+                Windows can be dragged and dropped using the 'hook' button on each window. You can reset closed windows
+                using the 'Reset Windows' setting. And, themes can be changed and customized from there too. Theme
+                import/export is a WIP feature for the future. For now, it is recommended to use the default red/blue
+                themes.
+            </p>
+            <hr />
             <button
                 onClick={() => {
-                    setPage(IPageEnum.Play);
+                    setPage(PageContainer.Play);
                 }}
             >
                 Back

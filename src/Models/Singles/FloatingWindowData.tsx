@@ -12,4 +12,6 @@ export class FloatingWindowData {
     constructor(id: number) {
         this.id = id;
     }
+
+    setSize(top: number, left: number) {}
 }

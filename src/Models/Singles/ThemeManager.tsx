@@ -5,9 +5,19 @@ export default class ThemeManager {
         'rgb(255, 199, 199)',
         'rgb(252, 209, 209)',
         'rgb(252, 245, 245)',
-        '#971e00',
+        'rgb(151, 30, 0)',
         '#c7573b',
     ];
+
+    softBlueColors = [
+        'rgb(235, 254, 255)',
+        'rgb(199, 243, 255)',
+        'rgb(207, 244, 252)',
+        'rgb(243, 249, 251)',
+        'rgb(0, 64, 153)',
+        'rgb(60, 144, 200)',
+    ];
+
     blueColors = ['#F8F7FF', '#7ebfff', '#78aaff', '#cce1f5', '#173e6c', '#5da2e5'];
     customizeTheme: boolean = false;
 
@@ -22,7 +32,18 @@ export default class ThemeManager {
     useRed() {
         this.colors = [...this.redColors];
     }
+
+    useSoftBlue() {
+        this.colors = [...this.softBlueColors];
+    }
+
     useBlue() {
         this.colors = [...this.blueColors];
+    }
+
+    doUpdate() {
+        for (var i = 0; i < this.colors.length; i++) {
+            document.documentElement.style.setProperty('--main-color-' + i, this.colors[i]);
+        }
     }
 }
