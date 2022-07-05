@@ -30,13 +30,10 @@
         "webpack-dev-server": "^4.9.3"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
+        "start": "webpack serve --open",
+        "s": "webpack serve --open",
         "magic": "webpack",
-        "watch": "webpack --watch",
-        "s": "webpack serve --open"
+        "watch": "webpack --watch"
     },
     "eslintConfig": {
         "extends": [
