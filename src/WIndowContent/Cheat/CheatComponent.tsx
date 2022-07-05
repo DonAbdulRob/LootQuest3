@@ -58,13 +58,13 @@ function autoPlayOneRound(store: IRootStore) {
 }
 
 function autoPlayTwo(store: IRootStore) {
-    for (var i = 0; i < 10000; i++) {
+    for (let i = 0; i < 10000; i++) {
         autoPlayOneRound(store);
     }
 }
 
 function autoPlayThree(store: IRootStore) {
-    for (var i = 0; i < 1000000; i++) {
+    for (let i = 0; i < 1000000; i++) {
         autoPlayOneRound(store);
     }
 }

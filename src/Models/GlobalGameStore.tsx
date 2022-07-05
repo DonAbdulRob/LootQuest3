@@ -42,7 +42,7 @@ const createGlobalSlice: StoreSlice<IGlobals> = (set, get) => ({
 
 export interface IRootStore extends IGlobals, IPlayerSlice, IPageSlice {}
 
-const createRootSlice = (set: SetState<any>, get: GetState<any>) => ({
+export const createRootSlice = (set: SetState<any>, get: GetState<any>) => ({
     ...createGlobalSlice(set, get),
     ...createPlayerSlice(set, get),
     ...createPageSlice(set, get),

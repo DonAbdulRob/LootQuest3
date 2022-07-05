@@ -58,7 +58,7 @@ export default class CombatState {
 
         let type;
 
-        for (var i = 0; i < lootAmount; i++) {
+        for (let i = 0; i < lootAmount; i++) {
             type = G_getRandomValueUpTo(3);
 
             if (type === 0) {
@@ -102,19 +102,15 @@ export default class CombatState {
         let enemy = store.enemy;
         let rpgConsole = store.rpgConsole;
         let combatState = store.combatState;
-
-        // var init
         let playerDead = false;
         let enemyDead = false;
-        let playerArmor = player.getArmor();
-        let enemyArmor = enemy.getArmor();
 
         /**
          * Damage Calcs
          */
 
-        let playerDamage = player.getRandomDamageValue() - enemyArmor;
-        let enemyDamage = enemy.getRandomDamageValue() - playerArmor;
+        let playerDamage = player.getRandomDamageValue() - enemy.getArmor();
+        let enemyDamage = enemy.getRandomDamageValue() - player.getArmor();
 
         // Cap damage to 0 minimum.
         if (playerDamage < 0) {

@@ -8,7 +8,7 @@ import { MonsterGenerator } from '../../MonsterGenerator';
 export class MG_Rat extends MonsterGenerator {
     setProperties() {
         // Our stat formula for infinite monster growth.
-        var statAssignmentFormula = () => {
+        const statAssignmentFormula = () => {
             this.statBlock.healthMin = this.getLevelScaledStat_HEALTH(4);
             this.statBlock.healthMax = this.getLevelScaledStat_HEALTH(4);
             this.statBlock.damageMin = this.getLevelScaledStat_MEDIUM(1);

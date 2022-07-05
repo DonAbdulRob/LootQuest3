@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`town component renders 1`] = `
+<div>
+  <h1>
+    Greenvale - Lvl: 1
+  </h1>
+  <div>
+    <p>
+      A small town located within the wilderness of the Elora Continent.
+    </p>
+    <button
+      onClick={[Function]}
+    >
+      Inn
+    </button>
+    <button
+      onClick={[Function]}
+    >
+      Shop
+    </button>
+    <button
+      onClick={[Function]}
+    >
+      Forge
+    </button>
+  </div>
+</div>
+`;

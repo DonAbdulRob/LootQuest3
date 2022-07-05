@@ -122,7 +122,6 @@ function getWindows(debugMode: boolean, windowStateManager: WindowStateManager) 
 }
 
 export function PlayPage() {
-    // var inits
     let debugMode: boolean = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.debugMode);
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
     let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);

@@ -11,7 +11,7 @@ export class StatusContainer {
     }
 
     hasSkipTurnStatus() {
-        for (var status of this.statusArr) {
+        for (let status of this.statusArr) {
             if (status.name === G_HIDDEN_SKIP_TURN_STATUS) {
                 return true;
             }

@@ -41,7 +41,7 @@ function assignDragBehavior(
                 elmnt = elmnt.parentNode;
             }
 
-            var rect = elmnt.getBoundingClientRect();
+            let rect = elmnt.getBoundingClientRect();
             windowData.top = rect.top;
             windowData.left = rect.left;
         }
@@ -112,7 +112,6 @@ interface IFloatingWindowProps {
 }
 
 export default function FloatingWindow(props: IFloatingWindowProps): JSX.Element {
-    // Var init.
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
 
     const titleBarDragRef = React.useRef<HTMLDivElement>(null);

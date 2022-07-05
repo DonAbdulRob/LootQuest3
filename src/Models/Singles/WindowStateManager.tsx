@@ -49,7 +49,7 @@ export default class WindowStateManager {
     }
 
     setOnTop(id: number) {
-        for (var data of this.windowDataArr) {
+        for (let data of this.windowDataArr) {
             if (data.id === id) {
                 if (data.ref !== undefined && data.ref.current !== undefined) {
                     // We manually update the ref's style so as to not trigger a refresh.
@@ -66,7 +66,7 @@ export default class WindowStateManager {
     }
 
     setActiveHoverState(id: number, newHoverState: boolean) {
-        for (var data of this.windowDataArr) {
+        for (let data of this.windowDataArr) {
             if (data.id === id) {
                 data.isBeingHovered = newHoverState;
             } else {
@@ -76,7 +76,7 @@ export default class WindowStateManager {
     }
 
     hasActiveHover(): boolean {
-        for (var data of this.windowDataArr) {
+        for (let data of this.windowDataArr) {
             if (data.isBeingHovered) {
                 return true;
             }

@@ -21,7 +21,7 @@ export default class Inventory {
         let iName = item.name;
         let currentAmount = 0;
 
-        for (var i of this.items) {
+        for (let i of this.items) {
             if (i.name === iName) {
                 currentAmount++;
 
@@ -45,7 +45,7 @@ export default class Inventory {
         }
 
         // Iterate in reverse order so that when we remove, subsequent splices aren't effected by previous ones.
-        for (var i = this.items.length - 1; i > -1; i--) {
+        for (let i = this.items.length - 1; i > -1; i--) {
             if (this.items[i].name === iName) {
                 removeIndexArr.push(i);
                 removeCount++;
@@ -97,7 +97,7 @@ export default class Inventory {
             return false;
         }
 
-        for (var item of items) {
+        for (let item of items) {
             this.items.push(item);
         }
 

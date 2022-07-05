@@ -9,7 +9,7 @@ export function G_getRandomValueUpTo(max: number) {
 }
 
 export function G_getRandomElement<T>(arr: Array<T>): T {
-    var l = arr.length - 1;
+    const l = arr.length - 1;
     return arr[Math.round(Math.random() * l)];
 }
 

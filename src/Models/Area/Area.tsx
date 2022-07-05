@@ -24,7 +24,7 @@ export default class Area {
     }
 
     hasArea(areaArg: Area) {
-        for (var area of this.connectedAreas) {
+        for (let area of this.connectedAreas) {
             if (area.name === areaArg.name) {
                 return true;
             }

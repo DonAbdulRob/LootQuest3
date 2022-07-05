@@ -49,7 +49,7 @@ function getEquipmentMap(store: IRootStore): JSX.Element[] {
     let keys = Object.keys(EquipmentType);
     let finalKeys: Array<string> = [];
 
-    for (var i = Math.floor(keys.length / 2); i < keys.length; i++) {
+    for (let i = Math.floor(keys.length / 2); i < keys.length; i++) {
         finalKeys.push(keys[i]);
     }
 

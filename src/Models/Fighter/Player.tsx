@@ -11,7 +11,7 @@ import Fighter from './Fighter';
 import EPlayerActivity from './EPlayerActivity';
 import { Item } from '../Item/Item';
 import { G_getFixedLengthNumber } from '../Helper';
-import { EViews } from '../../WIndowContent/EmbeddedWindow/SubWindows/Town/TownComponent';
+import { EViews } from '../../WIndowContent/EmbeddedWindow/SubWindows/Town/EViews';
 
 export class Player extends Fighter {
     [immerable] = true;
@@ -151,5 +151,20 @@ export class Player extends Fighter {
         return (
             this.activity === EPlayerActivity.IN_COMBAT_FIGHTING || this.activity === EPlayerActivity.IN_COMBAT_LOOTING
         );
+    };
+
+    /**
+     * Processes gold transaction for using the inn, of subtracting 'inn_cost' gold.
+     * @returns
+     */
+    useInn: () => boolean = () => {
+        let inn_cost = 2;
+
+        if (this.gold >= inn_cost) {
+            this.gold -= inn_cost;
+            return true;
+        }
+
+        return false;
     };
 }

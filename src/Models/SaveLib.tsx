@@ -87,7 +87,7 @@ export class SaveLib {
         let equipmentSlotsFromJSON = JSON.parse(objPlayer.equipmentSlots);
         let equipmentItems = equipmentSlotsFromJSON.items;
 
-        for (var i = 0; i < equipmentItems.length; i++) {
+        for (let i = 0; i < equipmentItems.length; i++) {
             ele = equipmentItems[i];
 
             if (ele !== null) {

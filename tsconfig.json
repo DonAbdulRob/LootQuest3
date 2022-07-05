@@ -1,17 +1,12 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "module": "commonjs",
         "jsx": "react",
-        "moduleResolution": "node",
-        "strict": true,
-        "allowJs": true,
-        "skipLibCheck": true,
-        "isolatedModules": true,
-        "esModuleInterop": true,
-        "types": ["react/next", "react-dom/next"],
-        "outDir": "dist"
+        "target": "es5",
+        "module": "commonjs",
+        "esModuleInterop": true
     },
     "include": ["src"],
-    "exclude": ["node_modules", "dist/**/*"]
+    "exclude": ["node_modules", "dist/**/*", "lib"]
 }
+
+// See: https://github.com/mtiller/ts-jest-sample/blob/master/tsconfig.json for detailed comments on possible configuration.

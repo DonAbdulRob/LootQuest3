@@ -11,15 +11,8 @@ import { IG_Sword } from '../../../../Models/Item/Equipment/IG_Sword';
 import { Item } from '../../../../Models/Item/Item';
 import { IG_Alloy } from '../../../../Models/Item/Resources/IG_Alloy';
 import { IG_Wood } from '../../../../Models/Item/Resources/IG_Wood';
+import { EViews } from './EViews';
 import './TownComponent.css';
-
-export enum EViews {
-    Root,
-    Shop,
-    Inn,
-    Forge,
-    // TODO: Guild,
-}
 
 function setView(store: IRootStore, view: EViews) {
     store.player.currentTownView = view;
@@ -67,6 +60,20 @@ function getRootView(store: IRootStore) {
     );
 }
 
+export function useTownInn(store: IRootStore) {
+    // Allow player to rest if they have the 2 gp. Else, deny.
+    let result = store.player.useInn();
+
+    if (result) {
+        store.player.fullHeal();
+        store.rpgConsole.add('You rest for a while and heal up to perfect condition.');
+    } else {
+        store.rpgConsole.add('You are too poor to rest here.');
+    }
+
+    __GLOBAL_REFRESH_FUNC_REF();
+}
+
 function getInnView(store: IRootStore) {
     let d = store.player.currentArea.descriptions as TownDescription;
 
@@ -76,15 +83,7 @@ function getInnView(store: IRootStore) {
             <p>{d.inn}</p>
             <button
                 onClick={() => {
-                    // Allow player to rest if they have the 2 gp. Else, deny.
-                    if (store.player.gold >= 2) {
-                        store.player.gold -= 2;
-                        store.player.fullHeal();
-                        store.rpgConsole.add('You rest for a while and heal up to perfect condition.');
-                    } else {
-                        store.rpgConsole.add('You are too poor to rest here.');
-                    }
-                    __GLOBAL_REFRESH_FUNC_REF();
+                    useTownInn(store);
                 }}
             >
                 Rest (2 GP)

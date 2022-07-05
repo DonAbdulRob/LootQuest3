@@ -42,7 +42,7 @@ export default class ThemeManager {
     }
 
     doUpdate() {
-        for (var i = 0; i < this.colors.length; i++) {
+        for (let i = 0; i < this.colors.length; i++) {
             document.documentElement.style.setProperty('--main-color-' + i, this.colors[i]);
         }
     }

@@ -7,7 +7,7 @@ import { Page } from './Page';
 
 export class PageContainer {
     static MainMenu = new Page(<MainMenuPage />, true);
-    static NewGame = new Page(<NewGamePage />, true);
+    static NewGame = new Page(<NewGamePage />, false);
     static Play = new Page(<PlayPage />, false);
     static Help = new Page(<HelpPage />, false);
 }

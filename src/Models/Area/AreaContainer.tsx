@@ -28,7 +28,7 @@ export default class AreaContainer {
     }
 
     hasArea(areaArg: Area, areaList: Area[]) {
-        for (var area of areaList) {
+        for (let area of areaList) {
             if (area.name === areaArg.name) {
                 return true;
             }

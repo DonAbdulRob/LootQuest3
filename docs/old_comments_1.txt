@@ -1,0 +1,130 @@
+
+/**
+ * moduleNameMapper options:
+ *      '^config$': '<rootDir>/webpack.config.js',
+        '^react(.*)$': '<rootDir>/src/index.tsx',
+ *
+ */
+/**
+   * module.exports = {
+      // The root of your source code, typically /src
+      // `<rootDir>` is a token Jest substitutes
+      roots: ["<rootDir>/src"],
+    
+      // Jest transformations -- this adds support for TypeScript
+      // using ts-jest
+    transform: {
+      "^.+\\.(ts|tsx)$": `ts-jest`
+    },
+    
+      // Runs special logic, such as cleaning up components
+      // when using React Testing Library and adds special
+      // extended assertions to Jest
+      setupFilesAfterEnv: [
+        // "@testing-library/react/cleanup-after-each",
+        "@testing-library/jest-dom/extend-expect"
+      ],
+    
+      // Test spec file resolution pattern
+      // Matches parent folder `__tests__` and filename
+      // should contain `test` or `spec`.
+      testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+    
+      // Module file extensions for importing
+      moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+      
+      globals: {
+        "ts-jest": {
+          tsconfig: `tsconfig.json`
+        }
+      }
+    };
+   
+    --------------------------------------
+
+    
+module.exports = {
+    preset: 'ts-jest',
+    testEnvironment: 'jest-environment-node',
+    modulePaths: ['/shared/vendor/modules'],
+    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+    moduleDirectories: ['node_modules', 'bower_components', 'shared'],
+    moduleNameMapper: {
+        '\\.(css|less)$': '<rootDir>/__mocks__/styleMock.js',
+        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
+            '<rootDir>/__mocks__/fileMock.js',
+        '^react(.*)$': '<rootDir>/src/index.tsx',
+        '^config$': '<rootDir>/webpack.config.js',
+    },
+    transform: {
+        '^.+\\.(js|jsx|ts|tsx|mjs)$': 'babel-jest',
+    },
+};
+
+    --------------------------------------
+
+
+    transform: {
+        '^.+\\.ts?$': 'ts-jest',
+    },
+    
+    "jest": {
+        "verbose": true,
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js",
+            "jsx"
+        ],
+        "moduleDirectories": [
+            "node_modules",
+            "bower_components",
+            "shared"
+        ],
+        "moduleNameMapper": {
+            "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+            "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js",
+            "^react(.*)$": "<rootDir>/src/index.tsx",
+            "^config$": "<rootDir>/jest.config.js"
+        },
+        "transform": {
+            "^.+\\.ts?$": "ts-jest"
+        },
+        "preset": "ts-jest/presets/js-with-babel"
+    }
+ */
+
+
+
+
+/**
+ * 
+ * 
+            // Test rules.
+            { exclude: ['node_modules'], loader: 'babel', test: /\.jsx?$/ },
+            { loader: 'style-loader!css-loader', test: /\.css$/ },
+            { loader: 'url-loader', test: /\.gif$/ },
+            { loader: 'file-loader', test: /\.(ttf|eot|svg)$/ },
+
+    resolve: {
+        alias: {
+            config$: './configs/app-config.js',
+            react: './vendor/react-master',
+        },
+        extensions: ['', 'ts', 'tsx', 'js', 'jsx'],
+        modules: ['node_modules', 'bower_components', 'shared', '/shared/vendor/modules'],
+    },
+
+
+ */
+
+/***
+"moduleResolution": "node",
+"strict": true,
+"allowJs": true,
+"skipLibCheck": true,
+"isolatedModules": true,
+"types": ["react/next", "react-dom/next"],
+"outDir": "dist"
+*/
+

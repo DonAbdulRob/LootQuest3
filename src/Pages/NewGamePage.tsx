@@ -18,7 +18,7 @@ function getDifficultyButton(gameStateManager: GameStateManager, names: string[]
     let icons = [];
     let icon = i < 2 ? mdiSword : mdiSkull;
 
-    for (var l = 0; l < (i % 2) + 1; l++) {
+    for (let l = 0; l < (i % 2) + 1; l++) {
         icons.push(<Icon className={'button-with-icon'} path={icon} size={iconSizeStr} />);
     }
 
@@ -51,7 +51,7 @@ export default function NewGamePage() {
     let desc = gameStateManager.gameDifficulty.getDifficultyData().description;
     let names = [];
 
-    for (var i = keys.length * 0.5; i < keys.length; i++) {
+    for (let i = keys.length * 0.5; i < keys.length; i++) {
         names.push(keys[i]);
     }
 

@@ -26,7 +26,7 @@ export default class ItemGroup {
 
         let resources: (Item | Equipment | Consumable | Resource)[] = [];
 
-        for (var resource of this.itemArr) {
+        for (let resource of this.itemArr) {
             if (resource.level >= finalMinLevel && resource.level <= finalMaxLevel) {
                 resources.push(resource);
             }
