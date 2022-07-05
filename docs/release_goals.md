@@ -56,6 +56,8 @@ For things that are done!
 
 ## Older Marked Done 7/4/2022+:
 
+- removed react-scripts +
+
 1. Perform the style overhaul. +
    - Put 'Settings' display into modal. +
    - Play with SASS and see if it has any utility. (Used CSS Variables instead. Apparently even SASS is out of date... 2022 is OP) + 
