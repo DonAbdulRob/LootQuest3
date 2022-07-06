@@ -1,6 +1,6 @@
 # tl;dr:
 
-See the project live here: https://stackblitz.com/github/Destro168/LootQuest3
+See the project live here: https://stackblitz.com/github/Destro168/LootQuest3<br>
 (check the 'How to Play' section if the above link isn't working for you)
 
 Project Features:
