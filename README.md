@@ -1,6 +1,7 @@
 # tl;dr:
 
 See the project live here: https://stackblitz.com/github/Destro168/LootQuest3
+(check the 'How to Play' section if the above link isn't working for you)
 
 Project Features:
 
@@ -29,13 +30,15 @@ Features:
 
 # How to Play
 
-You can follow the build instructions below to play it if you are able to download this repo and already have (or are willing to download and install) node/npm.
+You can follow the build instructions in 'To Build This Project' below to play this game if you are able to download this repo and already have (or are willing to download and install) node/npm. Otherwise, I recommend loading it up using your preferred online development environment. Example, Stackblitz: https://stackblitz.com/github/Destro168/LootQuest3
 
-Otherwise, I recommend loading it up using your preferred online development environment. Example, Stackblitz: https://stackblitz.com/github/Destro168/LootQuest3
+Troubleshooting Note: If Stackblitz loads but doesn't run the project successfully it may be because of your browser. As of 7/5/2022, webcontainers in Firefox are considered experimental and displayed as such in the Stackblitz online IDE. The recommended fix is to either use a different browser like chrome (tested working) or a different online development environment with easy git imports like CodeSandbox (tested working).
+
+Alternatively, if Stackblitz displays any prompts that could possibly the resolve your issue, the recommendation is to follow them, or try another browser or online ide if those prompts fail to resolve one's issues.
 
 # What's There To See in this Git Repo?
 
-Check out the docs folder to see meta-information relating to this project beyond the scope of this readme like project goals and a high-level archiectural overview. Check out package.json to see the various packages in use by this project. And, of course, check out the code in /src to see project component implementations.
+In docs, there are the files 'architecture.md' and 'release_goals.md' that contain meta-information regarding the project. package.json at the root level is also a fun file to view to see all of the project's major dependencies. And, last by not least, /src includes the project's component implementations.
 
 # To Build This Project
 
