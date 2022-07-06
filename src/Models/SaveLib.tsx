@@ -61,11 +61,7 @@ export class SaveLib {
     static loadStateFromSave(store: IRootStore, str: string) {
         let obj = JSON.parse(str);
         let objPlayer = obj.player;
-
-        console.log(obj);
-
         let player = new Player();
-
         let item1;
         let ele;
 

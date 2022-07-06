@@ -1,5 +1,6 @@
 .modal-border {
     border: var(--thin-border);
+    margin-bottom: 100px;
 }
 
 .max-z {

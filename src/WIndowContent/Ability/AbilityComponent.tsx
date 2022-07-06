@@ -32,9 +32,5 @@ export default function AbilityComponent() {
         );
     });
 
-    return (
-        <div className="window-core window-flex" style={{ display: 'flex', flexDirection: 'row' }}>
-            {display}
-        </div>
-    );
+    return <div className="window-core window-flex">{display}</div>;
 }

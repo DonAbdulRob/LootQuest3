@@ -3,6 +3,9 @@ import './index.css';
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import { setAutoFreeze } from 'immer';
+
+setAutoFreeze(false);
 
 // React V-DOM init code
 const el = document.getElementById('root');

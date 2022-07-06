@@ -16,10 +16,5 @@ export function getFormattedTime(x: number) {
 export default function ConsoleComponent() {
     let rpgConsole = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.rpgConsole);
 
-    return (
-        <div className="window-core">
-            <h1>Console</h1>
-            {rpgConsole.get()}
-        </div>
-    );
+    return <div className="window-core">{rpgConsole.get()}</div>;
 }

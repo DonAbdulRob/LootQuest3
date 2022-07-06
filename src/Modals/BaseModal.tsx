@@ -11,6 +11,7 @@ import ModalStateManager from '../Models/Singles/ModalStateManager';
 import './BaseModal.css';
 
 export interface ModalProps {
+    id: number;
     buttonText: string;
     component: JSX.Element;
     iconPath: string;
@@ -18,8 +19,8 @@ export interface ModalProps {
 
 export default function BaseModal(props: ModalProps) {
     let modalStateManager: ModalStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.modalStateManager);
-    let modalRef = React.useRef<HTMLDivElement>(null);
     let modalClassName = 'w3-modal max-z';
+    let marginIconRight = props.buttonText !== undefined ? ' margin-right-3' : '';
 
     // post-render event setup.
     React.useEffect(() => {
@@ -27,7 +28,7 @@ export default function BaseModal(props: ModalProps) {
         window.onclick = function (event) {
             let e: any = event.target;
 
-            if (e.className === modalClassName && modalRef.current !== null) {
+            if (e.className === modalClassName && modalStateManager.isVisible) {
                 modalStateManager.toggleVisible();
                 __GLOBAL_REFRESH_FUNC_REF();
             }
@@ -38,30 +39,35 @@ export default function BaseModal(props: ModalProps) {
     return (
         <div>
             <button
-                className="button-with-icon"
+                className={'button-with-icon'}
                 onClick={() => {
                     modalStateManager.toggleVisible();
+                    modalStateManager.setActive(props.id);
                     __GLOBAL_REFRESH_FUNC_REF();
                 }}
             >
-                <Icon path={props.iconPath} size={iconSizeStr} />
+                <span className={'button-icon' + marginIconRight}>
+                    <Icon path={props.iconPath} size={iconSizeStr} />
+                </span>
                 {props.buttonText}
             </button>
 
-            <div className={modalClassName} ref={modalRef} style={{ display: modalStateManager.getBlockOrNot() }}>
-                <div className="w3-modal-content modal-border">
-                    <span
-                        onClick={() => {
-                            modalStateManager.toggleVisible();
-                            __GLOBAL_REFRESH_FUNC_REF();
-                        }}
-                        className="w3-button w3-display-topright"
-                    >
-                        &times;
-                    </span>
-                    {props.component}
+            {modalStateManager.isActive(props.id) && (
+                <div className={modalClassName} style={{ display: modalStateManager.getBlockOrNot() }}>
+                    <div className="w3-modal-content modal-border">
+                        <span
+                            onClick={() => {
+                                modalStateManager.toggleVisible();
+                                __GLOBAL_REFRESH_FUNC_REF();
+                            }}
+                            className="w3-button w3-display-topright"
+                        >
+                            &times;
+                        </span>
+                        {props.component}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }

@@ -8,6 +8,7 @@
 .floating-window-titlebar {
     background: var(--bg-gradient-3);
     color: black;
+    height: 32px;
 }
 
 .flex-container {
@@ -31,5 +32,9 @@
     position: absolute;
     right: 0;
     top: 0;
-    color: red;
+    pointer-events: none;
+}
+
+.allow-pointer-events {
+    pointer-events: auto !important;
 }

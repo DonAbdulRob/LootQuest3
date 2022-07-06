@@ -85,13 +85,11 @@ button,
     font-weight: 500;
     color: #f7ece1;
     border: none;
-    border-radius: 3px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease 0s;
     cursor: pointer;
     outline: none;
     margin: 3px;
-    padding: 3px;
     background: linear-gradient(0deg, var(--main-color-4) 0%, var(--main-color-5) 100%);
 }
 
@@ -159,4 +157,17 @@ button:hover,
 
 .height-100-percent {
     height: 100%;
+}
+
+.button-icon {
+    margin-top: 2px;
+    margin-bottom: -2px;
+}
+
+.margin-right-3 {
+    margin-right: 3px;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
 }

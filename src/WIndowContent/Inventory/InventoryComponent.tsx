@@ -134,7 +134,6 @@ export default function InventoryComponent(): JSX.Element {
 
     return (
         <div className="window-core">
-            <h1>Inventory</h1>
             <h2>
                 {inv.items.length +
                     '/' +

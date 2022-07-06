@@ -15,3 +15,7 @@ Some classes, like 'AbilityList.tsx's Ability class' include a function referenc
 This is done for the sake of serialization. And, it also enables Effect Functions, contained in EffectLib.tsx, to have zero dependencies and be able to be run anywhere at any time.
 Each feature's relevant 'x to core effect mapper .tsx' file can be used to match function references to their actual effect function contained within EffectLib.tsx.
 EffectLib.tsx contains all of the game's unique effects.
+
+## Buttons and Icons
+
+Be mindful that modal's have a custom implementation of 'buttons with icon' that is seperate from the components that 'IconButton.tsx' creates.

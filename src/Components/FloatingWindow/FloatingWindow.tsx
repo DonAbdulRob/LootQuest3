@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import './FloatingWindow.css';
-import { iconSizeStr, __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
+import { __GLOBAL_GAME_STORE } from '../../Models/GlobalGameStore';
 import WindowStateManager from '../../Models/Singles/WindowStateManager';
 import { FloatingWindowData } from '../../Models/Singles/FloatingWindowData';
 import { mdiArrowCollapse, mdiArrowExpand, mdiClose, mdiHook } from '@mdi/js';
-import Icon from '@mdi/react';
 import IconButton from '../IconButton/IconButton';
 
 // Function taht adds drag-drop behavior to our 'hook' button.
@@ -16,6 +15,7 @@ function assignDragBehavior(
     pos3: React.MutableRefObject<number>,
     pos4: React.MutableRefObject<number>,
     windowData: FloatingWindowData,
+    allowOffScreen: boolean,
 ) {
     // Function that implements draggable logic.
     function mouseDownFunction(mouseDownEvent: any) {
@@ -67,18 +67,21 @@ function assignDragBehavior(
 
             let finalTop = elmnt.offsetTop - pos2.current;
             let finalLeft = elmnt.offsetLeft - pos1.current;
-            let maxRight = document.body.clientWidth - 300;
+            let maxRight = document.body.clientWidth - 400;
+            let maxBottom = document.body.clientHeight - 250;
 
-            if (finalTop < 0) {
-                finalTop = 0;
-            } else if (finalTop >= 5000) {
-                finalTop = 5000;
-            }
+            if (!allowOffScreen) {
+                if (finalTop < 0) {
+                    finalTop = 0;
+                } else if (finalTop >= maxBottom) {
+                    finalTop = maxBottom;
+                }
 
-            if (finalLeft < 0) {
-                finalLeft = 0;
-            } else if (finalLeft >= maxRight) {
-                finalLeft = maxRight;
+                if (finalLeft < 0) {
+                    finalLeft = 0;
+                } else if (finalLeft >= maxRight) {
+                    finalLeft = maxRight;
+                }
             }
 
             elmnt.style.top = finalTop + 'px';
@@ -95,7 +98,14 @@ function assignDragBehavior(
 }
 
 function closeClick(e: any) {
-    e.target.parentNode.parentNode.parentNode.hidden = true;
+    let parent = e.target;
+
+    // Get 6th level parent. Yup. That high up the tree!
+    for (var i = 0; i < 6; i++) {
+        parent = parent.parentNode;
+    }
+
+    parent.hidden = true;
 }
 
 function minimizeClick(e: any, windowContentRef: any) {
@@ -115,7 +125,6 @@ export default function FloatingWindow(props: IFloatingWindowProps): JSX.Element
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
 
     const titleBarDragRef = React.useRef<HTMLDivElement>(null);
-    const titleDragRef = React.useRef<HTMLDivElement>(null);
     const windowContentRef = React.useRef<HTMLDivElement>(null);
     const parentEleRef = React.useRef<HTMLDivElement>(null);
 
@@ -130,7 +139,16 @@ export default function FloatingWindow(props: IFloatingWindowProps): JSX.Element
     // After render, assign drag behavior.
     useEffect(() => {
         windowData.ref = parentEleRef;
-        assignDragBehavior(titleDragRef.current, 3, pos1, pos2, pos3, pos4, windowData);
+        assignDragBehavior(
+            titleBarDragRef.current,
+            1,
+            pos1,
+            pos2,
+            pos3,
+            pos4,
+            windowData,
+            windowStateManager.allowOffScreen,
+        );
     });
 
     return (
@@ -154,35 +172,38 @@ export default function FloatingWindow(props: IFloatingWindowProps): JSX.Element
             }}
         >
             <div className="floating-window-titlebar flex-container" ref={titleBarDragRef}>
-                {/* Minimize */}
-                <IconButton
-                    onClick={(e) => {
-                        minimizeClick(e, windowContentRef);
-                    }}
-                    path={mdiArrowCollapse}
-                />
-
-                {/* Maximize */}
-                <IconButton
-                    onClick={(e) => {
-                        maximizeClick(e, windowContentRef);
-                    }}
-                    path={mdiArrowExpand}
-                />
-
-                {/* Drag and Drop */}
-                <div ref={titleDragRef}>
-                    <IconButton path={mdiHook} allowClick={false} />
-                </div>
-
                 {/* Window's Title */}
                 <div className="window-title-text">{windowData.title}</div>
 
-                {/* Close */}
+                {/* We cancel pointer events in the 'far-right' class to prevent user input from dragging the div in a detached state from the parent floating window.
+                    Then, for each element within, we re-enable pointer events. This solution prevents buggy UI behavior. */}
                 <div className="far-right">
-                    <button className="button-with-icon" onClick={closeClick}>
-                        <Icon className="icon-no-click" path={mdiClose} size={iconSizeStr} />
-                    </button>
+                    <div style={{ display: 'flex' }}>
+                        {/* Minimize */}
+                        <span className="allow-pointer-events">
+                            <IconButton
+                                onClick={(e) => {
+                                    minimizeClick(e, windowContentRef);
+                                }}
+                                path={mdiArrowCollapse}
+                            />
+                        </span>
+
+                        {/* Maximize */}
+                        <span className="allow-pointer-events">
+                            <IconButton
+                                onClick={(e) => {
+                                    maximizeClick(e, windowContentRef);
+                                }}
+                                path={mdiArrowExpand}
+                            />
+                        </span>
+
+                        {/* Close */}
+                        <span className="allow-pointer-events">
+                            <IconButton onClick={closeClick} path={mdiClose} />
+                        </span>
+                    </div>
                 </div>
             </div>
 

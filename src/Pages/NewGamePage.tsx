@@ -8,7 +8,7 @@ import * as React from 'react';
 import { __GLOBAL_REFRESH_FUNC_REF } from '../App';
 import IconButton from '../Components/IconButton/IconButton';
 import { Player } from '../Models/Fighter/Player';
-import { iconSizeStr, __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
+import { iconSizeStr, IRootStore, __GLOBAL_GAME_STORE } from '../Models/GlobalGameStore';
 import { DifficultyEnum } from '../Models/Singles/GameDifficulty';
 import GameStateManager from '../Models/Singles/GameStateManager';
 import { PageContainer } from './Enums/PageContainer';
@@ -40,12 +40,11 @@ function getDifficultyButton(gameStateManager: GameStateManager, names: string[]
 }
 
 export default function NewGamePage() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let fighter: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
-    let setPlayerName: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPlayerName);
+    let player: Player = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.player);
     let gameStateManager: GameStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.gameStateManager);
     let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
 
+    let [name, setName] = React.useState(player.name);
     let keys = Object.keys(DifficultyEnum);
     let difficulty = gameStateManager.gameDifficulty.difficulty;
     let desc = gameStateManager.gameDifficulty.getDifficultyData().description;
@@ -56,7 +55,7 @@ export default function NewGamePage() {
     }
 
     let difficultyStr = names[difficulty];
-    let canFinish = fighter.name !== '';
+    let canFinish = player.name !== '';
 
     return (
         <div>
@@ -67,7 +66,7 @@ export default function NewGamePage() {
                 <h1>Name</h1>
                 <input
                     type="text"
-                    value={fighter.name}
+                    value={player.name}
                     onChange={(e: any) => {
                         let input = e.target.value;
 
@@ -75,7 +74,8 @@ export default function NewGamePage() {
                             input = input.substring(0, 16);
                         }
 
-                        setPlayerName(input);
+                        setName(input);
+                        player.name = input;
                     }}
                 ></input>
                 <p style={{ color: 'grey' }}>Enter a name to continue</p>

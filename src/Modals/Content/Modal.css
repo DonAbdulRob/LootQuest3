@@ -1,0 +1,11 @@
+.modal-container {
+    margin: 7px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.modal-header-background {
+    padding: 10px;
+    background: var(--bg-gradient-3);
+}

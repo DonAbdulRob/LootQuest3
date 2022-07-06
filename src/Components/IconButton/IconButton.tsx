@@ -15,12 +15,21 @@ export default function IconButton(props: IconButtonProps) {
     let iconClassName = !props.allowClick ? 'icon-no-click' : '';
 
     /* If the text isn't empty, we need to add a little padding to the right of buttons
-     to balance out the icon's visual impact on the left side of the text. */
-    let buttonPadding = props.text !== undefined ? ' pad-right-10' : '';
+     to balance out the icon's visual impact on the left side of the text.
+     And add margins to the right of the icons. */
+    let buttonPadding = '';
+    let marginIconRight = '';
+
+    if (props.text !== undefined) {
+        buttonPadding = ' pad-right-10';
+        marginIconRight = ' margin-right-3';
+    }
 
     return (
         <button className={'button-with-icon' + buttonPadding} onClick={props.onClick}>
-            <Icon className={iconClassName} path={props.path} size={iconSizeStr} />
+            <span className={'button-icon' + marginIconRight}>
+                <Icon className={iconClassName} path={props.path} size={iconSizeStr} />
+            </span>
             {props.text}
         </button>
     );

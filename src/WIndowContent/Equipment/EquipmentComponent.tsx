@@ -85,10 +85,5 @@ function getEquipmentMap(store: IRootStore): JSX.Element[] {
 export default function EquipmentComponent(): JSX.Element {
     const store: any = __GLOBAL_GAME_STORE((__DATA) => __DATA);
 
-    return (
-        <div className="window-core">
-            <h1>Equipment</h1>
-            {getEquipmentMap(store)}
-        </div>
-    );
+    return <div className="window-core">{getEquipmentMap(store)}</div>;
 }

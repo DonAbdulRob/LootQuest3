@@ -16,11 +16,11 @@ import Ability from '../WIndowContent/Ability/AbilityComponent';
 import EmbeddedMainComponent from '../WIndowContent/EmbeddedWindow/EmbeddedMainComponent';
 import FloatingMainComponent from '../WIndowContent/EmbeddedWindow/FloatingMainComponent';
 import BaseModal from '../Modals/BaseModal';
-import { SettingsComponent } from '../Modals/Content/SettingsComponent';
+import { SettingsComponent as SettingsModal } from '../Modals/Content/SettingsComponent';
 import { mdiCog, mdiInformationOutline } from '@mdi/js';
-import IconButton from '../Components/IconButton/IconButton';
 import QuitIconButtonComponent from './Components/QuitIconButtonComponent';
-import { PageContainer } from './Enums/PageContainer';
+import ModalStateManager from '../Models/Singles/ModalStateManager';
+import HelpModal from '../Modals/Content/HelpModal';
 
 export interface IFloatingWindowPropsBuilder {
     id?: number;
@@ -34,22 +34,25 @@ export interface IFloatingWindowPropsBuilder {
  * Builds and returns our array of window content to display on the page.
  */
 function getWindows(debugMode: boolean, windowStateManager: WindowStateManager) {
-    let topBottomStart = 710;
+    let topStart = 95;
+    let topBottomStart = topStart + 565;
     let windows: Array<IFloatingWindowPropsBuilder> = [];
 
-    if (windowStateManager.embedCore === false) {
+    if (!windowStateManager.embedCore) {
         windows.push({
             title: 'Main',
             contentElement: <FloatingMainComponent />,
-            top: 110,
-            left: 10,
+            top: topStart,
+            left: 325,
         });
+    } else {
+        topStart += 200;
     }
 
     windows.push({
         title: 'Player',
         contentElement: <CharacterComponent usePlayer={true} />,
-        top: topBottomStart,
+        top: topStart,
         left: 10,
     });
 
@@ -57,28 +60,28 @@ function getWindows(debugMode: boolean, windowStateManager: WindowStateManager) 
         title: 'Console',
         contentElement: <ConsoleComponent />,
         top: topBottomStart,
-        left: 885,
+        left: 325,
     });
 
     windows.push({
         title: 'Ability',
         contentElement: <Ability />,
-        top: topBottomStart,
-        left: 450,
+        top: topStart + 350,
+        left: 10,
     });
 
     windows.push({
         title: 'Equipment',
         contentElement: <EquipmentComponent />,
-        top: 10,
-        left: 1050,
+        top: topStart,
+        left: 1365,
     });
 
     windows.push({
         title: 'Inventory',
         contentElement: <InventoryComponent />,
-        top: 250,
-        left: 1050,
+        top: topStart + 130,
+        left: 1365,
     });
 
     if (debugMode) {
@@ -121,27 +124,39 @@ function getWindows(debugMode: boolean, windowStateManager: WindowStateManager) 
     });
 }
 
+export let __G_REFRESH_PLAY_PAGE;
+
 export function PlayPage() {
+    let [c, sc] = React.useState(0);
+
+    __G_REFRESH_PLAY_PAGE = () => {
+        sc(c + 1);
+    };
+
     let debugMode: boolean = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.debugMode);
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
-    let setPage: Function = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.setPage);
 
     return (
         <div>
             <h1>Loot Quest</h1>
+
             {/* Our main nav bar below logo. */}
             <div style={{ display: 'flex' }}>
-                {/* Help button */}
-                <IconButton
-                    onClick={() => {
-                        setPage(PageContainer.Help);
-                    }}
-                    path={mdiInformationOutline}
-                    text="Help"
+                {/* Help button in modal */}
+                <BaseModal
+                    id={ModalStateManager.playHelpId}
+                    buttonText={'Help'}
+                    iconPath={mdiInformationOutline}
+                    component={<HelpModal />}
                 />
 
                 {/* Settings button + modal */}
-                <BaseModal buttonText={'Settings'} iconPath={mdiCog} component={<SettingsComponent />} />
+                <BaseModal
+                    id={ModalStateManager.playSettingsId}
+                    buttonText={'Settings'}
+                    iconPath={mdiCog}
+                    component={<SettingsModal />}
+                />
 
                 {/* Quit Icon Button */}
                 <QuitIconButtonComponent />

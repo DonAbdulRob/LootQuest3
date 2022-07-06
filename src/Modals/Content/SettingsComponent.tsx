@@ -10,9 +10,11 @@ import { SaveLib } from '../../Models/SaveLib';
 import WindowStateManager from '../../Models/Singles/WindowStateManager';
 import LoadGameComponent from '../../Pages/Components/LoadGame/LoadGameComponent';
 import QuitButtonComponent from '../../Pages/Components/QuitButtonComponent';
-import './Settings.css';
 import { HexColorPicker } from 'react-colorful';
 import ThemeManager from '../../Models/Singles/ThemeManager';
+import { __G_REFRESH_PLAY_PAGE as __GLOBAL_REFRESH_PLAY_PAGE } from '../../Pages/PlayPage';
+import './Settings.css';
+import './Modal.css';
 
 /**
  * Need to add ability to modify game's 5 main colors AND button to reset colors.
@@ -46,6 +48,7 @@ export function SettingsComponent() {
     let saveData: string = SaveLib.getSaveData(store);
     let themeManager: ThemeManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.themeManager);
     let [color, setColor] = React.useState(themeManager.colors);
+    let [slider, setSlider] = React.useState(windowStateManager.opacity * 100);
     let len = themeManager.colors.length;
 
     let href = window.URL.createObjectURL(
@@ -58,8 +61,8 @@ export function SettingsComponent() {
     themeManager.doUpdate();
 
     return (
-        <div className="settings">
-            <div className="settings-h1">
+        <div className="modal-container">
+            <div className="modal-header-background">
                 <h1>Settings</h1>
             </div>
             <a
@@ -76,15 +79,18 @@ export function SettingsComponent() {
             <LoadGameComponent />
             <div className="window-transparency-div">
                 <p>Window Transparency: {windowStateManager.opacity}</p>
-                <p>Click the slider to modify the opacity of floating windows.</p>
+                <p>Click and drag the slider to modify the opacity of floating windows.</p>
                 <input
                     type="range"
                     min="10"
                     max="100"
-                    value={windowStateManager.opacity * 100}
+                    value={slider}
                     onChange={(e: any) => {
-                        windowStateManager.opacity = G_getFixedLengthNumber(e.target.value * 0.01);
-                        __GLOBAL_REFRESH_FUNC_REF();
+                        // Update our slider value display, stateful data model and refresh the play page that holds our floating windows.
+                        let val = e.target.value;
+                        setSlider(val);
+                        windowStateManager.opacity = G_getFixedLengthNumber(val * 0.01);
+                        __GLOBAL_REFRESH_PLAY_PAGE();
                     }}
                 />
             </div>
@@ -128,6 +134,14 @@ export function SettingsComponent() {
                 }}
             >
                 Reset Windows
+            </button>
+            <button
+                onClick={() => {
+                    windowStateManager.allowOffScreen = !windowStateManager.allowOffScreen;
+                    __GLOBAL_REFRESH_FUNC_REF();
+                }}
+            >
+                Toggle Floating Window Drag Area Constraints. (Advanced Feature)
             </button>
             <button
                 onClick={() => {

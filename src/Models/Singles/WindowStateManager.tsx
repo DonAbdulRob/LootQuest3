@@ -6,6 +6,7 @@ export default class WindowStateManager {
     maxZIndex = 5;
     opacity: number = 1;
     embedCore: boolean = false;
+    allowOffScreen: boolean = false;
 
     resetWindows() {
         this.windowDataArr = [];

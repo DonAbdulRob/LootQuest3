@@ -1,15 +1,3 @@
-.settings {
-    margin: 7px;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-
-.settings-h1 {
-    padding: 10px;
-    background: var(--bg-gradient-3);
-}
-
 .window-transparency-div {
     padding: 4px;
     margin: 2px;
