@@ -11,8 +11,8 @@ export default function HelpPage() {
 
     return (
         <div id="HelpPage" className="container">
-            <h1>Help Page</h1>
-            <hr />
+            <h1>Help</h1>
+            <br />
             <p>This page is designed to help you, the reader, play the game to the best of your ability.</p>
             <hr />
             <h1>About Loot Quest</h1>

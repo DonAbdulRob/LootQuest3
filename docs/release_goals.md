@@ -1,6 +1,7 @@
 # LootQuest3 Release Goals for 1.0:
 
 This document has all of the planned goals for Loot Quest's completion, iterated periodically as goals are met.
+As of 7/5/2022, all release goals are done. The project is finished and ready for 1.0, pending any other minor changes/bug fixes from later testing.
 
 ## TODO - HIGH PRIO (Volitile scope creeping changes)
 
@@ -8,53 +9,20 @@ Empty! Everything is PLANNED!
 
 ## TODO - Short Term:
 
-1. Total code review.
-   - General play test and bug review/fix.
-   - Replace var with 'let' and 'const' when possible.
-   - Add minor if deemed necessary, though avoid when possible like the plague.
-2. Finalize Help Page.
-3. Do final review of all content.
-
-## TODO - Post-Release Term (Maybe complete for 1.0, maybe not):
-
-- Better tracking of 'unlock conditions' for items, monsters and characters to know true name & description vs. unknown name & descriptions. (The current 'knowsErin' implementation is a bit hacky and other monsters aren't supported because there is no system in place to show them).
-- Explore Improvements
-   - Need to kill 'x' monsters to 'clear zone' and progress through it.
-- Town Improvements
-   - More town rumors. 
-   - More forgeables
-   - Guild for quests.
-   - Unique Town NPCs.
-   - Town specific shops/forge-limits.
-- More Area Types
-   - Mines
-   - Monster Camps
-   - Dungeons, etc.
-- Death penalty.
-- Better loot from monsters balance.
-- Custom monster attacks, taunts, etc.
-- Item Rarity ?
-- Item identification system?
-- More item types, body statuses, etc.
-- Console Input ?
-- More abilities ?
-- Skills, like 'mining, smelting, alchemy' etc.
-- Multiple enemies in combat.
-- Walkeable overworld.
-- Co-Op? Multiplayer?
-- Actual Overarching Game Story
-- Keep on Top feature for Window Management.
-- Add value attribute to items for buy/sell logic.
-- Rearrange/sort inventory.
-- More Equipment Slots.
-- Even more comprehensive save-data handling. (Store settings, etc.)
-
+Empty! All done!
 
 # Done List
 
 For things that are done!
 
 ## Older Marked Done 7/4/2022+:
+
+1. Total code review. +
+   - General play test and bug review/fix. +
+   - Replace var with 'let' and 'const' when possible. +
+   - Add minor content if deemed necessary, though avoid when possible like the plague. +
+2. Finalize Help Page. +
+3. Do final review of all content, again. +
 
 - removed react-scripts +
 
