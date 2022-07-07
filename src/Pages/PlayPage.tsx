@@ -145,7 +145,7 @@ export function PlayPage() {
                 {/* Help button in modal */}
                 <BaseModal
                     id={ModalStateManager.playHelpId}
-                    buttonText={'Help'}
+                    buttonText={'Game Manual & Help'}
                     iconPath={mdiInformationOutline}
                     component={<HelpModal />}
                 />

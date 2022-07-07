@@ -1,5 +1,5 @@
 /**
- * The Help Page provides the user with information on how to play the game.
+ * This Help component provides the user with information on how to play the game.
  */
 
 import * as React from 'react';
@@ -11,7 +11,7 @@ export default function HelpModal() {
 
     return (
         <div className="modal-container">
-            <h1 className="modal-header-background">Help</h1>
+            <h1 className="modal-header-background">Game Manual & Help</h1>
             <p style={{ marginTop: '20px' }}>
                 This page is designed to help you, the reader, play the game to the best of your ability.
             </p>
@@ -62,10 +62,22 @@ export default function HelpModal() {
             <hr />
             <h1>Combat</h1>
             <p className={marginTopClassName}>
-                Loot Quest is a turn-based game, meaning that you take your turn and then the enemy takes theirs. Use
-                options on the combat screen to manage encounters. And, feel free to make use of abilities within the
-                Ability window to have an edge over foes. Being reduced to zero health or lower means death. And, as an
-                additional note, monsters substantially weaker than you will award reduced experience.
+                Loot Quest is a turn-based game, meaning that you take your turn and then the enemy takes theirs. The
+                combat display tells you the monster name, a description of the enemy based on your knowledge of the
+                enemy, your health versus the monster's health and three button options to execute a generic attack,
+                defend or flee.
+            </p>
+            <p className={marginTopClassName}>
+                Attacking deals damage based on the damage range visible in the Player window, defending will give you
+                +2 armor for the turn (reducing the damage you take by 2 for the turn) and fleeing has a chance of
+                ending combat. You may also change equipment, interact with your inventory and use abilities in combat,
+                though be mindful that many features that you execute in combat will expend a turn to complete.
+            </p>
+            <p className={marginTopClassName}>
+                Killing monsters may reward gold, experience and loot depending on your level difference compared to the
+                monster, the monster type, the area you're in and various other game conditions. Being reduced to zero
+                health means death. And, as an additional note, monsters substantially weaker than you will award
+                reduced experience.
             </p>
             <hr />
             <h1>Tips</h1>

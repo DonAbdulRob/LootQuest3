@@ -95,7 +95,7 @@ export class WiseManEncounter extends BaseEncounter implements AbstractEncounter
                 onClick={() => {
                     this.introLines = [
                         'Greetings Mage. How be your travels?',
-                        `My travels have been great. Thank you for asking. Though, actually, I'm heading toward Greevale and seem to be a bit lost. ` +
+                        `My travels have been great. Thank you for asking. Though, actually, I'm heading toward Greenvale and seem to be a bit lost. ` +
                             `Can you point me in its direction?`,
                     ];
                     this.goToPrompt(this.prompt3);

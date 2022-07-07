@@ -1,6 +1,7 @@
 
 ## Possible Future Features:
 
+- Ability to change general text color (or dynamically detect light/dark colors to flip between white/grey/black), button text color and encounter script colors.
 - Windows remember maximum sizes and intelligently resize based on frequency of various sizes.
 - Better tracking of 'unlock conditions' for items, monsters and characters to know true name & description vs. unknown name & descriptions. (The current 'knowsErin' implementation is a bit hacky and other monsters aren't supported because there is no system in place to show them).
 - Explore Improvements

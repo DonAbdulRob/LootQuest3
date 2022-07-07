@@ -47,7 +47,7 @@ export default function MainMenuPage() {
             {/* Help button in modal */}
             <BaseModal
                 id={ModalStateManager.playHelpId}
-                buttonText={'Game Help'}
+                buttonText={'Game Manual & Help'}
                 iconPath={mdiInformationOutline}
                 component={<HelpModal />}
             />
