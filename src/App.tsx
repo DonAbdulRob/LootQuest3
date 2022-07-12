@@ -26,7 +26,7 @@ export default function App(): JSX.Element {
     // Since we can't declare the refresh func as const, freeze it now to prevent unintended modification.
     Object.freeze(__GLOBAL_REFRESH_FUNC_REF);
 
-    // Have theme manager update its values to reflect the new color settings.
+    // Have theme manager update its values to reflect new color settings.
     state.themeManager.doUpdate();
 
     return (

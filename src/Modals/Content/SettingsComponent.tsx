@@ -59,6 +59,9 @@ export function SettingsComponent() {
         }),
     );
 
+    // Have theme manager update its values to reflect new color settings.
+    themeManager.doUpdate();
+
     return (
         <div className="modal-container">
             <div className="modal-header-background">
