@@ -38,7 +38,7 @@ Alternatively, if Stackblitz displays any prompts that could possibly the resolv
 
 # What's There To See in this Git Repo?
 
-In docs, there are the files 'architecture.md' and 'release_goals.md' that contain meta-information regarding the project. package.json at the root level is also a fun file to view to see all of the project's major dependencies. And, last by not least, /src includes the project's component implementations.
+In /docs, there are the files 'architecture.md' and 'release_goals.md' that contain meta-information regarding the project. package.json at the root level is also a fun file to view to see all of the project's major dependencies. And, last by not least, /src includes the project's component implementations.
 
 # To Build This Project
 
