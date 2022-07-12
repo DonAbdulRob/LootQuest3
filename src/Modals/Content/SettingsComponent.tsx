@@ -15,6 +15,7 @@ import ThemeManager from '../../Models/Singles/ThemeManager';
 import { __G_REFRESH_PLAY_PAGE as __GLOBAL_REFRESH_PLAY_PAGE } from '../../Pages/PlayPage';
 import './Settings.css';
 import './Modal.css';
+import { StateContext } from '../../Models/GlobalContextStore';
 
 /**
  * Need to add ability to modify game's 5 main colors AND button to reset colors.
@@ -46,7 +47,8 @@ export function SettingsComponent() {
     let store: IRootStore = __GLOBAL_GAME_STORE((__DATA: any) => __DATA);
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
     let saveData: string = SaveLib.getSaveData(store);
-    let themeManager: ThemeManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.themeManager);
+    const [state, setState] = React.useContext(StateContext);
+    const themeManager = state.themeManager;
     let [color, setColor] = React.useState(themeManager.colors);
     let [slider, setSlider] = React.useState(windowStateManager.opacity * 100);
     let len = themeManager.colors.length;
@@ -56,9 +58,6 @@ export function SettingsComponent() {
             type: 'text/plain',
         }),
     );
-
-    // Have theme manager update its values to reflect the new color settings.
-    themeManager.doUpdate();
 
     return (
         <div className="modal-container">

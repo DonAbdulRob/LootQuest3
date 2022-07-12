@@ -12,7 +12,6 @@ import { StoreSlice } from './Slices/StoreSlice';
 import { IPageSlice, createPageSlice } from './Slices/PageSlice';
 import { SaveLib } from './SaveLib';
 import ModalStateManager from './Singles/ModalStateManager';
-import ThemeManager from './Singles/ThemeManager';
 
 export const baseIconSize = 18;
 export const iconSizeStr = baseIconSize + 'px';
@@ -24,7 +23,6 @@ export interface IGlobals {
     windowStateManager: WindowStateManager;
     gameStateManager: GameStateManager;
     modalStateManager: ModalStateManager;
-    themeManager: ThemeManager;
     saveLib: SaveLib;
     debugMode: boolean;
 }
@@ -36,7 +34,6 @@ const createGlobalSlice: StoreSlice<IGlobals> = (set, get) => ({
     windowStateManager: new WindowStateManager(),
     gameStateManager: new GameStateManager(),
     modalStateManager: new ModalStateManager(),
-    themeManager: new ThemeManager(),
     saveLib: new SaveLib(),
     debugMode: false,
 });

@@ -4,8 +4,8 @@
  */
 
 import * as React from 'react';
+import { StateContext, _G_GET_NEW_GLOBAL_CONTEXT_STATE_OBJECT } from './Models/GlobalContextStore';
 import { __GLOBAL_GAME_STORE } from './Models/GlobalGameStore';
-import ThemeManager from './Models/Singles/ThemeManager';
 import { Page } from './Pages/Enums/Page';
 
 export let __GLOBAL_REFRESH_FUNC_REF: Function;
@@ -13,8 +13,9 @@ export let __GLOBAL_REFRESH_FUNC_REF: Function;
 export default function App(): JSX.Element {
     const [refreshVar, setRefreshVar] = React.useState(0);
     let page: Page = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.page);
-    let themeManager: ThemeManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.themeManager);
     let showAnimation = page.showAnimation ? ' bg-animation' : '';
+    const stateArr = React.useState(_G_GET_NEW_GLOBAL_CONTEXT_STATE_OBJECT());
+    const [state, setState] = stateArr;
 
     // Set our global refresh function used to refresh pages on store changes.
     __GLOBAL_REFRESH_FUNC_REF = () => {
@@ -26,11 +27,13 @@ export default function App(): JSX.Element {
     Object.freeze(__GLOBAL_REFRESH_FUNC_REF);
 
     // Have theme manager update its values to reflect the new color settings.
-    themeManager.doUpdate();
+    state.themeManager.doUpdate();
 
     return (
-        <div className={'app' + showAnimation} key={refreshVar}>
-            {page.component}
-        </div>
+        <StateContext.Provider value={stateArr}>
+            <div className={'app' + showAnimation} key={refreshVar}>
+                {page.component}
+            </div>
+        </StateContext.Provider>
     );
 }
