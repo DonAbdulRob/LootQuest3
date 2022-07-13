@@ -15,7 +15,9 @@ import ThemeManager from '../../Models/Singles/ThemeManager';
 import { __G_REFRESH_PLAY_PAGE as __GLOBAL_REFRESH_PLAY_PAGE } from '../../Pages/PlayPage';
 import './Settings.css';
 import './Modal.css';
-import { StateContext } from '../../Models/GlobalContextStore';
+import { GlobalContextInterface, StateContext } from '../../Models/GlobalContextStore';
+import produce from 'immer';
+import { ThemePresets } from '../../Models/Singles/EThemePreset';
 
 /**
  * Need to add ability to modify game's 5 main colors AND button to reset colors.
@@ -43,6 +45,29 @@ function updateColor(themeManager: ThemeManager, index: number, newColor: string
     themeManager.colors = x;
 }
 
+export function getThemeChangeButton(theme: string, setState: Function) {
+    const changeTheme = React.useCallback((theme) => {
+        setState(
+            produce((draft: GlobalContextInterface) => {
+                draft.themeManager.setThemePreset(theme);
+
+                // Perform theme update to handle global context state changes.
+                draft.themeManager.doUpdate();
+            }),
+        );
+    }, []);
+
+    return (
+        <button
+            onClick={() => {
+                changeTheme(theme);
+            }}
+        >
+            Use {theme} Theme
+        </button>
+    );
+}
+
 export function SettingsComponent() {
     let store: IRootStore = __GLOBAL_GAME_STORE((__DATA: any) => __DATA);
     let windowStateManager: WindowStateManager = __GLOBAL_GAME_STORE((__DATA: any) => __DATA.windowStateManager);
@@ -59,8 +84,8 @@ export function SettingsComponent() {
         }),
     );
 
-    // Have theme manager update its values to reflect new color settings.
-    themeManager.doUpdate();
+    // Perform theme update for zustand-based theme updates (such as 'customize theme' advanced feature).
+    state.themeManager.doUpdate();
 
     return (
         <div className="modal-container">
@@ -105,30 +130,9 @@ export function SettingsComponent() {
             >
                 Toggle 'Main' window float state.
             </button>
-            <button
-                onClick={() => {
-                    themeManager.useRed();
-                    __GLOBAL_REFRESH_FUNC_REF();
-                }}
-            >
-                Use Red Theme
-            </button>
-            <button
-                onClick={() => {
-                    themeManager.useSoftBlue();
-                    __GLOBAL_REFRESH_FUNC_REF();
-                }}
-            >
-                Use Soft Blue Theme
-            </button>
-            <button
-                onClick={() => {
-                    themeManager.useBlue();
-                    __GLOBAL_REFRESH_FUNC_REF();
-                }}
-            >
-                Use Blue Theme
-            </button>
+            {getThemeChangeButton(ThemePresets.red, setState)}
+            {getThemeChangeButton(ThemePresets.softBlue, setState)}
+            {getThemeChangeButton(ThemePresets.blue, setState)}
             <button
                 onClick={() => {
                     windowStateManager.resetWindows();

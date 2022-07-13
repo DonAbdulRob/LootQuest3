@@ -1,6 +1,7 @@
 /**
  * The global context store is an alternative store implementation from Zustand added purely for demonstrational purposes.
- * It includes the Theme MAnager object and manages it using our global refresh scheme.
+ * It includes the Theme Manager object and does not use the 'global display refresh' design scheme implemented for Zustand to show
+ * my capability to optionally implement a native react global state management scheme that doesn't rely on force updating a root component.
  */
 import React from 'react';
 import ThemeManager from './Singles/ThemeManager';

@@ -1,3 +1,5 @@
+import { ThemePresets } from './EThemePreset';
+
 export default class ThemeManager {
     colors: string[] = [];
     redColors = [
@@ -27,6 +29,20 @@ export default class ThemeManager {
 
     toggleCustomizeTheme() {
         this.customizeTheme = !this.customizeTheme;
+    }
+
+    setThemePreset(theme: string) {
+        switch (theme) {
+            case ThemePresets.blue:
+                this.useBlue();
+                break;
+            case ThemePresets.softBlue:
+                this.useSoftBlue();
+                break;
+            case ThemePresets.red:
+                this.useRed();
+                break;
+        }
     }
 
     useRed() {
