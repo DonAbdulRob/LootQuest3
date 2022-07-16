@@ -1,6 +1,6 @@
 # tl;dr:
 
-See the project live here: https://stackblitz.com/github/Destro168/LootQuest3<br>
+See the project live here: https://stackblitz.com/github/DonAbdulRob/LootQuest3<br>
 <em>check the 'How to Play' section below if the link isn't working for any reason</em>
 
 Project Features:
@@ -11,6 +11,8 @@ Project Features:
 -   Hand-configured Jest integration with Typescript, Babel, Zustand and React. (no react-scripts)
 -   Dynamic, responsive and instant total website retheming.
 -   And Much More!
+
+Please note that this project is considered stable and final as of 7/16/2022. The scope of this project was to demonstrate my skills with React and this goal has been achieved. All future development can be found on the LootQuest4 repo: https://github.com/DonAbdulRob/LootQuest4
 
 # Game Description
 
@@ -30,7 +32,7 @@ Features:
 
 # How to Play
 
-You can follow the build instructions in 'To Build This Project' below to play this game if you are able to download this repo and already have (or are willing to download and install) node/npm. Otherwise, I recommend loading it up using your preferred online development environment. Example, Stackblitz: https://stackblitz.com/github/Destro168/LootQuest3
+You can follow the build instructions in 'To Build This Project' below to play this game if you are able to download this repo and already have (or are willing to download and install) node/npm. Otherwise, I recommend loading it up using your preferred online development environment. Example, Stackblitz: https://stackblitz.com/github/DonAbdulRob/LootQuest3
 
 Troubleshooting Note: If Stackblitz loads but doesn't run the project successfully it may be because of your browser. As of 7/5/2022, webcontainers in Firefox are considered experimental and displayed as such in the Stackblitz online IDE. The recommended fix is to either use a different browser like chrome (tested working) or a different online development environment with easy git imports like CodeSandbox (tested working).
 
